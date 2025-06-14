@@ -223,7 +223,7 @@ const Index = () => {
                 {edition.highlighted && <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-600">
                     Most Popular
                   </Badge>}
-                <CardHeader className="text-center">
+                <CardHeader className="text-center bg-black">
                   <CardTitle className="text-white text-2xl">{edition.name}</CardTitle>
                   <div className="text-3xl font-bold text-white mt-4">
                     {edition.price}
