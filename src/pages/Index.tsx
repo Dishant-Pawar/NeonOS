@@ -159,7 +159,7 @@ const Index = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download Free
               </Button>
-              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-zinc-900">
+              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-gray-50">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
