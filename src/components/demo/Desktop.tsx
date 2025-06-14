@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 
@@ -50,6 +50,12 @@ export const Desktop = () => {
       name: 'ZOREN Camera',
       icon: Camera,
       position: { x: 50, y: 600 }
+    },
+    {
+      id: 'task-manager',
+      name: 'Task Manager',
+      icon: Activity,
+      position: { x: 150, y: 100 }
     }
   ];
 
