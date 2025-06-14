@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface DemoContextType {
@@ -24,6 +23,7 @@ interface SystemSettings {
   bluetooth: boolean;
   airplaneMode: boolean;
   volume: number;
+  connectedSSID?: string;
 }
 
 const DemoContext = createContext<DemoContextType | undefined>(undefined);

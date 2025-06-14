@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Bell, Wifi, Bluetooth, Minimize, Volume2 } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
@@ -56,7 +55,14 @@ export const TopBar = () => {
             onClick={() => setShowSystemPanel(!showSystemPanel)}
             className="flex items-center space-x-2 hover:bg-white/10 px-2 py-1 rounded"
           >
-            <Wifi className={`w-4 h-4 ${systemSettings.wifi ? 'text-green-400' : 'text-gray-400'}`} />
+            <div className="flex items-center">
+              <Wifi className={`w-4 h-4 ${systemSettings.wifi ? 'text-green-400' : 'text-gray-400'}`} />
+              {systemSettings.connectedSSID && (
+                <span className="text-xs text-green-400 ml-1">
+                  {systemSettings.connectedSSID}
+                </span>
+              )}
+            </div>
             <Bluetooth className={`w-4 h-4 ${systemSettings.bluetooth ? 'text-blue-400' : 'text-gray-400'}`} />
             <Volume2 className="w-4 h-4" />
           </button>

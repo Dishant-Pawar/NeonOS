@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 
@@ -32,6 +32,12 @@ export const Desktop = () => {
       name: 'Applications',
       icon: AppWindow,
       position: { x: 50, y: 300 }
+    },
+    {
+      id: 'wifi-finder',
+      name: 'WiFi Scanner',
+      icon: Wifi,
+      position: { x: 50, y: 400 }
     }
   ];
 
