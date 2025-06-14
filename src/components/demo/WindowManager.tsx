@@ -17,11 +17,19 @@ import { CalculatorWindow } from './windows/CalculatorWindow';
 import { SystemSettingsWindow } from './windows/SystemSettingsWindow';
 
 export const WindowManager = () => {
-  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows } = useDemoContext();
+  const { 
+    openWindows, 
+    setOpenWindows, 
+    minimizedWindows, 
+    setMinimizedWindows,
+    maximizedWindows,
+    setMaximizedWindows
+  } = useDemoContext();
 
   const closeWindow = (windowId: string) => {
     setOpenWindows(openWindows.filter(id => id !== windowId));
     setMinimizedWindows(minimizedWindows.filter(id => id !== windowId));
+    setMaximizedWindows(maximizedWindows.filter(id => id !== windowId));
   };
 
   const minimizeWindow = (windowId: string) => {
@@ -35,8 +43,13 @@ export const WindowManager = () => {
   };
 
   const maximizeWindow = (windowId: string) => {
-    // Toggle maximize state would go here
-    console.log(`Maximizing ${windowId}`);
+    if (maximizedWindows.includes(windowId)) {
+      // Restore from maximized
+      setMaximizedWindows(maximizedWindows.filter(id => id !== windowId));
+    } else {
+      // Maximize window
+      setMaximizedWindows([...maximizedWindows, windowId]);
+    }
   };
 
   // Only render windows that are not minimized
@@ -46,6 +59,7 @@ export const WindowManager = () => {
     <>
       {visibleWindows.map((windowId, index) => {
         const zIndex = 20 + index;
+        const isMaximized = maximizedWindows.includes(windowId);
         
         switch (windowId) {
           case 'file-manager':
@@ -56,6 +70,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'terminal':
@@ -66,6 +81,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'app-drawer':
@@ -76,6 +92,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'wifi-finder':
@@ -86,6 +103,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'antivirus':
@@ -96,6 +114,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'camera':
@@ -106,6 +125,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'task-manager':
@@ -116,6 +136,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'writer':
@@ -126,6 +147,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'browser':
@@ -136,6 +158,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'mail':
@@ -146,6 +169,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'image-editor':
@@ -156,6 +180,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'code-editor':
@@ -166,6 +191,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'calculator-app':
@@ -176,6 +202,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           case 'system-settings':
@@ -186,6 +213,7 @@ export const WindowManager = () => {
                 onMinimize={() => minimizeWindow(windowId)}
                 onMaximize={() => maximizeWindow(windowId)}
                 zIndex={zIndex}
+                isMaximized={isMaximized}
               />
             );
           default:

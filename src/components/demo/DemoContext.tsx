@@ -25,6 +25,8 @@ interface DemoContextType {
   setOpenWindows: (windows: string[]) => void;
   minimizedWindows: string[];
   setMinimizedWindows: (windows: string[]) => void;
+  maximizedWindows: string[];
+  setMaximizedWindows: (windows: string[]) => void;
   systemSettings: SystemSettings;
   setSystemSettings: (settings: SystemSettings | ((prev: SystemSettings) => SystemSettings)) => void;
   updateSystemSettings: (settings: Partial<SystemSettings>) => void;
@@ -38,6 +40,7 @@ const DemoContext = createContext<DemoContextType | undefined>(undefined);
 export const DemoProvider = ({ children }: { children: ReactNode }) => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
   const [minimizedWindows, setMinimizedWindows] = useState<string[]>([]);
+  const [maximizedWindows, setMaximizedWindows] = useState<string[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
     wifi: true,
@@ -73,6 +76,8 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
       setOpenWindows,
       minimizedWindows,
       setMinimizedWindows,
+      maximizedWindows,
+      setMaximizedWindows,
       systemSettings,
       setSystemSettings,
       updateSystemSettings,
