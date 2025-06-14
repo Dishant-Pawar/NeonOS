@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,7 @@ import {
 } from 'lucide-react';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [currentFeature, setCurrentFeature] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -219,7 +221,12 @@ const Index = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download Free
               </Button>
-              <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                onClick={() => navigate('/demo')}
+                className="border-white/20 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full"
+              >
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
