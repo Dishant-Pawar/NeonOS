@@ -8,6 +8,16 @@ interface SystemSettings {
   brightness: number;
   theme: 'dark' | 'light' | 'cyber';
   animations: boolean;
+  airplaneMode: boolean;
+  connectedSSID?: string;
+}
+
+interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'error';
+  timestamp: number;
 }
 
 interface DemoContextType {
@@ -16,7 +26,11 @@ interface DemoContextType {
   minimizedWindows: string[];
   setMinimizedWindows: (windows: string[]) => void;
   systemSettings: SystemSettings;
-  setSystemSettings: (settings: SystemSettings) => void;
+  setSystemSettings: (settings: SystemSettings | ((prev: SystemSettings) => SystemSettings)) => void;
+  updateSystemSettings: (settings: Partial<SystemSettings>) => void;
+  notifications: Notification[];
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void;
+  removeNotification: (id: string) => void;
 }
 
 const DemoContext = createContext<DemoContextType | undefined>(undefined);
@@ -24,6 +38,7 @@ const DemoContext = createContext<DemoContextType | undefined>(undefined);
 export const DemoProvider = ({ children }: { children: ReactNode }) => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
   const [minimizedWindows, setMinimizedWindows] = useState<string[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
     wifi: true,
     bluetooth: false,
@@ -31,7 +46,26 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
     brightness: 80,
     theme: 'cyber',
     animations: true,
+    airplaneMode: false,
+    connectedSSID: undefined,
   });
+
+  const updateSystemSettings = (settings: Partial<SystemSettings>) => {
+    setSystemSettings(prev => ({ ...prev, ...settings }));
+  };
+
+  const addNotification = (notification: Omit<Notification, 'id' | 'timestamp'>) => {
+    const newNotification: Notification = {
+      ...notification,
+      id: Date.now().toString(),
+      timestamp: Date.now(),
+    };
+    setNotifications(prev => [...prev, newNotification]);
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  };
 
   return (
     <DemoContext.Provider value={{
@@ -41,6 +75,10 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
       setMinimizedWindows,
       systemSettings,
       setSystemSettings,
+      updateSystemSettings,
+      notifications,
+      addNotification,
+      removeNotification,
     }}>
       {children}
     </DemoContext.Provider>

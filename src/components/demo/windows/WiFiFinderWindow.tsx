@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Window } from '../Window';
 import { useDemoContext } from '../DemoContext';
@@ -28,7 +27,7 @@ export const WiFiFinderWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Wi
   const [error, setError] = useState('');
   const [scanProgress, setScanProgress] = useState(0);
   const [typingIndex, setTypingIndex] = useState(0);
-  const { setSystemSettings } = useDemoContext();
+  const { updateSystemSettings } = useDemoContext();
   const terminalRef = useRef<HTMLDivElement>(null);
 
   const mockNetworks: WiFiNetwork[] = [
@@ -109,7 +108,7 @@ export const WiFiFinderWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Wi
       setIsConnecting(false);
       setConnectedNetwork(selectedNetwork);
       setShowPasswordPrompt(false);
-      setSystemSettings(prev => ({ ...prev, wifi: true, connectedSSID: selectedNetwork }));
+      updateSystemSettings({ wifi: true, connectedSSID: selectedNetwork! });
     }, 2000);
   };
 
