@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useDemoContext } from './DemoContext';
 import { FileManagerWindow } from './windows/FileManagerWindow';
@@ -14,6 +13,7 @@ import { MailWindow } from './windows/MailWindow';
 import { ImageEditorWindow } from './windows/ImageEditorWindow';
 import { CodeEditorWindow } from './windows/CodeEditorWindow';
 import { CalculatorWindow } from './windows/CalculatorWindow';
+import { SystemSettingsWindow } from './windows/SystemSettingsWindow';
 
 export const WindowManager = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
@@ -161,6 +161,16 @@ export const WindowManager = () => {
           case 'calculator-app':
             return (
               <CalculatorWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'system-settings':
+            return (
+              <SystemSettingsWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}
