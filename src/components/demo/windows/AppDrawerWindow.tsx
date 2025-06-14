@@ -15,6 +15,7 @@ import {
   Gamepad2,
   Camera
 } from 'lucide-react';
+import { useDemoContext } from '../DemoContext';
 
 interface AppDrawerWindowProps {
   onClose: () => void;
@@ -24,6 +25,7 @@ interface AppDrawerWindowProps {
 }
 
 interface App {
+  id: string;
   name: string;
   icon: React.ComponentType<any>;
   category: string;
@@ -31,19 +33,21 @@ interface App {
 }
 
 export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: AppDrawerWindowProps) => {
+  const { openWindows, setOpenWindows } = useDemoContext();
+  
   const apps: App[] = [
-    { name: 'LibreOffice Writer', icon: FileText, category: 'Office', description: 'Document editor' },
-    { name: 'Firefox', icon: Globe, category: 'Internet', description: 'Web browser' },
-    { name: 'Thunderbird', icon: Mail, category: 'Internet', description: 'Email client' },
-    { name: 'GIMP', icon: Image, category: 'Graphics', description: 'Image editor' },
-    { name: 'Kdenlive', icon: Video, category: 'Multimedia', description: 'Video editor' },
-    { name: 'Rhythmbox', icon: Music, category: 'Multimedia', description: 'Music player' },
-    { name: 'VS Code', icon: Code, category: 'Development', description: 'Code editor' },
-    { name: 'Calculator', icon: Calculator, category: 'Utilities', description: 'Calculator' },
-    { name: 'Settings', icon: Settings, category: 'System', description: 'System settings' },
-    { name: 'Security Center', icon: Shield, category: 'System', description: 'Security tools' },
-    { name: 'Steam', icon: Gamepad2, category: 'Games', description: 'Gaming platform' },
-    { name: 'Camera', icon: Camera, category: 'Multimedia', description: 'Camera app' },
+    { id: 'writer', name: 'LibreOffice Writer', icon: FileText, category: 'Office', description: 'Document editor' },
+    { id: 'browser', name: 'Firefox', icon: Globe, category: 'Internet', description: 'Web browser' },
+    { id: 'mail', name: 'Thunderbird', icon: Mail, category: 'Internet', description: 'Email client' },
+    { id: 'image-editor', name: 'GIMP', icon: Image, category: 'Graphics', description: 'Image editor' },
+    { id: 'video-editor', name: 'Kdenlive', icon: Video, category: 'Multimedia', description: 'Video editor' },
+    { id: 'music-player', name: 'Rhythmbox', icon: Music, category: 'Multimedia', description: 'Music player' },
+    { id: 'code-editor', name: 'VS Code', icon: Code, category: 'Development', description: 'Code editor' },
+    { id: 'calculator-app', name: 'Calculator', icon: Calculator, category: 'Utilities', description: 'Calculator' },
+    { id: 'system-settings', name: 'Settings', icon: Settings, category: 'System', description: 'System settings' },
+    { id: 'security-center', name: 'Security Center', icon: Shield, category: 'System', description: 'Security tools' },
+    { id: 'gaming', name: 'Steam', icon: Gamepad2, category: 'Games', description: 'Gaming platform' },
+    { id: 'camera', name: 'Camera', icon: Camera, category: 'Multimedia', description: 'Camera app' },
   ];
 
   const categories = ['All', 'Office', 'Internet', 'Graphics', 'Multimedia', 'Development', 'Utilities', 'System', 'Games'];
@@ -53,9 +57,11 @@ export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: App
     ? apps 
     : apps.filter(app => app.category === selectedCategory);
 
-  const handleAppClick = (appName: string) => {
-    console.log(`Launching ${appName}...`);
-    // In a real implementation, this would launch the app
+  const handleAppClick = (app: App) => {
+    console.log(`Launching ${app.name}...`);
+    if (!openWindows.includes(app.id)) {
+      setOpenWindows([...openWindows, app.id]);
+    }
   };
 
   return (
@@ -94,7 +100,7 @@ export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: App
             {filteredApps.map((app, index) => (
               <div
                 key={index}
-                onClick={() => handleAppClick(app.name)}
+                onClick={() => handleAppClick(app)}
                 className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200 hover:scale-105"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-3 shadow-lg">

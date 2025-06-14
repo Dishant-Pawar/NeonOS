@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useDemoContext } from './DemoContext';
 import { FileManagerWindow } from './windows/FileManagerWindow';
@@ -8,6 +9,12 @@ import { AntivirusWindow } from './windows/AntivirusWindow';
 import { CameraWindow } from './windows/CameraWindow';
 import { TaskManagerWindow } from './windows/TaskManagerWindow';
 import { SecurityCenterWindow } from './windows/SecurityCenterWindow';
+import { WriterWindow } from './windows/WriterWindow';
+import { BrowserWindow } from './windows/BrowserWindow';
+import { MailWindow } from './windows/MailWindow';
+import { ImageEditorWindow } from './windows/ImageEditorWindow';
+import { CodeEditorWindow } from './windows/CodeEditorWindow';
+import { CalculatorWindow } from './windows/CalculatorWindow';
 
 export const WindowManager = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
@@ -105,6 +112,66 @@ export const WindowManager = () => {
           case 'security-center':
             return (
               <SecurityCenterWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'writer':
+            return (
+              <WriterWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'browser':
+            return (
+              <BrowserWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'mail':
+            return (
+              <MailWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'image-editor':
+            return (
+              <ImageEditorWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'code-editor':
+            return (
+              <CodeEditorWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'calculator-app':
+            return (
+              <CalculatorWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}
