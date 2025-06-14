@@ -12,99 +12,179 @@ interface DesktopIcon {
   icon: React.ComponentType<any>;
   position: { x: number; y: number };
   color: string;
+  size?: number;
+  type: string;
+  dateModified: Date;
 }
+
+type ViewMode = 'large-icons' | 'medium-icons' | 'small-icons' | 'list';
+type SortBy = 'name' | 'size' | 'date' | 'type';
 
 export const Desktop = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
   const [draggedIcon, setDraggedIcon] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [viewMode, setViewMode] = useState<ViewMode>('large-icons');
+  const [sortBy, setSortBy] = useState<SortBy>('name');
   
-  const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>([
+  const [baseIcons] = useState<DesktopIcon[]>([
     {
       id: 'file-manager',
       name: 'File Manager',
       icon: Folder,
       position: { x: 50, y: 100 },
-      color: 'bg-blue-500'
+      color: 'bg-blue-500',
+      size: 245,
+      type: 'System',
+      dateModified: new Date('2024-06-10')
     },
     {
       id: 'terminal',
       name: 'Terminal',
       icon: Terminal,
       position: { x: 50, y: 200 },
-      color: 'bg-gray-800'
+      color: 'bg-gray-800',
+      size: 180,
+      type: 'System',
+      dateModified: new Date('2024-06-12')
     },
     {
       id: 'app-drawer',
       name: 'Applications',
       icon: AppWindow,
       position: { x: 50, y: 300 },
-      color: 'bg-purple-500'
+      color: 'bg-purple-500',
+      size: 320,
+      type: 'System',
+      dateModified: new Date('2024-06-11')
     },
     {
       id: 'wifi-finder',
       name: 'WiFi Scanner',
       icon: Wifi,
       position: { x: 50, y: 400 },
-      color: 'bg-green-500'
+      color: 'bg-green-500',
+      size: 156,
+      type: 'Network',
+      dateModified: new Date('2024-06-09')
     },
     {
       id: 'antivirus',
       name: 'RO360 Antivirus',
       icon: Shield,
       position: { x: 50, y: 500 },
-      color: 'bg-red-500'
+      color: 'bg-red-500',
+      size: 512,
+      type: 'Security',
+      dateModified: new Date('2024-06-13')
     },
     {
       id: 'camera',
       name: 'RAVAN Camera',
       icon: Camera,
       position: { x: 50, y: 600 },
-      color: 'bg-pink-500'
+      color: 'bg-pink-500',
+      size: 89,
+      type: 'Media',
+      dateModified: new Date('2024-06-08')
     },
     {
       id: 'task-manager',
       name: 'Task Manager',
       icon: Activity,
       position: { x: 150, y: 100 },
-      color: 'bg-orange-500'
+      color: 'bg-orange-500',
+      size: 134,
+      type: 'System',
+      dateModified: new Date('2024-06-14')
     },
     {
       id: 'system-settings',
       name: 'System Settings',
       icon: Settings,
       position: { x: 150, y: 200 },
-      color: 'bg-slate-600'
+      color: 'bg-slate-600',
+      size: 267,
+      type: 'System',
+      dateModified: new Date('2024-06-07')
     },
     {
       id: 'music-player',
       name: 'Music Player',
       icon: Music,
       position: { x: 150, y: 300 },
-      color: 'bg-indigo-500'
+      color: 'bg-indigo-500',
+      size: 45,
+      type: 'Media',
+      dateModified: new Date('2024-06-06')
     },
     {
       id: 'snake-game',
       name: 'Snake Game',
       icon: Gamepad2,
       position: { x: 150, y: 400 },
-      color: 'bg-emerald-500'
+      color: 'bg-emerald-500',
+      size: 78,
+      type: 'Games',
+      dateModified: new Date('2024-06-05')
     },
     {
       id: 'memory-game',
       name: 'Memory Match',
       icon: Puzzle,
       position: { x: 150, y: 500 },
-      color: 'bg-cyan-500'
+      color: 'bg-cyan-500',
+      size: 92,
+      type: 'Games',
+      dateModified: new Date('2024-06-04')
     },
     {
       id: 'tetris-game',
       name: 'Tetris',
       icon: Zap,
       position: { x: 150, y: 600 },
-      color: 'bg-yellow-500'
+      color: 'bg-yellow-500',
+      size: 63,
+      type: 'Games',
+      dateModified: new Date('2024-06-03')
     }
   ]);
+
+  // Sort and arrange icons
+  const getSortedIcons = () => {
+    let sorted = [...baseIcons];
+    
+    switch (sortBy) {
+      case 'name':
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'size':
+        sorted.sort((a, b) => (b.size || 0) - (a.size || 0));
+        break;
+      case 'date':
+        sorted.sort((a, b) => b.dateModified.getTime() - a.dateModified.getTime());
+        break;
+      case 'type':
+        sorted.sort((a, b) => a.type.localeCompare(b.type));
+        break;
+    }
+
+    // Auto-arrange icons in grid based on view mode
+    const iconSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : 80;
+    const iconsPerRow = Math.floor((window.innerWidth - 100) / iconSpacing);
+    
+    return sorted.map((icon, index) => ({
+      ...icon,
+      position: viewMode === 'list' 
+        ? { x: 50, y: 100 + index * 30 }
+        : {
+            x: 50 + (index % iconsPerRow) * iconSpacing,
+            y: 100 + Math.floor(index / iconsPerRow) * iconSpacing
+          }
+    }));
+  };
+
+  const desktopIcons = getSortedIcons();
 
   const handleIconDoubleClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
@@ -134,13 +214,9 @@ export const Desktop = () => {
         y: Math.max(80, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
       };
 
-      setDesktopIcons(icons => 
-        icons.map(icon => 
-          icon.id === draggedIcon 
-            ? { ...icon, position: newPosition }
-            : icon
-        )
-      );
+      // Note: In a real implementation, you'd update the icon positions
+      // For this demo, we'll just log the drag action
+      console.log(`Dragging ${draggedIcon} to`, newPosition);
     }
   };
 
@@ -151,23 +227,35 @@ export const Desktop = () => {
 
   const handleRefresh = () => {
     console.log('Desktop refreshed');
-    // Force a re-render or refresh logic here
+    // Force re-render by updating sort
+    setSortBy(current => current);
   };
 
   const handlePaste = () => {
     console.log('Paste action');
-    // Paste logic here
   };
 
-  const handleSortBy = (sortType: string) => {
-    console.log(`Sort by ${sortType}`);
-    // Sort logic here
+  const handleSortBy = (sortType: SortBy) => {
+    setSortBy(sortType);
+    console.log(`Sorted by ${sortType}`);
   };
 
-  const handleViewChange = (viewType: string) => {
+  const handleViewChange = (viewType: ViewMode) => {
+    setViewMode(viewType);
     console.log(`View changed to ${viewType}`);
-    // View change logic here
   };
+
+  // Get icon size based on view mode
+  const getIconSize = () => {
+    switch (viewMode) {
+      case 'large-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs' };
+      case 'medium-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs' };
+      case 'small-icons': return { container: 'w-8 h-8', icon: 'w-4 h-4', text: 'text-xs' };
+      case 'list': return { container: 'w-6 h-6', icon: 'w-4 h-4', text: 'text-sm' };
+    }
+  };
+
+  const iconSizes = getIconSize();
 
   return (
     <ContextMenu>
@@ -182,18 +270,23 @@ export const Desktop = () => {
           {desktopIcons.map((icon) => (
             <div
               key={icon.id}
-              className="absolute flex flex-col items-center cursor-pointer group select-none"
+              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none`}
               style={{ left: icon.position.x, top: icon.position.y }}
               onClick={() => handleIconClick(icon.id)}
               onDoubleClick={() => handleIconDoubleClick(icon.id)}
               onMouseDown={(e) => handleMouseDown(e, icon.id)}
             >
-              <div className={`w-16 h-16 ${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}>
-                <icon.icon className="w-8 h-8 text-white" />
+              <div className={`${iconSizes.container} ${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}>
+                <icon.icon className={`${iconSizes.icon} text-white`} />
               </div>
-              <span className="text-white text-xs mt-2 bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm`}>
                 {icon.name}
               </span>
+              {viewMode === 'list' && (
+                <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+                  {icon.size}KB
+                </div>
+              )}
             </div>
           ))}
 
@@ -213,16 +306,16 @@ export const Desktop = () => {
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
             <ContextMenuItem onClick={() => handleSortBy('name')}>
-              Name
+              <span className={sortBy === 'name' ? 'font-bold' : ''}>Name</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleSortBy('size')}>
-              Size
+              <span className={sortBy === 'size' ? 'font-bold' : ''}>Size</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleSortBy('date')}>
-              Date modified
+              <span className={sortBy === 'date' ? 'font-bold' : ''}>Date modified</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleSortBy('type')}>
-              Type
+              <span className={sortBy === 'type' ? 'font-bold' : ''}>Type</span>
             </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
@@ -250,16 +343,16 @@ export const Desktop = () => {
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
             <ContextMenuItem onClick={() => handleViewChange('large-icons')}>
-              Large icons
+              <span className={viewMode === 'large-icons' ? 'font-bold' : ''}>Large icons</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleViewChange('medium-icons')}>
-              Medium icons
+              <span className={viewMode === 'medium-icons' ? 'font-bold' : ''}>Medium icons</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleViewChange('small-icons')}>
-              Small icons
+              <span className={viewMode === 'small-icons' ? 'font-bold' : ''}>Small icons</span>
             </ContextMenuItem>
             <ContextMenuItem onClick={() => handleViewChange('list')}>
-              List
+              <span className={viewMode === 'list' ? 'font-bold' : ''}>List</span>
             </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
