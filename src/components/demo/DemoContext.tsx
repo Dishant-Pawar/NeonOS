@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface DemoContextType {
@@ -8,6 +9,7 @@ interface DemoContextType {
   removeNotification: (id: string) => void;
   systemSettings: SystemSettings;
   updateSystemSettings: (settings: Partial<SystemSettings>) => void;
+  setSystemSettings: (updateFn: (prev: SystemSettings) => SystemSettings) => void;
 }
 
 interface Notification {
@@ -76,7 +78,8 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
       addNotification,
       removeNotification,
       systemSettings,
-      updateSystemSettings
+      updateSystemSettings,
+      setSystemSettings
     }}>
       {children}
     </DemoContext.Provider>
