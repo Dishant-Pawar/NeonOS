@@ -110,7 +110,7 @@ export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Camera
 
   const downloadPhoto = (photo: CapturedPhoto) => {
     const link = document.createElement('a');
-    link.download = `ZOREN_Camera_${new Date(photo.timestamp).toISOString().slice(0, 19).replace(/:/g, '-')}.png`;
+    link.download = `RAVAN_Camera_${new Date(photo.timestamp).toISOString().slice(0, 19).replace(/:/g, '-')}.png`;
     link.href = photo.dataUrl;
     document.body.appendChild(link);
     link.click();
@@ -125,7 +125,7 @@ export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Camera
 
   return (
     <Window
-      title="ZOREN Camera"
+      title="RAVAN Camera"
       onClose={onClose}
       onMinimize={onMinimize}
       onMaximize={onMaximize}
@@ -139,7 +139,7 @@ export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Camera
             <div className="flex items-center space-x-2">
               <Camera className="w-5 h-5 text-green-400" />
               <span className="text-lg font-bold text-green-400 animate-pulse">
-                ZOREN CAM v2.1 | ACTIVE
+                RAVAN CAM v2.1 | ACTIVE
               </span>
             </div>
             <div className="flex items-center space-x-2 text-xs">

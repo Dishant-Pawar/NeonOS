@@ -47,7 +47,7 @@ export const Desktop = () => {
     },
     {
       id: 'camera',
-      name: 'ZOREN Camera',
+      name: 'RAVAN Camera',
       icon: Camera,
       position: { x: 50, y: 600 }
     },
