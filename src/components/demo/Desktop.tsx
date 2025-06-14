@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { FileManager, Terminal, AppWindow } from 'lucide-react';
+import { Folder, Terminal, AppWindow } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 
@@ -18,7 +18,7 @@ export const Desktop = () => {
     {
       id: 'file-manager',
       name: 'File Manager',
-      icon: FileManager,
+      icon: Folder,
       position: { x: 50, y: 100 }
     },
     {
