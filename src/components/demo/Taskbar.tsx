@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
@@ -47,6 +46,9 @@ export const Taskbar = () => {
       'image-editor': 'Image Editor',
       'code-editor': 'Code Editor',
       'calculator-app': 'Calculator',
+      'snake-game': 'Snake',
+      'memory-game': 'Memory',
+      'tetris-game': 'Tetris',
     };
     return names[id] || id;
   };

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useDemoContext } from './DemoContext';
 import { FileManagerWindow } from './windows/FileManagerWindow';
@@ -15,6 +14,9 @@ import { ImageEditorWindow } from './windows/ImageEditorWindow';
 import { CodeEditorWindow } from './windows/CodeEditorWindow';
 import { CalculatorWindow } from './windows/CalculatorWindow';
 import { SystemSettingsWindow } from './windows/SystemSettingsWindow';
+import { SnakeGameWindow } from './windows/SnakeGameWindow';
+import { MemoryGameWindow } from './windows/MemoryGameWindow';
+import { TetrisGameWindow } from './windows/TetrisGameWindow';
 
 export const WindowManager = () => {
   const { 
@@ -208,6 +210,39 @@ export const WindowManager = () => {
           case 'system-settings':
             return (
               <SystemSettingsWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+                isMaximized={isMaximized}
+              />
+            );
+          case 'snake-game':
+            return (
+              <SnakeGameWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+                isMaximized={isMaximized}
+              />
+            );
+          case 'memory-game':
+            return (
+              <MemoryGameWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+                isMaximized={isMaximized}
+              />
+            );
+          case 'tetris-game':
+            return (
+              <TetrisGameWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}

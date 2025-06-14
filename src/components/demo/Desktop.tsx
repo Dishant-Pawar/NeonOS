@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
@@ -62,6 +62,24 @@ export const Desktop = () => {
       name: 'System Settings',
       icon: Settings,
       position: { x: 150, y: 200 }
+    },
+    {
+      id: 'snake-game',
+      name: 'Snake Game',
+      icon: Gamepad2,
+      position: { x: 150, y: 300 }
+    },
+    {
+      id: 'memory-game',
+      name: 'Memory Match',
+      icon: Puzzle,
+      position: { x: 150, y: 400 }
+    },
+    {
+      id: 'tetris-game',
+      name: 'Tetris',
+      icon: Zap,
+      position: { x: 150, y: 500 }
     }
   ];
 
