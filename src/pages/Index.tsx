@@ -230,7 +230,7 @@ const Index = () => {
                   </div>
                   <CardDescription className="text-gray-400">{edition.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="bg-zinc-950">
                   <ul className="space-y-3">
                     {edition.features.map((feature, featureIndex) => <li key={featureIndex} className="flex items-center text-gray-300">
                         <Check className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" />
