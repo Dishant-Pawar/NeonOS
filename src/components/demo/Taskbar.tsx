@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus } from 'lucide-react';
+import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus, X } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 
 export const Taskbar = () => {
-  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows, systemSettings } = useDemoContext();
+  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows, maximizedWindows, setMaximizedWindows, systemSettings } = useDemoContext();
 
   const quickLaunchApps = [
     { id: 'file-manager', name: 'Files', icon: Folder },
@@ -29,6 +29,13 @@ export const Taskbar = () => {
       // In a real OS, this would bring the window to front
       console.log(`Focusing ${appId}`);
     }
+  };
+
+  const closeApp = (appId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpenWindows(openWindows.filter(id => id !== appId));
+    setMinimizedWindows(minimizedWindows.filter(id => id !== appId));
+    setMaximizedWindows(maximizedWindows.filter(id => id !== appId));
   };
 
   const getAppName = (id: string) => {
@@ -97,7 +104,7 @@ export const Taskbar = () => {
             <button
               key={windowId}
               onClick={() => focusApp(windowId)}
-              className={`px-3 py-2 rounded-lg text-white text-sm transition-all duration-200 flex items-center space-x-2 max-w-32 ${
+              className={`px-3 py-2 rounded-lg text-white text-sm transition-all duration-200 flex items-center space-x-2 max-w-32 group relative ${
                 isMinimized 
                   ? 'bg-white/10 hover:bg-white/20 border border-yellow-400/50' 
                   : 'bg-white/20 hover:bg-white/30'
@@ -106,7 +113,14 @@ export const Taskbar = () => {
             >
               {isMinimized && <Minus className="w-3 h-3 text-yellow-400" />}
               <div className={`w-2 h-2 rounded-full ${isMinimized ? 'bg-yellow-400' : 'bg-green-400'}`}></div>
-              <span className="truncate">{getAppName(windowId)}</span>
+              <span className="truncate flex-1">{getAppName(windowId)}</span>
+              <button
+                onClick={(e) => closeApp(windowId, e)}
+                className="ml-1 opacity-0 group-hover:opacity-100 hover:bg-red-500/20 rounded p-0.5 transition-all duration-200"
+                title="Close"
+              >
+                <X className="w-3 h-3 text-white" />
+              </button>
             </button>
           );
         })}
