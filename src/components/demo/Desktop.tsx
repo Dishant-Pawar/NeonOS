@@ -4,7 +4,7 @@ import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from '../ui/context-menu';
-import { RefreshCw, Paste, SortAsc, Eye } from 'lucide-react';
+import { RefreshCw, Clipboard, SortAsc, Eye } from 'lucide-react';
 
 interface DesktopIcon {
   id: string;
@@ -230,7 +230,7 @@ export const Desktop = () => {
         <ContextMenuSeparator />
         
         <ContextMenuItem onClick={handlePaste}>
-          <Paste className="w-4 h-4 mr-2" />
+          <Clipboard className="w-4 h-4 mr-2" />
           Paste
         </ContextMenuItem>
         
