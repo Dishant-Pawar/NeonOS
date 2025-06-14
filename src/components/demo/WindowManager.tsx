@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useDemoContext } from './DemoContext';
 import { FileManagerWindow } from './windows/FileManagerWindow';
@@ -8,6 +7,7 @@ import { WiFiFinderWindow } from './windows/WiFiFinderWindow';
 import { AntivirusWindow } from './windows/AntivirusWindow';
 import { CameraWindow } from './windows/CameraWindow';
 import { TaskManagerWindow } from './windows/TaskManagerWindow';
+import { SecurityCenterWindow } from './windows/SecurityCenterWindow';
 
 export const WindowManager = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
@@ -95,6 +95,16 @@ export const WindowManager = () => {
           case 'task-manager':
             return (
               <TaskManagerWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'security-center':
+            return (
+              <SecurityCenterWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}

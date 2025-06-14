@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Lock } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 
@@ -56,6 +56,12 @@ export const Desktop = () => {
       name: 'Task Manager',
       icon: Activity,
       position: { x: 150, y: 100 }
+    },
+    {
+      id: 'security-center',
+      name: 'Security Center',
+      icon: Lock,
+      position: { x: 150, y: 200 }
     }
   ];
 
