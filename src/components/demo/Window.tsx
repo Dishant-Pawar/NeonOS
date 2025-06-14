@@ -55,9 +55,9 @@ export const Window = ({
   // Calculate window style based on maximized state
   const windowStyle = isMaximized ? {
     left: 0,
-    top: 0,
+    top: 32, // Start below the top bar (32px height)
     width: '100vw',
-    height: 'calc(100vh - 48px)', // Account for taskbar height
+    height: 'calc(100vh - 80px)', // Account for top bar (32px) and taskbar (48px)
     zIndex
   } : {
     left: position.x,
