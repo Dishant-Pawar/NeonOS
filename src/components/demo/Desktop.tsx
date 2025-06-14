@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
+import { Taskbar } from './Taskbar';
 
 interface DesktopIcon {
   id: string;
@@ -77,7 +77,7 @@ export const Desktop = () => {
   };
 
   return (
-    <div className="absolute inset-0 pt-8">
+    <div className="absolute inset-0 pt-8 pb-12">
       {/* Desktop Icons */}
       {desktopIcons.map((icon) => (
         <div
@@ -98,6 +98,9 @@ export const Desktop = () => {
 
       {/* Window Manager */}
       <WindowManager />
+
+      {/* Taskbar */}
+      <Taskbar />
     </div>
   );
 };
