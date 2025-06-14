@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,7 +49,7 @@ const Index = () => {
     },
     {
       icon: <Smartphone className="w-8 h-8" />,
-      title: "ZOREN Connect",
+      title: "RAVAN Connect",
       description: "Sync your Android phone with file transfer and notifications"
     },
     {
@@ -60,7 +59,7 @@ const Index = () => {
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "ZOREN Assist AI",
+      title: "RAVAN Assist AI",
       description: "Voice assistant with local LLM for privacy-first productivity"
     },
     {
@@ -77,13 +76,13 @@ const Index = () => {
 
   const editions = [
     {
-      name: "ZOREN Core",
+      name: "RAVAN Core",
       price: "Free",
       description: "Perfect for everyday users",
       features: [
         "All core features",
         "Multiple desktop layouts",
-        "ZOREN Connect",
+        "RAVAN Connect",
         "Basic AI assistant",
         "Software center",
         "Gaming support",
@@ -92,7 +91,7 @@ const Index = () => {
       highlighted: false
     },
     {
-      name: "ZOREN Pro",
+      name: "RAVAN Pro",
       price: "$49",
       description: "For power users and professionals",
       features: [
@@ -107,7 +106,7 @@ const Index = () => {
       highlighted: true
     },
     {
-      name: "ZOREN Lite",
+      name: "RAVAN Lite",
       price: "Free",
       description: "Lightweight for older hardware",
       features: [
@@ -121,7 +120,7 @@ const Index = () => {
       highlighted: false
     },
     {
-      name: "ZOREN Edu",
+      name: "RAVAN Edu",
       price: "$19",
       description: "Educational institutions",
       features: [
@@ -151,7 +150,7 @@ const Index = () => {
     {
       name: "Sarah Chen",
       role: "Software Developer",
-      content: "ZOREN OS combines the best of all worlds. Finally, an OS that just works!",
+      content: "RAVAN OS combines the best of all worlds. Finally, an OS that just works!",
       rating: 5
     },
     {
@@ -163,27 +162,27 @@ const Index = () => {
     {
       name: "Dr. Emily Watson",
       role: "University Professor",
-      content: "ZOREN Edu edition is perfect for our computer labs. Students love it!",
+      content: "RAVAN Edu edition is perfect for our computer labs. Students love it!",
       rating: 5
     }
   ];
 
   const faqs = [
     {
-      question: "Is ZOREN OS compatible with my hardware?",
-      answer: "ZOREN OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
+      question: "Is RAVAN OS compatible with my hardware?",
+      answer: "RAVAN OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
     },
     {
       question: "Can I run Windows applications?",
-      answer: "Yes! ZOREN Pro includes Wine and PlayOnLinux pre-configured for Windows app compatibility."
+      answer: "Yes! RAVAN Pro includes Wine and PlayOnLinux pre-configured for Windows app compatibility."
     },
     {
-      question: "How does ZOREN Connect work?",
-      answer: "ZOREN Connect seamlessly integrates with Android phones for file transfer, notifications, and more through a secure wireless connection."
+      question: "How does RAVAN Connect work?",
+      answer: "RAVAN Connect seamlessly integrates with Android phones for file transfer, notifications, and more through a secure wireless connection."
     },
     {
-      question: "Is my data secure with ZOREN Assist AI?",
-      answer: "Absolutely! ZOREN Assist prioritizes privacy with local LLM processing and offline fallbacks for all critical features."
+      question: "Is my data secure with RAVAN Assist AI?",
+      answer: "Absolutely! RAVAN Assist prioritizes privacy with local LLM processing and offline fallbacks for all critical features."
     },
     {
       question: "Can I upgrade between editions?",
@@ -201,7 +200,7 @@ const Index = () => {
             <div className="mb-8">
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tight">
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  ZOREN
+                  RAVAN
                 </span>
                 <span className="text-white"> OS</span>
               </h1>
@@ -279,7 +278,7 @@ const Index = () => {
               Choose Your Edition
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              From individual users to enterprises, we have the perfect ZOREN OS edition for you
+              From individual users to enterprises, we have the perfect RAVAN OS edition for you
             </p>
           </div>
           
@@ -325,7 +324,7 @@ const Index = () => {
               Everything You Need, Built-in
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              ZOREN OS comes with a complete suite of applications for work, creativity, and entertainment
+              RAVAN OS comes with a complete suite of applications for work, creativity, and entertainment
             </p>
           </div>
           
@@ -419,14 +418,14 @@ const Index = () => {
               Ready to Experience the Future?
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              Join thousands of users who have already made the switch to ZOREN OS. 
+              Join thousands of users who have already made the switch to RAVAN OS. 
               Download now and transform your computing experience.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105">
                 <Download className="w-5 h-5 mr-2" />
-                Download ZOREN OS
+                Download RAVAN OS
               </Button>
               <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full">
                 View System Requirements
@@ -458,7 +457,7 @@ const Index = () => {
       <footer className="bg-black/40 py-12 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">ZOREN OS</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">RAVAN OS</h3>
             <p className="text-gray-400 mb-6">One System. Endless Possibilities.</p>
             <div className="flex justify-center space-x-8 text-gray-400 text-sm">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
@@ -467,7 +466,7 @@ const Index = () => {
               <a href="#" className="hover:text-white transition-colors">Blog</a>
             </div>
             <p className="text-gray-500 text-xs mt-6">
-              © 2024 ZOREN OS. All rights reserved.
+              © 2024 RAVAN OS. All rights reserved.
             </p>
           </div>
         </div>
