@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Window } from '../Window';
 import { Camera, Download, Trash2, Grid, Zap, Filter } from 'lucide-react';
@@ -8,6 +7,7 @@ interface CameraWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface CapturedPhoto {
@@ -16,7 +16,7 @@ interface CapturedPhoto {
   timestamp: number;
 }
 
-export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex }: CameraWindowProps) => {
+export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: CameraWindowProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -131,6 +131,7 @@ export const CameraWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Camera
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 900, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="h-full bg-gray-900 text-green-400 font-mono overflow-hidden flex flex-col">
         {/* Header */}

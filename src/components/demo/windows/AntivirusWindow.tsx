@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Shield, Play, Pause, CheckCircle, AlertTriangle, Trash2 } from 'lucide-react';
@@ -9,6 +8,7 @@ interface AntivirusWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface Threat {
@@ -27,7 +27,7 @@ const mockThreats: Threat[] = [
   { id: '5', file: '/system32/drivers/fake.sys', threat: 'Malware.Stealer.Crypto', status: 'detected', severity: 'high' }
 ];
 
-export const AntivirusWindow = ({ onClose, onMinimize, onMaximize, zIndex }: AntivirusWindowProps) => {
+export const AntivirusWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: AntivirusWindowProps) => {
   const { addNotification } = useDemoContext();
   const [scanMode, setScanMode] = useState<'quick' | 'full' | 'custom'>('quick');
   const [isScanning, setIsScanning] = useState(false);
@@ -143,6 +143,7 @@ export const AntivirusWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Ant
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 900, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="h-full bg-gray-900 text-green-400 font-mono overflow-hidden relative">
         {/* Animated background */}
@@ -255,7 +256,7 @@ export const AntivirusWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Ant
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <span>{getSeverityIcon(threat.severity)}</span>
-                          <span className={getSeverityColor(threat.severity)} font-bold>
+                          <span className={`${getSeverityColor(threat.severity)} font-bold`}>
                             {threat.threat}
                           </span>
                           {threat.status === 'cleaned' && (

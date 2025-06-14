@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Bold, Italic, Underline, Save, FileText, Printer, FolderOpen, Plus } from 'lucide-react';
@@ -8,6 +7,7 @@ interface WriterWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface Document {
@@ -17,7 +17,7 @@ interface Document {
   lastModified: Date;
 }
 
-export const WriterWindow = ({ onClose, onMinimize, onMaximize, zIndex }: WriterWindowProps) => {
+export const WriterWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: WriterWindowProps) => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [activeDocument, setActiveDocument] = useState<Document | null>(null);
   const [content, setContent] = useState('Welcome to LibreOffice Writer!\n\nStart typing your document here...');
@@ -88,6 +88,7 @@ export const WriterWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Writer
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 900, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="flex flex-col h-full bg-white">
         {showDocuments ? (

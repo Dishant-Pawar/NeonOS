@@ -7,6 +7,7 @@ interface WiFiFinderWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface WiFiNetwork {
@@ -16,7 +17,7 @@ interface WiFiNetwork {
   security: string;
 }
 
-export const WiFiFinderWindow = ({ onClose, onMinimize, onMaximize, zIndex }: WiFiFinderWindowProps) => {
+export const WiFiFinderWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: WiFiFinderWindowProps) => {
   const [isScanning, setIsScanning] = useState(true);
   const [networks, setNetworks] = useState<WiFiNetwork[]>([]);
   const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
@@ -131,6 +132,7 @@ export const WiFiFinderWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Wi
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 800, height: 600 }}
+      isMaximized={isMaximized}
     >
       <div 
         ref={terminalRef}
