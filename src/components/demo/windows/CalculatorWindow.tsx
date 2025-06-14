@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Window } from '../Window';
 
@@ -7,9 +6,10 @@ interface CalculatorWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
-export const CalculatorWindow = ({ onClose, onMinimize, onMaximize, zIndex }: CalculatorWindowProps) => {
+export const CalculatorWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: CalculatorWindowProps) => {
   const [display, setDisplay] = useState('0');
   const [previousValue, setPreviousValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
@@ -92,6 +92,7 @@ export const CalculatorWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Ca
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 300, height: 400 }}
+      isMaximized={isMaximized}
     >
       <div className="bg-gray-50 h-full flex flex-col">
         {/* Display */}

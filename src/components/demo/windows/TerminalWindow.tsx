@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Window } from '../Window';
 
@@ -7,6 +6,7 @@ interface TerminalWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface CommandOutput {
@@ -15,7 +15,7 @@ interface CommandOutput {
   timestamp: number;
 }
 
-export const TerminalWindow = ({ onClose, onMinimize, onMaximize, zIndex }: TerminalWindowProps) => {
+export const TerminalWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: TerminalWindowProps) => {
   const [currentInput, setCurrentInput] = useState('');
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([
     {
@@ -142,6 +142,7 @@ This is a demo environment. Download the full version at https://ravan-os.com`;
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 700, height: 500 }}
+      isMaximized={isMaximized}
     >
       <div
         ref={terminalRef}

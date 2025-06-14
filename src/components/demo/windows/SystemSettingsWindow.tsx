@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Window } from '../Window';
 import { Settings, Monitor, Wifi, Bluetooth, Shield, Users, Download, Volume2, Clock, Code } from 'lucide-react';
@@ -18,6 +17,7 @@ interface SystemSettingsWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 export const SystemSettingsWindow: React.FC<SystemSettingsWindowProps> = ({
@@ -25,6 +25,7 @@ export const SystemSettingsWindow: React.FC<SystemSettingsWindowProps> = ({
   onMinimize,
   onMaximize,
   zIndex,
+  isMaximized,
 }) => {
   const [activeCategory, setActiveCategory] = useState('system');
 
@@ -49,6 +50,7 @@ export const SystemSettingsWindow: React.FC<SystemSettingsWindowProps> = ({
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 1000, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="flex h-full bg-gray-900 text-green-400">
         {/* Sidebar */}

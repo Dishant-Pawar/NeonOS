@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Window } from '../Window';
 import { ArrowLeft, ArrowRight, RotateCcw, Home, Star, Shield } from 'lucide-react';
@@ -8,9 +7,10 @@ interface BrowserWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
-export const BrowserWindow = ({ onClose, onMinimize, onMaximize, zIndex }: BrowserWindowProps) => {
+export const BrowserWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: BrowserWindowProps) => {
   const [url, setUrl] = useState('https://ravan-os.com');
   const [currentPage, setCurrentPage] = useState('home');
 
@@ -78,6 +78,7 @@ export const BrowserWindow = ({ onClose, onMinimize, onMaximize, zIndex }: Brows
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 1000, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="flex flex-col h-full">
         {/* Browser Controls */}

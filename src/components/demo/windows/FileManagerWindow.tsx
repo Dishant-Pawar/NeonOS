@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Window } from '../Window';
 import { Folder, File, ArrowLeft, Home, Search } from 'lucide-react';
@@ -8,6 +7,7 @@ interface FileManagerWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface FileItem {
@@ -17,7 +17,7 @@ interface FileItem {
   modified: string;
 }
 
-export const FileManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: FileManagerWindowProps) => {
+export const FileManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: FileManagerWindowProps) => {
   const [currentPath, setCurrentPath] = useState('/home/user');
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
@@ -57,6 +57,7 @@ export const FileManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: F
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 700, height: 500 }}
+      isMaximized={isMaximized}
     >
       <div className="flex flex-col h-full">
         {/* Toolbar */}

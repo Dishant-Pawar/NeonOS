@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Window } from '../Window';
 import { 
@@ -22,6 +21,7 @@ interface AppDrawerWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface App {
@@ -32,7 +32,7 @@ interface App {
   description: string;
 }
 
-export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: AppDrawerWindowProps) => {
+export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: AppDrawerWindowProps) => {
   const { openWindows, setOpenWindows } = useDemoContext();
   
   const apps: App[] = [
@@ -72,6 +72,7 @@ export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: App
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 800, height: 600 }}
+      isMaximized={isMaximized}
     >
       <div className="flex h-full">
         {/* Categories Sidebar */}
