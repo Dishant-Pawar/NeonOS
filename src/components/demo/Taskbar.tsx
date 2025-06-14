@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
@@ -40,6 +41,7 @@ export const Taskbar = () => {
       'camera': 'Camera',
       'task-manager': 'Tasks',
       'system-settings': 'Settings',
+      'music-player': 'Music',
       'writer': 'Writer',
       'browser': 'Browser',
       'mail': 'Mail',
