@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Shield, Activity, Wifi, Lock, Key, Trash2, Monitor, Eye, Terminal, AlertTriangle, CheckCircle, X } from 'lucide-react';
@@ -45,7 +44,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
   ]);
 
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    '> ZOREN Security Terminal v3.2.1',
+    '> RAVAN Security Terminal v3.2.1',
     '> System initialized. Type "help" for commands.',
     '> '
   ]);
@@ -135,7 +134,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
           newOutput.push(`VPN: ${securityStatus.vpn.connected ? 'CONNECTED' : 'DISCONNECTED'}`);
           break;
         case 'clear':
-          setTerminalOutput(['> ZOREN Security Terminal v3.2.1', '> System initialized. Type "help" for commands.']);
+          setTerminalOutput(['> RAVAN Security Terminal v3.2.1', '> System initialized. Type "help" for commands.']);
           setTerminalInput('');
           return;
         default:
@@ -166,7 +165,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
 
   return (
     <Window
-      title="ZOREN Security Center"
+      title="RAVAN Security Center"
       onClose={onClose}
       onMinimize={onMinimize}
       onMaximize={onMaximize}
@@ -187,7 +186,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
               <div className="flex items-center space-x-3">
                 <Shield className="w-8 h-8 text-green-400 animate-pulse" />
                 <div>
-                  <h1 className="text-xl font-bold">ZOREN SECURITY CENTER</h1>
+                  <h1 className="text-xl font-bold">RAVAN SECURITY CENTER</h1>
                   <div className="text-xs text-gray-400">Advanced Threat Protection Active</div>
                 </div>
               </div>
