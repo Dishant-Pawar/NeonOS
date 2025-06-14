@@ -150,7 +150,7 @@ export const Desktop = () => {
     }
   ]);
 
-  // Sort and arrange icons vertically only
+  // Sort and arrange icons vertically only with proper bounds
   const getSortedIcons = () => {
     let sorted = [...baseIcons];
     
@@ -169,14 +169,24 @@ export const Desktop = () => {
         break;
     }
 
-    // Arrange icons vertically only
-    const verticalSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : viewMode === 'small-icons' ? 80 : 30;
+    // Calculate available space: top bar (32px) + padding to taskbar (48px)
+    const topBarHeight = 32;
+    const taskbarHeight = 48;
+    const startY = topBarHeight + 20; // 20px padding from top bar
+    const availableHeight = window.innerHeight - topBarHeight - taskbarHeight - 40; // 40px total padding
+    
+    // Arrange icons vertically only with proper spacing
+    const verticalSpacing = viewMode === 'large-icons' ? 100 : viewMode === 'medium-icons' ? 80 : viewMode === 'small-icons' ? 60 : 25;
+    
+    // Calculate how many icons can fit and adjust spacing if needed
+    const maxIcons = Math.floor(availableHeight / verticalSpacing);
+    const adjustedSpacing = sorted.length > maxIcons ? availableHeight / sorted.length : verticalSpacing;
     
     return sorted.map((icon, index) => ({
       ...icon,
       position: {
         x: 50, // Fixed horizontal position
-        y: 100 + index * verticalSpacing // Vertical arrangement only
+        y: startY + index * adjustedSpacing // Vertical arrangement within bounds
       }
     }));
   };
