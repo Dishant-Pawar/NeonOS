@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2 } from 'lucide-react';
+import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 
 export const Taskbar = () => {
-  const { openWindows, setOpenWindows, systemSettings } = useDemoContext();
+  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows, systemSettings } = useDemoContext();
 
   const quickLaunchApps = [
     { id: 'file-manager', name: 'Files', icon: Folder },
@@ -15,12 +15,20 @@ export const Taskbar = () => {
   const openApp = (appId: string) => {
     if (!openWindows.includes(appId)) {
       setOpenWindows([...openWindows, appId]);
+    } else if (minimizedWindows.includes(appId)) {
+      // Restore minimized window
+      setMinimizedWindows(minimizedWindows.filter(id => id !== appId));
     }
   };
 
   const focusApp = (appId: string) => {
-    // In a real OS, this would bring the window to front
-    console.log(`Focusing ${appId}`);
+    if (minimizedWindows.includes(appId)) {
+      // Restore minimized window
+      setMinimizedWindows(minimizedWindows.filter(id => id !== appId));
+    } else {
+      // In a real OS, this would bring the window to front
+      console.log(`Focusing ${appId}`);
+    }
   };
 
   const getAppName = (id: string) => {
@@ -79,17 +87,25 @@ export const Taskbar = () => {
 
       {/* Running Applications */}
       <div className="flex items-center space-x-1 flex-1">
-        {openWindows.map((windowId) => (
-          <button
-            key={windowId}
-            onClick={() => focusApp(windowId)}
-            className="px-3 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-white text-sm transition-all duration-200 flex items-center space-x-2 max-w-32"
-            title={getAppName(windowId)}
-          >
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span className="truncate">{getAppName(windowId)}</span>
-          </button>
-        ))}
+        {openWindows.map((windowId) => {
+          const isMinimized = minimizedWindows.includes(windowId);
+          return (
+            <button
+              key={windowId}
+              onClick={() => focusApp(windowId)}
+              className={`px-3 py-2 rounded-lg text-white text-sm transition-all duration-200 flex items-center space-x-2 max-w-32 ${
+                isMinimized 
+                  ? 'bg-white/10 hover:bg-white/20 border border-yellow-400/50' 
+                  : 'bg-white/20 hover:bg-white/30'
+              }`}
+              title={`${getAppName(windowId)}${isMinimized ? ' (minimized)' : ''}`}
+            >
+              {isMinimized && <Minus className="w-3 h-3 text-yellow-400" />}
+              <div className={`w-2 h-2 rounded-full ${isMinimized ? 'bg-yellow-400' : 'bg-green-400'}`}></div>
+              <span className="truncate">{getAppName(windowId)}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* System Tray */}
@@ -123,7 +139,10 @@ export const Taskbar = () => {
 
         {/* Show Desktop Button */}
         <button 
-          onClick={() => setOpenWindows([])}
+          onClick={() => {
+            setOpenWindows([]);
+            setMinimizedWindows([]);
+          }}
           className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded border border-white/20 transition-all duration-200"
           title="Show Desktop"
         >

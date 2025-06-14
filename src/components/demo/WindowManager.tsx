@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useDemoContext } from './DemoContext';
 import { FileManagerWindow } from './windows/FileManagerWindow';
@@ -16,15 +17,21 @@ import { CalculatorWindow } from './windows/CalculatorWindow';
 import { SystemSettingsWindow } from './windows/SystemSettingsWindow';
 
 export const WindowManager = () => {
-  const { openWindows, setOpenWindows } = useDemoContext();
+  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows } = useDemoContext();
 
   const closeWindow = (windowId: string) => {
     setOpenWindows(openWindows.filter(id => id !== windowId));
+    setMinimizedWindows(minimizedWindows.filter(id => id !== windowId));
   };
 
   const minimizeWindow = (windowId: string) => {
-    // For demo purposes, minimizing just closes the window
-    closeWindow(windowId);
+    if (!minimizedWindows.includes(windowId)) {
+      setMinimizedWindows([...minimizedWindows, windowId]);
+    }
+  };
+
+  const restoreWindow = (windowId: string) => {
+    setMinimizedWindows(minimizedWindows.filter(id => id !== windowId));
   };
 
   const maximizeWindow = (windowId: string) => {
@@ -32,9 +39,12 @@ export const WindowManager = () => {
     console.log(`Maximizing ${windowId}`);
   };
 
+  // Only render windows that are not minimized
+  const visibleWindows = openWindows.filter(windowId => !minimizedWindows.includes(windowId));
+
   return (
     <>
-      {openWindows.map((windowId, index) => {
+      {visibleWindows.map((windowId, index) => {
         const zIndex = 20 + index;
         
         switch (windowId) {

@@ -1,85 +1,46 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface DemoContextType {
-  openWindows: string[];
-  setOpenWindows: (windows: string[]) => void;
-  notifications: Notification[];
-  addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void;
-  removeNotification: (id: string) => void;
-  systemSettings: SystemSettings;
-  updateSystemSettings: (settings: Partial<SystemSettings>) => void;
-  setSystemSettings: (updateFn: (prev: SystemSettings) => SystemSettings) => void;
-}
-
-interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: 'info' | 'warning' | 'error';
-  timestamp: number;
-}
-
 interface SystemSettings {
   wifi: boolean;
   bluetooth: boolean;
-  airplaneMode: boolean;
   volume: number;
-  connectedSSID?: string;
+  brightness: number;
+  theme: 'dark' | 'light' | 'cyber';
+  animations: boolean;
+}
+
+interface DemoContextType {
+  openWindows: string[];
+  setOpenWindows: (windows: string[]) => void;
+  minimizedWindows: string[];
+  setMinimizedWindows: (windows: string[]) => void;
+  systemSettings: SystemSettings;
+  setSystemSettings: (settings: SystemSettings) => void;
 }
 
 const DemoContext = createContext<DemoContextType | undefined>(undefined);
 
 export const DemoProvider = ({ children }: { children: ReactNode }) => {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      title: 'Welcome to RAVAN OS',
-      message: 'Your demo environment is ready!',
-      type: 'info',
-      timestamp: Date.now()
-    }
-  ]);
+  const [minimizedWindows, setMinimizedWindows] = useState<string[]>([]);
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
     wifi: true,
     bluetooth: false,
-    airplaneMode: false,
-    volume: 75
+    volume: 75,
+    brightness: 80,
+    theme: 'cyber',
+    animations: true,
   });
-
-  const addNotification = (notification: Omit<Notification, 'id' | 'timestamp'>) => {
-    const newNotification: Notification = {
-      ...notification,
-      id: Math.random().toString(36).substr(2, 9),
-      timestamp: Date.now()
-    };
-    setNotifications(prev => [newNotification, ...prev]);
-
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-      removeNotification(newNotification.id);
-    }, 5000);
-  };
-
-  const removeNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
-  };
-
-  const updateSystemSettings = (settings: Partial<SystemSettings>) => {
-    setSystemSettings(prev => ({ ...prev, ...settings }));
-  };
 
   return (
     <DemoContext.Provider value={{
       openWindows,
       setOpenWindows,
-      notifications,
-      addNotification,
-      removeNotification,
+      minimizedWindows,
+      setMinimizedWindows,
       systemSettings,
-      updateSystemSettings,
-      setSystemSettings
+      setSystemSettings,
     }}>
       {children}
     </DemoContext.Provider>
