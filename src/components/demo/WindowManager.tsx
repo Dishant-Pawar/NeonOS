@@ -5,6 +5,7 @@ import { FileManagerWindow } from './windows/FileManagerWindow';
 import { TerminalWindow } from './windows/TerminalWindow';
 import { AppDrawerWindow } from './windows/AppDrawerWindow';
 import { WiFiFinderWindow } from './windows/WiFiFinderWindow';
+import { AntivirusWindow } from './windows/AntivirusWindow';
 
 export const WindowManager = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
@@ -62,6 +63,16 @@ export const WindowManager = () => {
           case 'wifi-finder':
             return (
               <WiFiFinderWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+              />
+            );
+          case 'antivirus':
+            return (
+              <AntivirusWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}
