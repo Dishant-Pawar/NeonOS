@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Window } from '../Window';
 import { Settings, Monitor, Wifi, Bluetooth, Shield, Users, Download, Volume2, Clock, Code } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SystemOverview } from './settings/SystemOverview';
 import { PersonalizationSettings } from './settings/PersonalizationSettings';
 import { NetworkSettings } from './settings/NetworkSettings';
@@ -45,12 +44,11 @@ export const SystemSettingsWindow: React.FC<SystemSettingsWindowProps> = ({
   return (
     <Window
       title="ZOREN OS System Settings"
-      icon={Settings}
       onClose={onClose}
       onMinimize={onMinimize}
       onMaximize={onMaximize}
       zIndex={zIndex}
-      className="w-[1000px] h-[700px]"
+      initialSize={{ width: 1000, height: 700 }}
     >
       <div className="flex h-full bg-gray-900 text-green-400">
         {/* Sidebar */}
