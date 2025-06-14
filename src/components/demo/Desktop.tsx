@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 
@@ -44,6 +44,12 @@ export const Desktop = () => {
       name: 'RO360 Antivirus',
       icon: Shield,
       position: { x: 50, y: 500 }
+    },
+    {
+      id: 'camera',
+      name: 'ZOREN Camera',
+      icon: Camera,
+      position: { x: 50, y: 600 }
     }
   ];
 
