@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Activity, Cpu, HardDrive, Zap, X, AlertTriangle } from 'lucide-react';
@@ -9,6 +8,7 @@ interface TaskManagerWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface Process {
@@ -21,7 +21,7 @@ interface Process {
   pid: number;
 }
 
-export const TaskManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: TaskManagerWindowProps) => {
+export const TaskManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: TaskManagerWindowProps) => {
   const { openWindows, setOpenWindows } = useDemoContext();
   const [activeTab, setActiveTab] = useState<'processes' | 'performance' | 'details'>('processes');
   const [processes, setProcesses] = useState<Process[]>([]);
@@ -117,6 +117,7 @@ export const TaskManagerWindow = ({ onClose, onMinimize, onMaximize, zIndex }: T
       zIndex={zIndex}
       initialSize={{ width: 900, height: 700 }}
       initialPosition={{ x: 150, y: 80 }}
+      isMaximized={isMaximized}
     >
       <div className="h-full bg-gray-900 text-green-400 font-mono overflow-hidden">
         {/* Header */}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Save, Play, Folder, Search, Settings, Plus, FolderOpen, Trash2 } from 'lucide-react';
@@ -8,6 +7,7 @@ interface CodeEditorWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface CodeFile {
@@ -18,7 +18,7 @@ interface CodeFile {
   lastModified: Date;
 }
 
-export const CodeEditorWindow = ({ onClose, onMinimize, onMaximize, zIndex }: CodeEditorWindowProps) => {
+export const CodeEditorWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: CodeEditorWindowProps) => {
   const [files, setFiles] = useState<CodeFile[]>([]);
   const [activeFile, setActiveFile] = useState<CodeFile | null>(null);
   const [showFileManager, setShowFileManager] = useState(false);
@@ -176,6 +176,7 @@ helloWorld();`,
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 1000, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="flex h-full bg-gray-900 text-white">
         {showFileManager ? (

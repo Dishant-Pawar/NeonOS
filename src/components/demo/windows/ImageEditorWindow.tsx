@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Window } from '../Window';
 import { Brush, Eraser, Type, Square, Circle, Save, Undo, Redo, FolderOpen, Plus } from 'lucide-react';
@@ -8,6 +7,7 @@ interface ImageEditorWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface Project {
@@ -17,7 +17,7 @@ interface Project {
   lastModified: Date;
 }
 
-export const ImageEditorWindow = ({ onClose, onMinimize, onMaximize, zIndex }: ImageEditorWindowProps) => {
+export const ImageEditorWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: ImageEditorWindowProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedTool, setSelectedTool] = useState('brush');
   const [brushSize, setBrushSize] = useState(5);
@@ -228,6 +228,7 @@ export const ImageEditorWindow = ({ onClose, onMinimize, onMaximize, zIndex }: I
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 1000, height: 700 }}
+      isMaximized={isMaximized}
     >
       <div className="flex h-full">
         {showProjects ? (

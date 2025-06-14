@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Window } from '../Window';
 import { Mail, Star, Trash2, Send, Paperclip, Plus, Reply, Forward } from 'lucide-react';
@@ -8,6 +7,7 @@ interface MailWindowProps {
   onMinimize: () => void;
   onMaximize: () => void;
   zIndex: number;
+  isMaximized?: boolean;
 }
 
 interface Email {
@@ -21,7 +21,7 @@ interface Email {
   folder: 'inbox' | 'sent' | 'drafts' | 'trash';
 }
 
-export const MailWindow = ({ onClose, onMinimize, onMaximize, zIndex }: MailWindowProps) => {
+export const MailWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMaximized }: MailWindowProps) => {
   const [emails, setEmails] = useState<Email[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const [composing, setComposing] = useState(false);
@@ -155,6 +155,7 @@ export const MailWindow = ({ onClose, onMinimize, onMaximize, zIndex }: MailWind
       onMaximize={onMaximize}
       zIndex={zIndex}
       initialSize={{ width: 900, height: 600 }}
+      isMaximized={isMaximized}
     >
       <div className="flex h-full">
         {/* Sidebar */}
