@@ -150,7 +150,7 @@ export const Desktop = () => {
     }
   ]);
 
-  // Sort and arrange icons
+  // Sort and arrange icons vertically only
   const getSortedIcons = () => {
     let sorted = [...baseIcons];
     
@@ -169,18 +169,15 @@ export const Desktop = () => {
         break;
     }
 
-    // Auto-arrange icons in grid based on view mode
-    const iconSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : 80;
-    const iconsPerRow = Math.floor((window.innerWidth - 100) / iconSpacing);
+    // Arrange icons vertically only
+    const verticalSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : viewMode === 'small-icons' ? 80 : 30;
     
     return sorted.map((icon, index) => ({
       ...icon,
-      position: viewMode === 'list' 
-        ? { x: 50, y: 100 + index * 30 }
-        : {
-            x: 50 + (index % iconsPerRow) * iconSpacing,
-            y: 100 + Math.floor(index / iconsPerRow) * iconSpacing
-          }
+      position: {
+        x: 50, // Fixed horizontal position
+        y: 100 + index * verticalSpacing // Vertical arrangement only
+      }
     }));
   };
 
