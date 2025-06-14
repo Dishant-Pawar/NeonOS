@@ -172,16 +172,16 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
       zIndex={zIndex}
       initialSize={{ width: 1000, height: 700 }}
     >
-      <div className="h-full bg-gray-900 text-green-400 font-mono overflow-hidden">
+      <div className="h-full bg-gray-900 text-green-400 font-mono overflow-hidden flex flex-col">
         {/* Animated background */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-blue-900/20"></div>
           <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-green-500/5 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 h-full flex flex-col">
+        <div className="relative z-10 flex-1 flex flex-col min-h-0">
           {/* Header */}
-          <div className="p-4 border-b border-green-800">
+          <div className="p-4 border-b border-green-800 flex-shrink-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Shield className="w-8 h-8 text-green-400 animate-pulse" />
@@ -203,8 +203,8 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
           </div>
 
           {/* Tabs */}
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-            <TabsList className="grid w-full grid-cols-6 bg-gray-800 border-b border-green-800">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
+            <TabsList className="grid w-full grid-cols-6 bg-gray-800 border-b border-green-800 flex-shrink-0">
               <TabsTrigger value="dashboard" className="data-[state=active]:bg-green-900/50 data-[state=active]:text-green-400">
                 Dashboard
               </TabsTrigger>
@@ -226,7 +226,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsList>
 
             {/* Dashboard Tab */}
-            <TabsContent value="dashboard" className="flex-1 p-4 overflow-auto">
+            <TabsContent value="dashboard" className="flex-1 p-4 overflow-auto min-h-0">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
                 {/* Status Overview */}
                 <div className="space-y-4">
@@ -355,7 +355,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsContent>
 
             {/* Antivirus Tab */}
-            <TabsContent value="antivirus" className="flex-1 p-4">
+            <TabsContent value="antivirus" className="flex-1 p-4 overflow-auto min-h-0">
               <div className="text-center py-8">
                 <Shield className="w-16 h-16 text-green-400 mx-auto mb-4 animate-pulse" />
                 <h3 className="text-xl font-bold text-green-400 mb-2">RO360 ANTIVIRUS ENGINE</h3>
@@ -380,7 +380,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsContent>
 
             {/* Firewall Tab */}
-            <TabsContent value="firewall" className="flex-1 p-4">
+            <TabsContent value="firewall" className="flex-1 p-4 overflow-auto min-h-0">
               <div className="text-center py-8">
                 <Lock className="w-16 h-16 text-green-400 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-green-400 mb-2">FIREWALL CONTROL</h3>
@@ -400,7 +400,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsContent>
 
             {/* Tools Tab */}
-            <TabsContent value="tools" className="flex-1 p-4">
+            <TabsContent value="tools" className="flex-1 p-4 overflow-auto min-h-0">
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="p-4 border border-green-600 bg-green-900/20 rounded text-center">
                   <Key className="w-8 h-8 text-green-400 mx-auto mb-2" />
@@ -429,7 +429,7 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsContent>
 
             {/* Monitor Tab */}
-            <TabsContent value="monitor" className="flex-1 p-4">
+            <TabsContent value="monitor" className="flex-1 p-4 overflow-auto min-h-0">
               <div className="text-center py-8">
                 <Monitor className="w-16 h-16 text-green-400 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-green-400 mb-2">SYSTEM MONITOR</h3>
@@ -447,13 +447,13 @@ export const SecurityCenterWindow = ({ onClose, onMinimize, onMaximize, zIndex }
             </TabsContent>
 
             {/* Terminal Tab */}
-            <TabsContent value="terminal" className="flex-1 p-4 flex flex-col">
-              <div className="flex items-center space-x-2 mb-4">
+            <TabsContent value="terminal" className="flex-1 p-4 flex flex-col min-h-0">
+              <div className="flex items-center space-x-2 mb-4 flex-shrink-0">
                 <Terminal className="w-5 h-5 text-green-400" />
                 <h3 className="text-lg font-bold text-green-400">SECURITY TERMINAL</h3>
               </div>
               
-              <div className="flex-1 bg-black/50 border border-green-600 rounded p-4 font-mono text-sm overflow-auto">
+              <div className="flex-1 bg-black/50 border border-green-600 rounded p-4 font-mono text-sm overflow-auto min-h-0">
                 <div className="space-y-1">
                   {terminalOutput.map((line, index) => (
                     <div key={index} className="text-green-400">
