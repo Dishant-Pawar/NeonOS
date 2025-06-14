@@ -159,7 +159,7 @@ const Index = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download Free
               </Button>
-              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-zinc-50">
+              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-600">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
@@ -274,7 +274,7 @@ const Index = () => {
             <p className="text-gray-400 mb-4">
               Plus support for Snap, Flatpak, and traditional Debian packages
             </p>
-            <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+            <Button variant="outline" className="border-white/20 hover:bg-white/10 text-zinc-950">
               View All Applications
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
@@ -349,7 +349,7 @@ const Index = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download RAVAN OS
               </Button>
-              <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full">
+              <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-500">
                 View System Requirements
               </Button>
             </div>
