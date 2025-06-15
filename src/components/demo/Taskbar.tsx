@@ -1,10 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Grid3X3, Folder, Terminal, Settings, Wifi, Volume2, Minus, X } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Slider } from '../ui/slider';
 
 export const Taskbar = () => {
-  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows, maximizedWindows, setMaximizedWindows, systemSettings } = useDemoContext();
+  const { openWindows, setOpenWindows, minimizedWindows, setMinimizedWindows, maximizedWindows, setMaximizedWindows, systemSettings, updateSystemSettings } = useDemoContext();
 
   const quickLaunchApps = [
     { id: 'file-manager', name: 'Files', icon: Folder },
@@ -60,6 +62,10 @@ export const Taskbar = () => {
       'tetris-game': 'Tetris',
     };
     return names[id] || id;
+  };
+
+  const handleVolumeChange = (value: number[]) => {
+    updateSystemSettings({ volume: value[0] });
   };
 
   return (
@@ -131,10 +137,38 @@ export const Taskbar = () => {
         {/* System Status */}
         <div className="flex items-center space-x-2">
           <Wifi className={`w-4 h-4 ${systemSettings.wifi ? 'text-green-400' : 'text-gray-400'}`} />
-          <Volume2 className="w-4 h-4 text-white" />
-          <div className="text-white text-xs">
-            {systemSettings.volume}%
-          </div>
+          
+          {/* Volume Control Popover */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="flex items-center space-x-1 hover:bg-white/10 rounded px-2 py-1 transition-all duration-200">
+                <Volume2 className="w-4 h-4 text-white" />
+                <div className="text-white text-xs">
+                  {systemSettings.volume}%
+                </div>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 bg-black/90 backdrop-blur-md border border-white/20 p-4">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-sm font-medium">Volume</span>
+                  <span className="text-white/70 text-sm">{systemSettings.volume}%</span>
+                </div>
+                <Slider
+                  value={[systemSettings.volume]}
+                  onValueChange={handleVolumeChange}
+                  max={100}
+                  min={0}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-white/50">
+                  <span>0%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
 
         {/* Show Desktop Button */}
