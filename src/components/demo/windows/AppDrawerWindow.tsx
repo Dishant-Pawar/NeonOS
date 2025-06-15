@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Window } from '../Window';
 import { 
@@ -12,7 +13,8 @@ import {
   Settings,
   Shield,
   Gamepad2,
-  Camera
+  Camera,
+  Mic
 } from 'lucide-react';
 import { useDemoContext } from '../DemoContext';
 
@@ -42,6 +44,7 @@ export const AppDrawerWindow = ({ onClose, onMinimize, onMaximize, zIndex, isMax
     { id: 'image-editor', name: 'GIMP', icon: Image, category: 'Graphics', description: 'Image editor' },
     { id: 'video-editor', name: 'Kdenlive', icon: Video, category: 'Multimedia', description: 'Video editor' },
     { id: 'music-player', name: 'Rhythmbox', icon: Music, category: 'Multimedia', description: 'Music player' },
+    { id: 'voice-recorder', name: 'Voice Recorder', icon: Mic, category: 'Multimedia', description: 'Voice recorder with effects' },
     { id: 'code-editor', name: 'VS Code', icon: Code, category: 'Development', description: 'Code editor' },
     { id: 'calculator-app', name: 'Calculator', icon: Calculator, category: 'Utilities', description: 'Calculator' },
     { id: 'system-settings', name: 'Settings', icon: Settings, category: 'System', description: 'System settings' },
