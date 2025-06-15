@@ -28,7 +28,10 @@ export const Window = ({
   const [position, setPosition] = useState(initialPosition);
   const [size, setSize] = useState(initialSize);
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeDirection, setResizeDirection] = useState<string>('');
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (isMaximized) return; // Don't allow dragging when maximized
@@ -46,10 +49,53 @@ export const Window = ({
         y: e.clientY - dragStart.y
       });
     }
+
+    if (isResizing && !isMaximized) {
+      const deltaX = e.clientX - resizeStart.x;
+      const deltaY = e.clientY - resizeStart.y;
+
+      let newWidth = resizeStart.width;
+      let newHeight = resizeStart.height;
+      let newX = position.x;
+      let newY = position.y;
+
+      if (resizeDirection.includes('right')) {
+        newWidth = Math.max(300, resizeStart.width + deltaX);
+      }
+      if (resizeDirection.includes('left')) {
+        newWidth = Math.max(300, resizeStart.width - deltaX);
+        newX = position.x + (resizeStart.width - newWidth);
+      }
+      if (resizeDirection.includes('bottom')) {
+        newHeight = Math.max(200, resizeStart.height + deltaY);
+      }
+      if (resizeDirection.includes('top')) {
+        newHeight = Math.max(200, resizeStart.height - deltaY);
+        newY = position.y + (resizeStart.height - newHeight);
+      }
+
+      setSize({ width: newWidth, height: newHeight });
+      setPosition({ x: newX, y: newY });
+    }
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setIsResizing(false);
+    setResizeDirection('');
+  };
+
+  const handleResizeStart = (e: React.MouseEvent, direction: string) => {
+    if (isMaximized) return;
+    e.stopPropagation();
+    setIsResizing(true);
+    setResizeDirection(direction);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: size.width,
+      height: size.height
+    });
   };
 
   // Calculate window style based on maximized state
@@ -111,9 +157,50 @@ export const Window = ({
       </div>
 
       {/* Window Content */}
-      <div className="h-full overflow-hidden">
+      <div className="h-full overflow-hidden relative">
         {children}
       </div>
+
+      {/* Resize Handles */}
+      {!isMaximized && (
+        <>
+          {/* Corner handles */}
+          <div
+            className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'top-left')}
+          />
+          <div
+            className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'top-right')}
+          />
+          <div
+            className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'bottom-left')}
+          />
+          <div
+            className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize bg-gray-300 hover:bg-gray-400 transition-colors"
+            onMouseDown={(e) => handleResizeStart(e, 'bottom-right')}
+          />
+
+          {/* Edge handles */}
+          <div
+            className="absolute top-0 left-3 right-3 h-1 cursor-n-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'top')}
+          />
+          <div
+            className="absolute bottom-0 left-3 right-3 h-1 cursor-s-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'bottom')}
+          />
+          <div
+            className="absolute left-0 top-3 bottom-3 w-1 cursor-w-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'left')}
+          />
+          <div
+            className="absolute right-0 top-3 bottom-3 w-1 cursor-e-resize"
+            onMouseDown={(e) => handleResizeStart(e, 'right')}
+          />
+        </>
+      )}
     </div>
   );
 };
