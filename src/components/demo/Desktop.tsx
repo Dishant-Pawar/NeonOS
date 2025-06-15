@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from '../ui/context-menu';
-import { RefreshCw, Clipboard, SortAsc, Eye } from 'lucide-react';
+import { RefreshCw, Clipboard, SortAsc, Eye, Plus, Minus } from 'lucide-react';
 
 interface DesktopIcon {
   id: string;
@@ -15,6 +16,7 @@ interface DesktopIcon {
   size?: number;
   type: string;
   dateModified: Date;
+  iconSize?: number; // Custom icon size for individual icons
 }
 
 type ViewMode = 'large-icons' | 'medium-icons' | 'small-icons' | 'list';
@@ -26,8 +28,9 @@ export const Desktop = () => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [viewMode, setViewMode] = useState<ViewMode>('large-icons');
   const [sortBy, setSortBy] = useState<SortBy>('name');
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   
-  const [baseIcons] = useState<DesktopIcon[]>([
+  const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>([
     {
       id: 'file-manager',
       name: 'File Manager',
@@ -36,7 +39,8 @@ export const Desktop = () => {
       color: 'bg-blue-500',
       size: 245,
       type: 'System',
-      dateModified: new Date('2024-06-10')
+      dateModified: new Date('2024-06-10'),
+      iconSize: 64
     },
     {
       id: 'terminal',
@@ -46,7 +50,8 @@ export const Desktop = () => {
       color: 'bg-gray-800',
       size: 180,
       type: 'System',
-      dateModified: new Date('2024-06-12')
+      dateModified: new Date('2024-06-12'),
+      iconSize: 64
     },
     {
       id: 'app-drawer',
@@ -56,7 +61,8 @@ export const Desktop = () => {
       color: 'bg-purple-500',
       size: 320,
       type: 'System',
-      dateModified: new Date('2024-06-11')
+      dateModified: new Date('2024-06-11'),
+      iconSize: 64
     },
     {
       id: 'wifi-finder',
@@ -66,7 +72,8 @@ export const Desktop = () => {
       color: 'bg-green-500',
       size: 156,
       type: 'Network',
-      dateModified: new Date('2024-06-09')
+      dateModified: new Date('2024-06-09'),
+      iconSize: 64
     },
     {
       id: 'antivirus',
@@ -76,7 +83,8 @@ export const Desktop = () => {
       color: 'bg-red-500',
       size: 512,
       type: 'Security',
-      dateModified: new Date('2024-06-13')
+      dateModified: new Date('2024-06-13'),
+      iconSize: 64
     },
     {
       id: 'camera',
@@ -86,7 +94,8 @@ export const Desktop = () => {
       color: 'bg-pink-500',
       size: 89,
       type: 'Media',
-      dateModified: new Date('2024-06-08')
+      dateModified: new Date('2024-06-08'),
+      iconSize: 64
     },
     {
       id: 'task-manager',
@@ -96,7 +105,8 @@ export const Desktop = () => {
       color: 'bg-orange-500',
       size: 134,
       type: 'System',
-      dateModified: new Date('2024-06-14')
+      dateModified: new Date('2024-06-14'),
+      iconSize: 64
     },
     {
       id: 'system-settings',
@@ -106,7 +116,8 @@ export const Desktop = () => {
       color: 'bg-slate-600',
       size: 267,
       type: 'System',
-      dateModified: new Date('2024-06-07')
+      dateModified: new Date('2024-06-07'),
+      iconSize: 64
     },
     {
       id: 'music-player',
@@ -116,7 +127,8 @@ export const Desktop = () => {
       color: 'bg-indigo-500',
       size: 45,
       type: 'Media',
-      dateModified: new Date('2024-06-06')
+      dateModified: new Date('2024-06-06'),
+      iconSize: 64
     },
     {
       id: 'snake-game',
@@ -126,7 +138,8 @@ export const Desktop = () => {
       color: 'bg-emerald-500',
       size: 78,
       type: 'Games',
-      dateModified: new Date('2024-06-05')
+      dateModified: new Date('2024-06-05'),
+      iconSize: 64
     },
     {
       id: 'memory-game',
@@ -136,7 +149,8 @@ export const Desktop = () => {
       color: 'bg-cyan-500',
       size: 92,
       type: 'Games',
-      dateModified: new Date('2024-06-04')
+      dateModified: new Date('2024-06-04'),
+      iconSize: 64
     },
     {
       id: 'tetris-game',
@@ -146,52 +160,10 @@ export const Desktop = () => {
       color: 'bg-yellow-500',
       size: 63,
       type: 'Games',
-      dateModified: new Date('2024-06-03')
+      dateModified: new Date('2024-06-03'),
+      iconSize: 64
     }
   ]);
-
-  // Sort and arrange icons vertically only with proper bounds
-  const getSortedIcons = () => {
-    let sorted = [...baseIcons];
-    
-    switch (sortBy) {
-      case 'name':
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'size':
-        sorted.sort((a, b) => (b.size || 0) - (a.size || 0));
-        break;
-      case 'date':
-        sorted.sort((a, b) => b.dateModified.getTime() - a.dateModified.getTime());
-        break;
-      case 'type':
-        sorted.sort((a, b) => a.type.localeCompare(b.type));
-        break;
-    }
-
-    // Calculate available space: top bar (32px) + padding to taskbar (48px)
-    const topBarHeight = 32;
-    const taskbarHeight = 48;
-    const startY = topBarHeight + 20; // 20px padding from top bar
-    const availableHeight = window.innerHeight - topBarHeight - taskbarHeight - 40; // 40px total padding
-    
-    // Arrange icons vertically only with proper spacing
-    const verticalSpacing = viewMode === 'large-icons' ? 100 : viewMode === 'medium-icons' ? 80 : viewMode === 'small-icons' ? 60 : 25;
-    
-    // Calculate how many icons can fit and adjust spacing if needed
-    const maxIcons = Math.floor(availableHeight / verticalSpacing);
-    const adjustedSpacing = sorted.length > maxIcons ? availableHeight / sorted.length : verticalSpacing;
-    
-    return sorted.map((icon, index) => ({
-      ...icon,
-      position: {
-        x: 50, // Fixed horizontal position
-        y: startY + index * adjustedSpacing // Vertical arrangement within bounds
-      }
-    }));
-  };
-
-  const desktopIcons = getSortedIcons();
 
   const handleIconDoubleClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
@@ -200,10 +172,12 @@ export const Desktop = () => {
   };
 
   const handleIconClick = (iconId: string) => {
+    setSelectedIcon(iconId);
     console.log(`Selected ${iconId}`);
   };
 
   const handleMouseDown = (e: React.MouseEvent, iconId: string) => {
+    e.preventDefault();
     const icon = desktopIcons.find(i => i.id === iconId);
     if (icon) {
       setDraggedIcon(iconId);
@@ -217,13 +191,13 @@ export const Desktop = () => {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggedIcon) {
       const newPosition = {
-        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 80)),
-        y: Math.max(80, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
+        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 120)),
+        y: Math.max(40, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
       };
 
-      // Note: In a real implementation, you'd update the icon positions
-      // For this demo, we'll just log the drag action
-      console.log(`Dragging ${draggedIcon} to`, newPosition);
+      setDesktopIcons(prev => prev.map(icon => 
+        icon.id === draggedIcon ? { ...icon, position: newPosition } : icon
+      ));
     }
   };
 
@@ -234,7 +208,6 @@ export const Desktop = () => {
 
   const handleRefresh = () => {
     console.log('Desktop refreshed');
-    // Force re-render by updating sort
     setSortBy(current => current);
   };
 
@@ -252,8 +225,29 @@ export const Desktop = () => {
     console.log(`View changed to ${viewType}`);
   };
 
-  // Get icon size based on view mode
-  const getIconSize = () => {
+  const handleResizeIcon = (iconId: string, increase: boolean) => {
+    setDesktopIcons(prev => prev.map(icon => {
+      if (icon.id === iconId) {
+        const currentSize = icon.iconSize || 64;
+        const newSize = increase 
+          ? Math.min(currentSize + 16, 128) 
+          : Math.max(currentSize - 16, 32);
+        return { ...icon, iconSize: newSize };
+      }
+      return icon;
+    }));
+  };
+
+  // Get icon size based on view mode or custom size
+  const getIconSize = (icon?: DesktopIcon) => {
+    if (icon && icon.iconSize) {
+      return {
+        container: `w-${Math.floor(icon.iconSize / 4)} h-${Math.floor(icon.iconSize / 4)}`,
+        icon: `w-${Math.floor(icon.iconSize / 8)} h-${Math.floor(icon.iconSize / 8)}`,
+        text: 'text-xs'
+      };
+    }
+    
     switch (viewMode) {
       case 'large-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs' };
       case 'medium-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs' };
@@ -261,8 +255,6 @@ export const Desktop = () => {
       case 'list': return { container: 'w-6 h-6', icon: 'w-4 h-4', text: 'text-sm' };
     }
   };
-
-  const iconSizes = getIconSize();
 
   return (
     <ContextMenu>
@@ -274,28 +266,72 @@ export const Desktop = () => {
           onMouseLeave={handleMouseUp}
         >
           {/* Desktop Icons */}
-          {desktopIcons.map((icon) => (
-            <div
-              key={icon.id}
-              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none`}
-              style={{ left: icon.position.x, top: icon.position.y }}
-              onClick={() => handleIconClick(icon.id)}
-              onDoubleClick={() => handleIconDoubleClick(icon.id)}
-              onMouseDown={(e) => handleMouseDown(e, icon.id)}
-            >
-              <div className={`${iconSizes.container} ${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}>
-                <icon.icon className={`${iconSizes.icon} text-white`} />
-              </div>
-              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm`}>
-                {icon.name}
-              </span>
-              {viewMode === 'list' && (
-                <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
-                  {icon.size}KB
+          {desktopIcons.map((icon) => {
+            const iconSizes = getIconSize(icon);
+            const isSelected = selectedIcon === icon.id;
+            return (
+              <div key={icon.id} className="absolute">
+                <div
+                  className={`${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none ${
+                    isSelected ? 'ring-2 ring-blue-400 rounded-lg' : ''
+                  }`}
+                  style={{ 
+                    left: icon.position.x, 
+                    top: icon.position.y,
+                    width: icon.iconSize ? `${icon.iconSize + 20}px` : 'auto'
+                  }}
+                  onClick={() => handleIconClick(icon.id)}
+                  onDoubleClick={() => handleIconDoubleClick(icon.id)}
+                  onMouseDown={(e) => handleMouseDown(e, icon.id)}
+                >
+                  <div 
+                    className={`${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}
+                    style={{
+                      width: icon.iconSize || 64,
+                      height: icon.iconSize || 64
+                    }}
+                  >
+                    <icon.icon 
+                      className="text-white" 
+                      size={icon.iconSize ? icon.iconSize / 2 : 32}
+                    />
+                  </div>
+                  <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm max-w-full text-center truncate`}>
+                    {icon.name}
+                  </span>
+                  {viewMode === 'list' && (
+                    <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+                      {icon.size}KB
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+                
+                {/* Resize controls when icon is selected */}
+                {isSelected && (
+                  <div 
+                    className="absolute flex space-x-1 bg-black/50 rounded p-1"
+                    style={{ 
+                      left: icon.position.x + (icon.iconSize || 64) + 10, 
+                      top: icon.position.y 
+                    }}
+                  >
+                    <button
+                      onClick={() => handleResizeIcon(icon.id, false)}
+                      className="w-6 h-6 bg-red-500 hover:bg-red-600 rounded flex items-center justify-center"
+                    >
+                      <Minus className="w-3 h-3 text-white" />
+                    </button>
+                    <button
+                      onClick={() => handleResizeIcon(icon.id, true)}
+                      className="w-6 h-6 bg-green-500 hover:bg-green-600 rounded flex items-center justify-center"
+                    >
+                      <Plus className="w-3 h-3 text-white" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           {/* Window Manager */}
           <WindowManager />
