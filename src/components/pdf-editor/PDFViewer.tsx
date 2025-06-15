@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -8,8 +9,8 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker - use unpkg for better reliability
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Set up PDF.js worker - use jsdelivr CDN as it's more reliable
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.js';
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
@@ -196,6 +197,11 @@ export const PDFViewer: React.FC = () => {
               file={state.pdfFile}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
+              options={{
+                cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/cmaps/',
+                cMapPacked: true,
+                standardFontDataUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/standard_fonts/',
+              }}
               loading={
                 <div className="flex items-center justify-center p-12 min-h-[600px]">
                   <div className="text-center">
