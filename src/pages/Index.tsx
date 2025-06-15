@@ -192,6 +192,10 @@ const Index = () => {
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
+              <Button variant="outline" size="lg" onClick={() => navigate('/pdf-editor')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-green-600 hover:scale-105 transition-all duration-300">
+                <FileText className="w-5 h-5 mr-2" />
+                PDF Editor
+              </Button>
             </div>
             
             <div className="mt-12 text-center animate-fade-in">
