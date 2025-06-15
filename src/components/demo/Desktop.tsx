@@ -32,8 +32,8 @@ export const Desktop = () => {
       id: 'file-manager',
       name: 'File Manager',
       icon: Folder,
-      position: { x: 50, y: 100 },
-      color: 'bg-blue-500',
+      position: { x: 60, y: 120 },
+      color: 'bg-gradient-to-br from-blue-500 to-blue-600',
       size: 245,
       type: 'System',
       dateModified: new Date('2024-06-10')
@@ -42,8 +42,8 @@ export const Desktop = () => {
       id: 'terminal',
       name: 'Terminal',
       icon: Terminal,
-      position: { x: 50, y: 200 },
-      color: 'bg-gray-800',
+      position: { x: 60, y: 240 },
+      color: 'bg-gradient-to-br from-gray-700 to-gray-800',
       size: 180,
       type: 'System',
       dateModified: new Date('2024-06-12')
@@ -52,8 +52,8 @@ export const Desktop = () => {
       id: 'app-drawer',
       name: 'Applications',
       icon: AppWindow,
-      position: { x: 50, y: 300 },
-      color: 'bg-purple-500',
+      position: { x: 60, y: 360 },
+      color: 'bg-gradient-to-br from-purple-500 to-purple-600',
       size: 320,
       type: 'System',
       dateModified: new Date('2024-06-11')
@@ -62,8 +62,8 @@ export const Desktop = () => {
       id: 'wifi-finder',
       name: 'WiFi Scanner',
       icon: Wifi,
-      position: { x: 50, y: 400 },
-      color: 'bg-green-500',
+      position: { x: 60, y: 480 },
+      color: 'bg-gradient-to-br from-green-500 to-green-600',
       size: 156,
       type: 'Network',
       dateModified: new Date('2024-06-09')
@@ -72,8 +72,8 @@ export const Desktop = () => {
       id: 'antivirus',
       name: 'RO360 Antivirus',
       icon: Shield,
-      position: { x: 50, y: 500 },
-      color: 'bg-red-500',
+      position: { x: 60, y: 600 },
+      color: 'bg-gradient-to-br from-red-500 to-red-600',
       size: 512,
       type: 'Security',
       dateModified: new Date('2024-06-13')
@@ -82,8 +82,8 @@ export const Desktop = () => {
       id: 'camera',
       name: 'RAVAN Camera',
       icon: Camera,
-      position: { x: 50, y: 600 },
-      color: 'bg-pink-500',
+      position: { x: 200, y: 120 },
+      color: 'bg-gradient-to-br from-pink-500 to-pink-600',
       size: 89,
       type: 'Media',
       dateModified: new Date('2024-06-08')
@@ -92,8 +92,8 @@ export const Desktop = () => {
       id: 'task-manager',
       name: 'Task Manager',
       icon: Activity,
-      position: { x: 150, y: 100 },
-      color: 'bg-orange-500',
+      position: { x: 200, y: 240 },
+      color: 'bg-gradient-to-br from-orange-500 to-orange-600',
       size: 134,
       type: 'System',
       dateModified: new Date('2024-06-14')
@@ -102,8 +102,8 @@ export const Desktop = () => {
       id: 'system-settings',
       name: 'System Settings',
       icon: Settings,
-      position: { x: 150, y: 200 },
-      color: 'bg-slate-600',
+      position: { x: 200, y: 360 },
+      color: 'bg-gradient-to-br from-slate-600 to-slate-700',
       size: 267,
       type: 'System',
       dateModified: new Date('2024-06-07')
@@ -112,8 +112,8 @@ export const Desktop = () => {
       id: 'music-player',
       name: 'Music Player',
       icon: Music,
-      position: { x: 150, y: 300 },
-      color: 'bg-indigo-500',
+      position: { x: 200, y: 480 },
+      color: 'bg-gradient-to-br from-indigo-500 to-indigo-600',
       size: 45,
       type: 'Media',
       dateModified: new Date('2024-06-06')
@@ -122,8 +122,8 @@ export const Desktop = () => {
       id: 'snake-game',
       name: 'Snake Game',
       icon: Gamepad2,
-      position: { x: 150, y: 400 },
-      color: 'bg-emerald-500',
+      position: { x: 200, y: 600 },
+      color: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
       size: 78,
       type: 'Games',
       dateModified: new Date('2024-06-05')
@@ -132,8 +132,8 @@ export const Desktop = () => {
       id: 'memory-game',
       name: 'Memory Match',
       icon: Puzzle,
-      position: { x: 150, y: 500 },
-      color: 'bg-cyan-500',
+      position: { x: 340, y: 120 },
+      color: 'bg-gradient-to-br from-cyan-500 to-cyan-600',
       size: 92,
       type: 'Games',
       dateModified: new Date('2024-06-04')
@@ -142,8 +142,8 @@ export const Desktop = () => {
       id: 'tetris-game',
       name: 'Tetris',
       icon: Zap,
-      position: { x: 150, y: 600 },
-      color: 'bg-yellow-500',
+      position: { x: 340, y: 240 },
+      color: 'bg-gradient-to-br from-yellow-500 to-yellow-600',
       size: 63,
       type: 'Games',
       dateModified: new Date('2024-06-03')
@@ -170,16 +170,16 @@ export const Desktop = () => {
     }
 
     // Auto-arrange icons in grid based on view mode
-    const iconSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : 80;
-    const iconsPerRow = Math.floor((window.innerWidth - 100) / iconSpacing);
+    const iconSpacing = viewMode === 'large-icons' ? 140 : viewMode === 'medium-icons' ? 120 : 100;
+    const iconsPerRow = Math.floor((window.innerWidth - 120) / iconSpacing);
     
     return sorted.map((icon, index) => ({
       ...icon,
       position: viewMode === 'list' 
-        ? { x: 50, y: 100 + index * 30 }
+        ? { x: 60, y: 120 + index * 40 }
         : {
-            x: 50 + (index % iconsPerRow) * iconSpacing,
-            y: 100 + Math.floor(index / iconsPerRow) * iconSpacing
+            x: 60 + (index % iconsPerRow) * iconSpacing,
+            y: 120 + Math.floor(index / iconsPerRow) * iconSpacing
           }
     }));
   };
@@ -210,12 +210,10 @@ export const Desktop = () => {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggedIcon) {
       const newPosition = {
-        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 80)),
+        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 100)),
         y: Math.max(80, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
       };
 
-      // Note: In a real implementation, you'd update the icon positions
-      // For this demo, we'll just log the drag action
       console.log(`Dragging ${draggedIcon} to`, newPosition);
     }
   };
@@ -248,10 +246,10 @@ export const Desktop = () => {
   // Get icon size based on view mode
   const getIconSize = () => {
     switch (viewMode) {
-      case 'large-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs' };
-      case 'medium-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs' };
-      case 'small-icons': return { container: 'w-8 h-8', icon: 'w-4 h-4', text: 'text-xs' };
-      case 'list': return { container: 'w-6 h-6', icon: 'w-4 h-4', text: 'text-sm' };
+      case 'large-icons': return { container: 'w-20 h-20', icon: 'w-10 h-10', text: 'text-sm font-medium', spacing: 'mt-3' };
+      case 'medium-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs font-medium', spacing: 'mt-2' };
+      case 'small-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs', spacing: 'mt-2' };
+      case 'list': return { container: 'w-8 h-8', icon: 'w-5 h-5', text: 'text-sm font-medium', spacing: '' };
     }
   };
 
@@ -270,20 +268,20 @@ export const Desktop = () => {
           {desktopIcons.map((icon) => (
             <div
               key={icon.id}
-              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none`}
+              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-4 w-full max-w-md' : 'flex flex-col items-center'} cursor-pointer group select-none transition-all duration-200`}
               style={{ left: icon.position.x, top: icon.position.y }}
               onClick={() => handleIconClick(icon.id)}
               onDoubleClick={() => handleIconDoubleClick(icon.id)}
               onMouseDown={(e) => handleMouseDown(e, icon.id)}
             >
-              <div className={`${iconSizes.container} ${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}>
-                <icon.icon className={`${iconSizes.icon} text-white`} />
+              <div className={`${iconSizes.container} ${icon.color} rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20 backdrop-blur-sm`}>
+                <icon.icon className={`${iconSizes.icon} text-white drop-shadow-lg`} />
               </div>
-              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm`}>
+              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : iconSizes.spacing} bg-black/40 px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10 shadow-lg text-center max-w-28 truncate`}>
                 {icon.name}
               </span>
               {viewMode === 'list' && (
-                <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+                <div className="text-white text-xs bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm border border-white/10">
                   {icon.size}KB
                 </div>
               )}
@@ -298,61 +296,61 @@ export const Desktop = () => {
         </div>
       </ContextMenuTrigger>
       
-      <ContextMenuContent className="w-48">
+      <ContextMenuContent className="w-52 bg-black/90 backdrop-blur-md border border-white/20">
         <ContextMenuSub>
-          <ContextMenuSubTrigger>
+          <ContextMenuSubTrigger className="text-white">
             <SortAsc className="w-4 h-4 mr-2" />
             Sort by
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuItem onClick={() => handleSortBy('name')}>
-              <span className={sortBy === 'name' ? 'font-bold' : ''}>Name</span>
+          <ContextMenuSubContent className="bg-black/90 backdrop-blur-md border border-white/20">
+            <ContextMenuItem onClick={() => setSortBy('name')} className="text-white hover:bg-white/10">
+              <span className={sortBy === 'name' ? 'font-bold text-green-400' : ''}>Name</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleSortBy('size')}>
-              <span className={sortBy === 'size' ? 'font-bold' : ''}>Size</span>
+            <ContextMenuItem onClick={() => setSortBy('size')} className="text-white hover:bg-white/10">
+              <span className={sortBy === 'size' ? 'font-bold text-green-400' : ''}>Size</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleSortBy('date')}>
-              <span className={sortBy === 'date' ? 'font-bold' : ''}>Date modified</span>
+            <ContextMenuItem onClick={() => setSortBy('date')} className="text-white hover:bg-white/10">
+              <span className={sortBy === 'date' ? 'font-bold text-green-400' : ''}>Date modified</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleSortBy('type')}>
-              <span className={sortBy === 'type' ? 'font-bold' : ''}>Type</span>
+            <ContextMenuItem onClick={() => setSortBy('type')} className="text-white hover:bg-white/10">
+              <span className={sortBy === 'type' ? 'font-bold text-green-400' : ''}>Type</span>
             </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
         
-        <ContextMenuSeparator />
+        <ContextMenuSeparator className="bg-white/20" />
         
-        <ContextMenuItem onClick={handlePaste}>
+        <ContextMenuItem onClick={() => console.log('Paste action')} className="text-white hover:bg-white/10">
           <Clipboard className="w-4 h-4 mr-2" />
           Paste
         </ContextMenuItem>
         
-        <ContextMenuSeparator />
+        <ContextMenuSeparator className="bg-white/20" />
         
-        <ContextMenuItem onClick={handleRefresh}>
+        <ContextMenuItem onClick={() => console.log('Desktop refreshed')} className="text-white hover:bg-white/10">
           <RefreshCw className="w-4 h-4 mr-2" />
           Refresh
         </ContextMenuItem>
         
-        <ContextMenuSeparator />
+        <ContextMenuSeparator className="bg-white/20" />
         
         <ContextMenuSub>
-          <ContextMenuSubTrigger>
+          <ContextMenuSubTrigger className="text-white">
             <Eye className="w-4 h-4 mr-2" />
             View
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuItem onClick={() => handleViewChange('large-icons')}>
-              <span className={viewMode === 'large-icons' ? 'font-bold' : ''}>Large icons</span>
+          <ContextMenuSubContent className="bg-black/90 backdrop-blur-md border border-white/20">
+            <ContextMenuItem onClick={() => setViewMode('large-icons')} className="text-white hover:bg-white/10">
+              <span className={viewMode === 'large-icons' ? 'font-bold text-green-400' : ''}>Large icons</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleViewChange('medium-icons')}>
-              <span className={viewMode === 'medium-icons' ? 'font-bold' : ''}>Medium icons</span>
+            <ContextMenuItem onClick={() => setViewMode('medium-icons')} className="text-white hover:bg-white/10">
+              <span className={viewMode === 'medium-icons' ? 'font-bold text-green-400' : ''}>Medium icons</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleViewChange('small-icons')}>
-              <span className={viewMode === 'small-icons' ? 'font-bold' : ''}>Small icons</span>
+            <ContextMenuItem onClick={() => setViewMode('small-icons')} className="text-white hover:bg-white/10">
+              <span className={viewMode === 'small-icons' ? 'font-bold text-green-400' : ''}>Small icons</span>
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => handleViewChange('list')}>
-              <span className={viewMode === 'list' ? 'font-bold' : ''}>List</span>
+            <ContextMenuItem onClick={() => setViewMode('list')} className="text-white hover:bg-white/10">
+              <span className={viewMode === 'list' ? 'font-bold text-green-400' : ''}>List</span>
             </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>

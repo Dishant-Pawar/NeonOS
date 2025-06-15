@@ -68,36 +68,72 @@ const DemoContent = () => {
   }
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative">
-      {/* Desktop Background */}
+    <div className="h-screen w-full overflow-hidden relative">
+      {/* Professional Desktop Background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-300"
+        className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
         style={{
-          backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><radialGradient id="cosmic" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%23667eea"/><stop offset="100%" style="stop-color:%23764ba2"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23cosmic)"/><g opacity="0.3"><circle cx="400" cy="200" r="2" fill="white"/><circle cx="800" cy="400" r="1" fill="white"/><circle cx="1200" cy="300" r="1.5" fill="white"/><circle cx="600" cy="600" r="1" fill="white"/><circle cx="1400" cy="700" r="2" fill="white"/></g></svg>')`
+          backgroundImage: `
+            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+            linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)
+          `
         }}
       />
+      
+      {/* Subtle Grid Pattern */}
+      <div 
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}
+      />
+      
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full opacity-20 animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
       
       <TopBar />
       <Desktop />
 
-      {/* Trial Prompt Modal */}
+      {/* Professional Trial Prompt Modal */}
       {showTrialPrompt && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4 text-center">
-            <h3 className="text-xl font-bold mb-4">Enjoying RAVAN OS?</h3>
-            <p className="text-gray-600 mb-6">
-              This is just a demo! Download the full version to experience all features.
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white/95 backdrop-blur-md rounded-xl p-8 max-w-md mx-4 text-center shadow-2xl border border-white/20">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-white font-bold text-xl">RO</span>
+            </div>
+            <h3 className="text-2xl font-bold mb-4 text-gray-800">Enjoying RAVAN OS?</h3>
+            <p className="text-gray-600 mb-8 leading-relaxed">
+              This is just a demo! Download the full version to experience all features and capabilities.
             </p>
-            <div className="flex gap-3 justify-center">
+            <div className="flex gap-4 justify-center">
               <button 
                 onClick={() => window.location.href = '/'}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg"
               >
                 Download Full Version
               </button>
               <button 
                 onClick={() => setShowTrialPrompt(false)}
-                className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                className="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium transition-all duration-200"
               >
                 Continue Demo
               </button>
