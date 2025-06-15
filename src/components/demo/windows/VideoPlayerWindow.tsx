@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Window } from '../Window';
 import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Maximize2, RotateCcw } from 'lucide-react';
@@ -289,7 +288,7 @@ export const VideoPlayerWindow = ({
                     }`}
                   >
                     {video.name}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
