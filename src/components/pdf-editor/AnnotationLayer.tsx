@@ -180,7 +180,7 @@ export const AnnotationLayer: React.FC<AnnotationLayerProps> = ({
     };
   }, [fabricCanvas, state.selectedTool, pageNumber, addAnnotation, isDrawing, startX, startY, activeColor, strokeWidth]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(async (e: KeyboardEvent) => {
     if (!fabricCanvas) return;
 
     if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -205,7 +205,8 @@ export const AnnotationLayer: React.FC<AnnotationLayerProps> = ({
         e.preventDefault();
         const activeObject = fabricCanvas.getActiveObject();
         if (activeObject) {
-          fabricCanvas.getActiveObject()?.clone((cloned: any) => {
+          try {
+            const cloned = await activeObject.clone();
             fabricCanvas.discardActiveObject();
             cloned.set({
               left: cloned.left + 10,
@@ -215,8 +216,11 @@ export const AnnotationLayer: React.FC<AnnotationLayerProps> = ({
             fabricCanvas.add(cloned);
             fabricCanvas.setActiveObject(cloned);
             fabricCanvas.renderAll();
-          });
-          toast.success('Annotation copied');
+            toast.success('Annotation copied');
+          } catch (error) {
+            console.error('Error copying object:', error);
+            toast.error('Failed to copy annotation');
+          }
         }
       }
     }
