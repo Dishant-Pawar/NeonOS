@@ -1,390 +1,158 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { ColorPicker } from './ColorPicker';
-import { usePDF } from './PDFContext';
-import {
-  Type, Palette, AlignLeft, AlignCenter, AlignRight, AlignJustify,
-  Bold, Italic, Underline, Settings, Eye, Lock, Unlock,
-  RotateCw, Move, Square, Circle, Image, FileText
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import { 
+  Settings, 
+  Palette, 
+  Type, 
+  Square,
+  Circle,
+  Pen,
+  Image
 } from 'lucide-react';
+import { usePDF } from './PDFContext';
 
 export const PropertiesPanel: React.FC = () => {
   const { state } = usePDF();
-  const [selectedElement, setSelectedElement] = useState<any>(null);
-  const [textProperties, setTextProperties] = useState({
-    fontFamily: 'Arial',
-    fontSize: 12,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    textDecoration: 'none',
-    color: '#000000',
-    alignment: 'left',
-    opacity: 100
-  });
-
-  const [shapeProperties, setShapeProperties] = useState({
-    fillColor: '#ffffff',
-    borderColor: '#000000',
-    borderWidth: 1,
-    opacity: 100,
-    rotation: 0
-  });
-
-  const fontFamilies = [
-    'Arial', 'Helvetica', 'Times New Roman', 'Courier New', 
-    'Georgia', 'Verdana', 'Tahoma', 'Trebuchet MS'
-  ];
-
-  const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 60, 72];
-
-  const handleTextPropertyChange = (property: string, value: any) => {
-    setTextProperties(prev => ({ ...prev, [property]: value }));
-    // Apply changes to selected element
-    if (selectedElement) {
-      // Implementation would go here
-    }
-  };
-
-  const handleShapePropertyChange = (property: string, value: any) => {
-    setShapeProperties(prev => ({ ...prev, [property]: value }));
-    // Apply changes to selected element
-    if (selectedElement) {
-      // Implementation would go here
-    }
-  };
 
   return (
     <div className="w-80 bg-white border-l border-gray-200 flex flex-col">
+      {/* Panel Header */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">Properties</h2>
       </div>
 
-      <Tabs defaultValue="format" className="flex-1 flex flex-col">
-        <TabsList className="mx-4 mt-4 grid w-full grid-cols-3">
-          <TabsTrigger value="format">Format</TabsTrigger>
-          <TabsTrigger value="layout">Layout</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-        </TabsList>
-
-        <div className="flex-1 overflow-auto p-4 space-y-6">
-          <TabsContent value="format" className="m-0 space-y-6">
-            {/* Text Formatting */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Type className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Text Formatting</h3>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <Label htmlFor="font-family" className="text-xs text-gray-600">Font Family</Label>
-                  <Select 
-                    value={textProperties.fontFamily} 
-                    onValueChange={(value) => handleTextPropertyChange('fontFamily', value)}
-                  >
-                    <SelectTrigger className="w-full mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {fontFamilies.map((font) => (
-                        <SelectItem key={font} value={font}>{font}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="font-size" className="text-xs text-gray-600">Font Size</Label>
-                  <Select 
-                    value={textProperties.fontSize.toString()} 
-                    onValueChange={(value) => handleTextPropertyChange('fontSize', parseInt(value))}
-                  >
-                    <SelectTrigger className="w-full mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {fontSizes.map((size) => (
-                        <SelectItem key={size} value={size.toString()}>{size}px</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600">Style</Label>
-                  <div className="flex space-x-1 mt-1">
-                    <Button
-                      variant={textProperties.fontWeight === 'bold' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => handleTextPropertyChange('fontWeight', 
-                        textProperties.fontWeight === 'bold' ? 'normal' : 'bold'
-                      )}
-                    >
-                      <Bold className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant={textProperties.fontStyle === 'italic' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => handleTextPropertyChange('fontStyle', 
-                        textProperties.fontStyle === 'italic' ? 'normal' : 'italic'
-                      )}
-                    >
-                      <Italic className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant={textProperties.textDecoration === 'underline' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => handleTextPropertyChange('textDecoration', 
-                        textProperties.textDecoration === 'underline' ? 'none' : 'underline'
-                      )}
-                    >
-                      <Underline className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600">Alignment</Label>
-                  <div className="flex space-x-1 mt-1">
-                    {[
-                      { value: 'left', icon: AlignLeft },
-                      { value: 'center', icon: AlignCenter },
-                      { value: 'right', icon: AlignRight },
-                      { value: 'justify', icon: AlignJustify }
-                    ].map(({ value, icon: Icon }) => (
-                      <Button
-                        key={value}
-                        variant={textProperties.alignment === value ? 'default' : 'outline'}
-                        size="sm"
-                        onClick={() => handleTextPropertyChange('alignment', value)}
-                      >
-                        <Icon className="w-4 h-4" />
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600">Text Color</Label>
-                  <ColorPicker
-                    color={textProperties.color}
-                    onChange={(color) => handleTextPropertyChange('color', color)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Shape Formatting */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Square className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Shape Formatting</h3>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <Label className="text-xs text-gray-600">Fill Color</Label>
-                  <ColorPicker
-                    color={shapeProperties.fillColor}
-                    onChange={(color) => handleShapePropertyChange('fillColor', color)}
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600">Border Color</Label>
-                  <ColorPicker
-                    color={shapeProperties.borderColor}
-                    onChange={(color) => handleShapePropertyChange('borderColor', color)}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="border-width" className="text-xs text-gray-600">Border Width</Label>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <Slider
-                      value={[shapeProperties.borderWidth]}
-                      onValueChange={([value]) => handleShapePropertyChange('borderWidth', value)}
-                      max={10}
-                      min={0}
-                      step={1}
-                      className="flex-1"
-                    />
-                    <span className="text-xs text-gray-500 w-8">{shapeProperties.borderWidth}px</span>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="rotation" className="text-xs text-gray-600">Rotation</Label>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <Slider
-                      value={[shapeProperties.rotation]}
-                      onValueChange={([value]) => handleShapePropertyChange('rotation', value)}
-                      max={360}
-                      min={0}
-                      step={1}
-                      className="flex-1"
-                    />
-                    <span className="text-xs text-gray-500 w-12">{shapeProperties.rotation}°</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Opacity */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Eye className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Transparency</h3>
+      {/* Content Area */}
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-6">
+          {/* Tool Properties */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-700 flex items-center">
+              <Settings className="w-4 h-4 mr-2" />
+              Tool Settings
+            </h3>
+            
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="tool-opacity" className="text-sm">Opacity</Label>
+                <Slider
+                  id="tool-opacity"
+                  defaultValue={[100]}
+                  max={100}
+                  step={1}
+                  className="mt-2"
+                />
               </div>
 
               <div>
-                <Label htmlFor="opacity" className="text-xs text-gray-600">Opacity</Label>
-                <div className="flex items-center space-x-2 mt-1">
-                  <Slider
-                    value={[textProperties.opacity]}
-                    onValueChange={([value]) => handleTextPropertyChange('opacity', value)}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="flex-1"
-                  />
-                  <span className="text-xs text-gray-500 w-12">{textProperties.opacity}%</span>
-                </div>
+                <Label htmlFor="stroke-width" className="text-sm">Stroke Width</Label>
+                <Input
+                  id="stroke-width"
+                  type="number"
+                  defaultValue="2"
+                  min="1"
+                  max="20"
+                  className="mt-2"
+                />
               </div>
             </div>
-          </TabsContent>
+          </div>
 
-          <TabsContent value="layout" className="m-0 space-y-6">
-            {/* Position and Size */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Move className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Position & Size</h3>
-              </div>
+          <Separator />
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="x-position" className="text-xs text-gray-600">X Position</Label>
-                  <Input
-                    id="x-position"
-                    type="number"
-                    placeholder="0"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="y-position" className="text-xs text-gray-600">Y Position</Label>
-                  <Input
-                    id="y-position"
-                    type="number"
-                    placeholder="0"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="width" className="text-xs text-gray-600">Width</Label>
-                  <Input
-                    id="width"
-                    type="number"
-                    placeholder="100"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="height" className="text-xs text-gray-600">Height</Label>
-                  <Input
-                    id="height"
-                    type="number"
-                    placeholder="100"
-                    className="mt-1"
-                  />
-                </div>
-              </div>
+          {/* Color Properties */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-700 flex items-center">
+              <Palette className="w-4 h-4 mr-2" />
+              Colors
+            </h3>
+            
+            <div className="grid grid-cols-4 gap-2">
+              {['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff'].map((color) => (
+                <div
+                  key={color}
+                  className="w-8 h-8 rounded border border-gray-300 cursor-pointer hover:scale-110 transition-transform"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
             </div>
+          </div>
 
-            <Separator />
+          <Separator />
 
-            {/* Layer Management */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Square className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Layer Order</h3>
-              </div>
-
-              <div className="flex space-x-2">
-                <Button variant="outline" size="sm" className="flex-1">
-                  Bring Forward
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1">
-                  Send Back
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="security" className="m-0 space-y-6">
-            {/* Document Security */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Lock className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Document Security</h3>
-              </div>
-
+          {/* Text Properties */}
+          {state.selectedTool === 'text' && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-700 flex items-center">
+                <Type className="w-4 h-4 mr-2" />
+                Text Properties
+              </h3>
+              
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="password" className="text-xs text-gray-600">Document Password</Label>
+                  <Label htmlFor="font-size" className="text-sm">Font Size</Label>
                   <Input
-                    id="password"
-                    type="password"
-                    placeholder="Enter password"
-                    className="mt-1"
+                    id="font-size"
+                    type="number"
+                    defaultValue="16"
+                    min="8"
+                    max="72"
+                    className="mt-2"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <input type="checkbox" id="allow-printing" className="rounded" />
-                    <Label htmlFor="allow-printing" className="text-xs">Allow Printing</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="checkbox" id="allow-copying" className="rounded" />
-                    <Label htmlFor="allow-copying" className="text-xs">Allow Copying</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="checkbox" id="allow-editing" className="rounded" />
-                    <Label htmlFor="allow-editing" className="text-xs">Allow Editing</Label>
-                  </div>
+                <div>
+                  <Label htmlFor="font-family" className="text-sm">Font Family</Label>
+                  <select className="w-full mt-2 p-2 border border-gray-300 rounded-md text-sm">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Courier">Courier</option>
+                  </select>
                 </div>
               </div>
             </div>
+          )}
 
-            <Separator />
+          <Separator />
 
-            {/* Digital Signatures */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <FileText className="w-4 h-4" />
-                <h3 className="text-sm font-medium">Digital Signatures</h3>
+          {/* Document Properties */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-700">Document Info</h3>
+            
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Pages:</span>
+                <span>{state.totalPages}</span>
               </div>
-
-              <Button variant="outline" className="w-full">
-                Add Digital Signature
-              </Button>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Current:</span>
+                <span>{state.currentPage}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Zoom:</span>
+                <span>{state.zoom}%</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Modified:</span>
+                <span>{state.isModified ? 'Yes' : 'No'}</span>
+              </div>
             </div>
-          </TabsContent>
+          </div>
         </div>
-      </Tabs>
+      </ScrollArea>
+
+      {/* Panel Footer */}
+      <div className="p-4 border-t border-gray-200">
+        <Button variant="outline" size="sm" className="w-full">
+          Reset Properties
+        </Button>
+      </div>
     </div>
   );
 };

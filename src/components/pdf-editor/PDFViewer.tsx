@@ -8,8 +8,11 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Set up PDF.js worker - use a more reliable CDN
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
