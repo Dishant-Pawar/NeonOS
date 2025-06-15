@@ -227,8 +227,6 @@ const Index = () => {
                   key={index} 
                   className={`relative bg-white/5 border-white/10 hover:bg-white/10 backdrop-blur-sm transition-all duration-500 hover:scale-105 ${
                     isHighlighted ? 'ring-2 ring-blue-400 scale-105 shadow-2xl' : ''
-                  } ${
-                    isFloating ? 'animate-bounce' : ''
                   }`}
                   style={{
                     animationDelay: `${index * 0.1}s`
