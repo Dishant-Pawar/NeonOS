@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { usePDF } from './PDFContext';
 import {
-  FileText, Save, Upload, Download, Scissors, Copy, Paste, Undo, Redo,
+  FileText, Save, Upload, Download, Scissors, Copy, Undo, Redo,
   ZoomIn, ZoomOut, RotateCw, Edit3, Image, Type, Highlighter, MessageSquare,
   Square, Circle, ArrowRight, Pen, Eraser, Lock, Shield, FileSignature,
-  Merge, Split, Compress, Watermark, Settings, Eye, EyeOff, Grid3X3,
-  Search, Replace, Bookmark, Link, Header, Footer, Tag, Menu, PanelLeft
+  Merge, Split, Settings, Eye, EyeOff, Grid3X3,
+  Search, Replace, Bookmark, Link, Tag, Menu, PanelLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -63,7 +63,6 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       const lastAction = undoStack[undoStack.length - 1];
       setRedoStack([...redoStack, lastAction]);
       setUndoStack(undoStack.slice(0, -1));
-      // Implement undo logic
       toast.info('Action undone');
     }
   };
@@ -73,7 +72,6 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       const lastAction = redoStack[redoStack.length - 1];
       setUndoStack([...undoStack, lastAction]);
       setRedoStack(redoStack.slice(0, -1));
-      // Implement redo logic
       toast.info('Action redone');
     }
   };
@@ -124,7 +122,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
             <Copy className="w-4 h-4" />
           </Button>
           <Button variant="ghost" size="sm">
-            <Paste className="w-4 h-4" />
+            <Edit3 className="w-4 h-4" />
           </Button>
         </div>
 
@@ -176,8 +174,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({
             <span className="ml-1 hidden sm:inline">Sign</span>
           </Button>
           <Button variant="ghost" size="sm">
-            <Compress className="w-4 h-4" />
-            <span className="ml-1 hidden sm:inline">Compress</span>
+            <Settings className="w-4 h-4" />
+            <span className="ml-1 hidden sm:inline">Tools</span>
           </Button>
         </div>
 

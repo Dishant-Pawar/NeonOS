@@ -2,13 +2,15 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucide-react';
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
 // Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
@@ -70,7 +72,7 @@ export const PDFViewer: React.FC = () => {
 
   const calculatePageWidth = useCallback(() => {
     if (viewerRef.current) {
-      const containerWidth = viewerRef.current.clientWidth - 40; // Account for padding
+      const containerWidth = viewerRef.current.clientWidth - 40;
       const scaledWidth = (containerWidth * state.zoom) / 100;
       setPageWidth(scaledWidth);
     }
