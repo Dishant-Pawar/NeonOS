@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music, FileText, Globe, Mail, Image, Video, Code, Calculator } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
@@ -16,7 +16,7 @@ interface DesktopIcon {
   size?: number;
   type: string;
   dateModified: Date;
-  iconSize?: number; // Custom icon size for individual icons
+  iconSize?: number;
 }
 
 type ViewMode = 'large-icons' | 'medium-icons' | 'small-icons' | 'list';
@@ -30,140 +30,50 @@ export const Desktop = () => {
   const [sortBy, setSortBy] = useState<SortBy>('name');
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   
-  const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>([
-    {
-      id: 'file-manager',
-      name: 'File Manager',
-      icon: Folder,
-      position: { x: 50, y: 100 },
-      color: 'bg-blue-500',
-      size: 245,
-      type: 'System',
-      dateModified: new Date('2024-06-10'),
-      iconSize: 64
-    },
-    {
-      id: 'terminal',
-      name: 'Terminal',
-      icon: Terminal,
-      position: { x: 50, y: 200 },
-      color: 'bg-gray-800',
-      size: 180,
-      type: 'System',
-      dateModified: new Date('2024-06-12'),
-      iconSize: 64
-    },
-    {
-      id: 'app-drawer',
-      name: 'Applications',
-      icon: AppWindow,
-      position: { x: 50, y: 300 },
-      color: 'bg-purple-500',
-      size: 320,
-      type: 'System',
-      dateModified: new Date('2024-06-11'),
-      iconSize: 64
-    },
-    {
-      id: 'wifi-finder',
-      name: 'WiFi Scanner',
-      icon: Wifi,
-      position: { x: 50, y: 400 },
-      color: 'bg-green-500',
-      size: 156,
-      type: 'Network',
-      dateModified: new Date('2024-06-09'),
-      iconSize: 64
-    },
-    {
-      id: 'antivirus',
-      name: 'RO360 Antivirus',
-      icon: Shield,
-      position: { x: 50, y: 500 },
-      color: 'bg-red-500',
-      size: 512,
-      type: 'Security',
-      dateModified: new Date('2024-06-13'),
-      iconSize: 64
-    },
-    {
-      id: 'camera',
-      name: 'RAVAN Camera',
-      icon: Camera,
-      position: { x: 50, y: 600 },
-      color: 'bg-pink-500',
-      size: 89,
-      type: 'Media',
-      dateModified: new Date('2024-06-08'),
-      iconSize: 64
-    },
-    {
-      id: 'task-manager',
-      name: 'Task Manager',
-      icon: Activity,
-      position: { x: 150, y: 100 },
-      color: 'bg-orange-500',
-      size: 134,
-      type: 'System',
-      dateModified: new Date('2024-06-14'),
-      iconSize: 64
-    },
-    {
-      id: 'system-settings',
-      name: 'System Settings',
-      icon: Settings,
-      position: { x: 150, y: 200 },
-      color: 'bg-slate-600',
-      size: 267,
-      type: 'System',
-      dateModified: new Date('2024-06-07'),
-      iconSize: 64
-    },
-    {
-      id: 'music-player',
-      name: 'Music Player',
-      icon: Music,
-      position: { x: 150, y: 300 },
-      color: 'bg-indigo-500',
-      size: 45,
-      type: 'Media',
-      dateModified: new Date('2024-06-06'),
-      iconSize: 64
-    },
-    {
-      id: 'snake-game',
-      name: 'Snake Game',
-      icon: Gamepad2,
-      position: { x: 150, y: 400 },
-      color: 'bg-emerald-500',
-      size: 78,
-      type: 'Games',
-      dateModified: new Date('2024-06-05'),
-      iconSize: 64
-    },
-    {
-      id: 'memory-game',
-      name: 'Memory Match',
-      icon: Puzzle,
-      position: { x: 150, y: 500 },
-      color: 'bg-cyan-500',
-      size: 92,
-      type: 'Games',
-      dateModified: new Date('2024-06-04'),
-      iconSize: 64
-    },
-    {
-      id: 'tetris-game',
-      name: 'Tetris',
-      icon: Zap,
-      position: { x: 150, y: 600 },
-      color: 'bg-yellow-500',
-      size: 63,
-      type: 'Games',
-      dateModified: new Date('2024-06-03'),
-      iconSize: 64
-    }
-  ]);
+  // All available applications in a grid layout
+  const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>(() => {
+    const apps = [
+      { id: 'file-manager', name: 'File Manager', icon: Folder, color: 'bg-blue-500', size: 245, type: 'System', dateModified: new Date('2024-06-10') },
+      { id: 'terminal', name: 'Terminal', icon: Terminal, color: 'bg-gray-800', size: 180, type: 'System', dateModified: new Date('2024-06-12') },
+      { id: 'app-drawer', name: 'Applications', icon: AppWindow, color: 'bg-purple-500', size: 320, type: 'System', dateModified: new Date('2024-06-11') },
+      { id: 'wifi-finder', name: 'WiFi Scanner', icon: Wifi, color: 'bg-green-500', size: 156, type: 'Network', dateModified: new Date('2024-06-09') },
+      { id: 'antivirus', name: 'RO360 Antivirus', icon: Shield, color: 'bg-red-500', size: 512, type: 'Security', dateModified: new Date('2024-06-13') },
+      { id: 'camera', name: 'RAVAN Camera', icon: Camera, color: 'bg-pink-500', size: 89, type: 'Media', dateModified: new Date('2024-06-08') },
+      { id: 'task-manager', name: 'Task Manager', icon: Activity, color: 'bg-orange-500', size: 134, type: 'System', dateModified: new Date('2024-06-14') },
+      { id: 'system-settings', name: 'System Settings', icon: Settings, color: 'bg-slate-600', size: 267, type: 'System', dateModified: new Date('2024-06-07') },
+      { id: 'music-player', name: 'Music Player', icon: Music, color: 'bg-indigo-500', size: 45, type: 'Media', dateModified: new Date('2024-06-06') },
+      { id: 'snake-game', name: 'Snake Game', icon: Gamepad2, color: 'bg-emerald-500', size: 78, type: 'Games', dateModified: new Date('2024-06-05') },
+      { id: 'memory-game', name: 'Memory Match', icon: Puzzle, color: 'bg-cyan-500', size: 92, type: 'Games', dateModified: new Date('2024-06-04') },
+      { id: 'tetris-game', name: 'Tetris', icon: Zap, color: 'bg-yellow-500', size: 63, type: 'Games', dateModified: new Date('2024-06-03') },
+      { id: 'writer', name: 'LibreOffice Writer', icon: FileText, color: 'bg-blue-600', size: 125, type: 'Office', dateModified: new Date('2024-06-15') },
+      { id: 'browser', name: 'Firefox', icon: Globe, color: 'bg-orange-600', size: 98, type: 'Internet', dateModified: new Date('2024-06-14') },
+      { id: 'mail', name: 'Thunderbird', icon: Mail, color: 'bg-blue-700', size: 156, type: 'Internet', dateModified: new Date('2024-06-13') },
+      { id: 'image-editor', name: 'GIMP', icon: Image, color: 'bg-purple-600', size: 234, type: 'Graphics', dateModified: new Date('2024-06-12') },
+      { id: 'video-editor', name: 'Kdenlive', icon: Video, color: 'bg-green-600', size: 187, type: 'Multimedia', dateModified: new Date('2024-06-11') },
+      { id: 'code-editor', name: 'VS Code', icon: Code, color: 'bg-blue-800', size: 145, type: 'Development', dateModified: new Date('2024-06-10') },
+      { id: 'calculator-app', name: 'Calculator', icon: Calculator, color: 'bg-gray-600', size: 67, type: 'Utilities', dateModified: new Date('2024-06-09') },
+    ];
+
+    // Arrange icons in a grid
+    const iconsPerRow = 6;
+    const iconSpacing = 120;
+    const startX = 50;
+    const startY = 80; // Below top bar
+    
+    return apps.map((app, index) => {
+      const row = Math.floor(index / iconsPerRow);
+      const col = index % iconsPerRow;
+      
+      return {
+        ...app,
+        position: {
+          x: startX + (col * iconSpacing),
+          y: startY + (row * iconSpacing)
+        },
+        iconSize: 64
+      };
+    });
+  });
 
   const handleIconDoubleClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
@@ -265,7 +175,7 @@ export const Desktop = () => {
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          {/* Desktop Icons */}
+          {/* Desktop Icons in Grid */}
           {desktopIcons.map((icon) => {
             const iconSizes = getIconSize(icon);
             const isSelected = selectedIcon === icon.id;
