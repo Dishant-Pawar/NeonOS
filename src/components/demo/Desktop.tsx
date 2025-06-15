@@ -24,7 +24,7 @@ export const Desktop = () => {
   const { openWindows, setOpenWindows } = useDemoContext();
   const [draggedIcon, setDraggedIcon] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [viewMode, setViewMode] = useState<ViewMode>('large-icons');
+  const [viewMode, setViewMode] = useState<ViewMode>('small-icons');
   const [sortBy, setSortBy] = useState<SortBy>('name');
   
   const [baseIcons] = useState<DesktopIcon[]>([
@@ -169,14 +169,14 @@ export const Desktop = () => {
         break;
     }
 
-    // Auto-arrange icons in grid based on view mode
-    const iconSpacing = viewMode === 'large-icons' ? 140 : viewMode === 'medium-icons' ? 120 : 100;
+    // Auto-arrange icons in grid based on view mode - smaller spacing for more compact layout
+    const iconSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : 80;
     const iconsPerRow = Math.floor((window.innerWidth - 120) / iconSpacing);
     
     return sorted.map((icon, index) => ({
       ...icon,
       position: viewMode === 'list' 
-        ? { x: 60, y: 120 + index * 40 }
+        ? { x: 60, y: 120 + index * 35 }
         : {
             x: 60 + (index % iconsPerRow) * iconSpacing,
             y: 120 + Math.floor(index / iconsPerRow) * iconSpacing
@@ -243,13 +243,13 @@ export const Desktop = () => {
     console.log(`View changed to ${viewType}`);
   };
 
-  // Get icon size based on view mode
+  // Get icon size based on view mode - made smaller overall
   const getIconSize = () => {
     switch (viewMode) {
-      case 'large-icons': return { container: 'w-20 h-20', icon: 'w-10 h-10', text: 'text-sm font-medium', spacing: 'mt-3' };
-      case 'medium-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs font-medium', spacing: 'mt-2' };
-      case 'small-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs', spacing: 'mt-2' };
-      case 'list': return { container: 'w-8 h-8', icon: 'w-5 h-5', text: 'text-sm font-medium', spacing: '' };
+      case 'large-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs font-medium', spacing: 'mt-2' };
+      case 'medium-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs font-medium', spacing: 'mt-1.5' };
+      case 'small-icons': return { container: 'w-10 h-10', icon: 'w-5 h-5', text: 'text-xs', spacing: 'mt-1' };
+      case 'list': return { container: 'w-6 h-6', icon: 'w-4 h-4', text: 'text-xs font-medium', spacing: '' };
     }
   };
 
@@ -268,20 +268,20 @@ export const Desktop = () => {
           {desktopIcons.map((icon) => (
             <div
               key={icon.id}
-              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-4 w-full max-w-md' : 'flex flex-col items-center'} cursor-pointer group select-none transition-all duration-200`}
+              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-md' : 'flex flex-col items-center'} cursor-pointer group select-none transition-all duration-200`}
               style={{ left: icon.position.x, top: icon.position.y }}
               onClick={() => handleIconClick(icon.id)}
               onDoubleClick={() => handleIconDoubleClick(icon.id)}
               onMouseDown={(e) => handleMouseDown(e, icon.id)}
             >
-              <div className={`${iconSizes.container} ${icon.color} rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20 backdrop-blur-sm`}>
+              <div className={`${iconSizes.container} ${icon.color} rounded-xl flex items-center justify-center group-hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg border border-white/20 backdrop-blur-sm`}>
                 <icon.icon className={`${iconSizes.icon} text-white drop-shadow-lg`} />
               </div>
-              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : iconSizes.spacing} bg-black/40 px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10 shadow-lg text-center max-w-28 truncate`}>
+              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : iconSizes.spacing} bg-black/40 px-2 py-1 rounded-md backdrop-blur-md border border-white/10 shadow-md text-center max-w-20 truncate`}>
                 {icon.name}
               </span>
               {viewMode === 'list' && (
-                <div className="text-white text-xs bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm border border-white/10">
+                <div className="text-white text-xs bg-black/30 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/10">
                   {icon.size}KB
                 </div>
               )}
