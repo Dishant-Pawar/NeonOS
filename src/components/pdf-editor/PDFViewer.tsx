@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -93,7 +92,7 @@ export const PDFViewer: React.FC = () => {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  if (!state.pdfDoc) {
+  if (!state.pdfFile) {
     return (
       <div 
         className="flex-1 flex items-center justify-center bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg m-4"
@@ -189,7 +188,7 @@ export const PDFViewer: React.FC = () => {
         <div className="flex justify-center">
           <div className="relative bg-white shadow-lg">
             <Document
-              file={state.pdfDoc}
+              file={state.pdfFile}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
               loading={

@@ -1,9 +1,9 @@
-
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { PDFDocument, rgb } from 'pdf-lib';
 
 interface PDFState {
   pdfDoc: PDFDocument | null;
+  pdfFile: File | null; // Add this to store the original file
   currentPage: number;
   totalPages: number;
   zoom: number;
@@ -46,6 +46,7 @@ export const usePDF = () => {
 export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<PDFState>({
     pdfDoc: null,
+    pdfFile: null, // Initialize the new field
     currentPage: 1,
     totalPages: 0,
     zoom: 100,
@@ -64,6 +65,7 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setState(prev => ({
         ...prev,
         pdfDoc,
+        pdfFile: file, // Store the original file
         totalPages,
         currentPage: 1,
         isModified: false
@@ -186,7 +188,6 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [state.pdfDoc]);
 
   const compressPDF = useCallback(async () => {
-    // PDF compression logic would go here
     console.log('Compressing PDF...');
   }, []);
 
@@ -213,22 +214,18 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [state.pdfDoc]);
 
   const addPassword = useCallback((password: string) => {
-    // Password protection logic would go here
     console.log('Adding password protection...');
   }, []);
 
   const convertToWord = useCallback(async () => {
-    // Word conversion logic would go here
     console.log('Converting to Word...');
   }, []);
 
   const ocrProcess = useCallback(async (pageIndex: number) => {
-    // OCR processing logic would go here
     console.log('Processing OCR for page:', pageIndex);
   }, []);
 
   const addSignature = useCallback((signatureData: string, x: number, y: number) => {
-    // Signature addition logic would go here
     console.log('Adding signature at:', x, y);
   }, []);
 
