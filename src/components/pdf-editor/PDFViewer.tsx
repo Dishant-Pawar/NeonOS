@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -8,16 +9,13 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker - use a more reliable CDN
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageWidth, setPageWidth] = useState<number>(0);
+  const [pageWidth, setPageWidth] = useState<number>(600);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const viewerRef = useRef<HTMLDivElement>(null);
@@ -74,8 +72,8 @@ export const PDFViewer: React.FC = () => {
 
   const calculatePageWidth = useCallback(() => {
     if (viewerRef.current) {
-      const containerWidth = viewerRef.current.clientWidth - 40;
-      const scaledWidth = (containerWidth * state.zoom) / 100;
+      const containerWidth = viewerRef.current.clientWidth - 80;
+      const scaledWidth = Math.min(containerWidth, 800) * (state.zoom / 100);
       setPageWidth(scaledWidth);
     }
   }, [state.zoom]);
@@ -187,17 +185,27 @@ export const PDFViewer: React.FC = () => {
       </div>
 
       {/* PDF Content */}
-      <div className="flex-1 overflow-auto p-4">
+      <div className="flex-1 overflow-auto p-4 bg-gray-200">
         <div className="flex justify-center">
-          <div className="relative bg-white shadow-lg">
+          <div className="relative bg-white shadow-xl rounded-lg overflow-hidden border border-gray-300">
             <Document
               file={state.pdfFile}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
               loading={
-                <div className="flex items-center justify-center p-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                  <span className="ml-2">Loading PDF...</span>
+                <div className="flex items-center justify-center p-12 min-h-[600px]">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <span className="text-gray-600">Loading PDF...</span>
+                  </div>
+                </div>
+              }
+              error={
+                <div className="flex items-center justify-center p-12 min-h-[600px]">
+                  <div className="text-center">
+                    <div className="text-red-500 mb-2">⚠️</div>
+                    <span className="text-red-600">Failed to load PDF</span>
+                  </div>
                 </div>
               }
             >
@@ -208,10 +216,16 @@ export const PDFViewer: React.FC = () => {
                 renderTextLayer={true}
                 renderAnnotationLayer={true}
                 loading={
-                  <div className="flex items-center justify-center p-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                  <div className="flex items-center justify-center p-8 min-h-[400px]">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                   </div>
                 }
+                error={
+                  <div className="flex items-center justify-center p-8 min-h-[400px]">
+                    <span className="text-red-600">Error loading page</span>
+                  </div>
+                }
+                className="shadow-lg"
               />
             </Document>
             
