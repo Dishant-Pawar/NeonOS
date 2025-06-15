@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music, Video } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
+import { NotificationToast } from './NotificationToast';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from '../ui/context-menu';
 import { RefreshCw, Clipboard, SortAsc, Eye } from 'lucide-react';
 
@@ -303,6 +305,9 @@ export const Desktop = () => {
 
           {/* Taskbar */}
           <Taskbar />
+
+          {/* Notification Toast Panel */}
+          <NotificationToast />
         </div>
       </ContextMenuTrigger>
       
