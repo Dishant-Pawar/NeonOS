@@ -5,42 +5,67 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Monitor, Smartphone, Gamepad2, Shield, Palette, Zap, Download, Play, Star, Check, X, ChevronRight, Cpu, HardDrive, Wifi, Camera, Music, FileText, Terminal, Image, Video, Mail, Settings } from 'lucide-react';
+
 const Index = () => {
   const navigate = useNavigate();
   const [currentFeature, setCurrentFeature] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [animatedFeatures, setAnimatedFeatures] = useState<number[]>([]);
+
   useEffect(() => {
     setIsVisible(true);
-    const interval = setInterval(() => {
+    
+    // Cycle through featured highlights
+    const featureInterval = setInterval(() => {
       setCurrentFeature(prev => (prev + 1) % 6);
     }, 3000);
-    return () => clearInterval(interval);
+
+    // Add floating animation to random features
+    const animationInterval = setInterval(() => {
+      const randomFeatures = Array.from({ length: 2 }, () => Math.floor(Math.random() * 6));
+      setAnimatedFeatures(randomFeatures);
+      
+      setTimeout(() => setAnimatedFeatures([]), 2000);
+    }, 4000);
+
+    return () => {
+      clearInterval(featureInterval);
+      clearInterval(animationInterval);
+    };
   }, []);
+
   const features = [{
     icon: <Monitor className="w-8 h-8" />,
     title: "Multiple Desktop Layouts",
-    description: "Switch between Windows, macOS, and Linux desktop environments seamlessly"
+    description: "Switch between Windows, macOS, and Linux desktop environments seamlessly",
+    color: "from-blue-500 to-cyan-500"
   }, {
     icon: <Smartphone className="w-8 h-8" />,
     title: "RAVAN Connect",
-    description: "Sync your Android phone with file transfer and notifications"
+    description: "Sync your Android phone with file transfer and notifications",
+    color: "from-green-500 to-emerald-500"
   }, {
     icon: <Gamepad2 className="w-8 h-8" />,
     title: "Gaming Ready",
-    description: "Steam, Proton, Lutris pre-installed with game mode optimization"
+    description: "Steam, Proton, Lutris pre-installed with game mode optimization",
+    color: "from-purple-500 to-pink-500"
   }, {
     icon: <Shield className="w-8 h-8" />,
     title: "RAVAN Assist AI",
-    description: "Voice assistant with local LLM for privacy-first productivity"
+    description: "Voice assistant with local LLM for privacy-first productivity",
+    color: "from-red-500 to-orange-500"
   }, {
     icon: <Palette className="w-8 h-8" />,
     title: "Deep Customization",
-    description: "Accent colors, themes, live wallpapers with motion blur and parallax"
+    description: "Accent colors, themes, live wallpapers with motion blur and parallax",
+    color: "from-indigo-500 to-purple-500"
   }, {
     icon: <Zap className="w-8 h-8" />,
     title: "Performance Optimized",
-    description: "Built on Ubuntu LTS with hardware-accelerated animations"
+    description: "Built on Ubuntu LTS with hardware-accelerated animations",
+    color: "from-yellow-500 to-amber-500"
   }];
+
   const editions = [{
     name: "RAVAN Core",
     price: "Free",
@@ -66,6 +91,7 @@ const Index = () => {
     features: ["Educational apps pre-installed", "Classroom management tools", "Student-friendly interface", "Bulk licensing available", "Educational support", "Parental controls"],
     highlighted: false
   }];
+
   const apps = [{
     category: "Office",
     app: "LibreOffice",
@@ -99,6 +125,7 @@ const Index = () => {
     app: "VS Code",
     icon: <Settings className="w-6 h-6" />
   }];
+
   const testimonials = [{
     name: "Sarah Chen",
     role: "Software Developer",
@@ -115,6 +142,7 @@ const Index = () => {
     content: "RAVAN Edu edition is perfect for our computer labs. Students love it!",
     rating: 5
   }];
+
   const faqs = [{
     question: "Is RAVAN OS compatible with my hardware?",
     answer: "RAVAN OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
@@ -131,6 +159,7 @@ const Index = () => {
     question: "Can I upgrade between editions?",
     answer: "Yes, you can upgrade from any edition to Pro at any time. Educational licenses have special upgrade paths."
   }];
+
   return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
@@ -139,36 +168,36 @@ const Index = () => {
           <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="mb-8">
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tight">
-                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
                   RAVAN
                 </span>
                 <span className="text-white"> OS</span>
               </h1>
-              <p className="text-2xl md:text-3xl text-gray-300 font-light">
+              <p className="text-2xl md:text-3xl text-gray-300 font-light animate-fade-in">
                 One System. Endless Possibilities.
               </p>
             </div>
             
-            <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in">
               The next-generation operating system that combines the best of Windows, macOS, and Linux. 
               Modern, fast, and infinitely customizable.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105 animate-bounce">
                 <Download className="w-5 h-5 mr-2" />
                 Download Free
               </Button>
-              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-600">
+              <Button variant="outline" size="lg" onClick={() => navigate('/demo')} className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-600 hover:scale-105 transition-all duration-300">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
             </div>
             
-            <div className="mt-12 text-center">
+            <div className="mt-12 text-center animate-fade-in">
               <p className="text-gray-400 text-sm mb-2">Trusted by developers worldwide</p>
               <div className="flex justify-center items-center space-x-2">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
                 <span className="text-gray-300 ml-2">4.9/5 from 10,000+ users</span>
               </div>
             </div>
@@ -180,28 +209,87 @@ const Index = () => {
       <section className="py-20 bg-black/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in">
               Revolutionary Features
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto animate-fade-in">
               Experience the future of computing with innovative features designed for modern workflows
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => <Card key={index} className={`bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 backdrop-blur-sm ${currentFeature === index ? 'ring-2 ring-blue-400' : ''}`}>
-                <CardHeader>
-                  <div className="text-blue-400 mb-4">
-                    {feature.icon}
-                  </div>
-                  <CardTitle className="text-white text-xl">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-300 text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>)}
+            {features.map((feature, index) => {
+              const isHighlighted = currentFeature === index;
+              const isFloating = animatedFeatures.includes(index);
+              
+              return (
+                <Card 
+                  key={index} 
+                  className={`relative bg-white/5 border-white/10 hover:bg-white/10 backdrop-blur-sm transition-all duration-500 hover:scale-105 ${
+                    isHighlighted ? 'ring-2 ring-blue-400 scale-105 shadow-2xl' : ''
+                  } ${
+                    isFloating ? 'animate-bounce' : ''
+                  }`}
+                  style={{
+                    animationDelay: `${index * 0.1}s`
+                  }}
+                >
+                  {isHighlighted && (
+                    <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-10 rounded-lg animate-pulse`}></div>
+                  )}
+                  
+                  <CardHeader className="relative z-10">
+                    <div className={`${isHighlighted ? `bg-gradient-to-r ${feature.color}` : ''} text-blue-400 mb-4 p-2 rounded-lg inline-block transition-all duration-500 ${isHighlighted ? 'animate-pulse' : ''}`}>
+                      {feature.icon}
+                    </div>
+                    <CardTitle className={`text-white text-xl transition-all duration-300 ${isHighlighted ? 'text-2xl' : ''}`}>
+                      {feature.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <CardDescription className="text-gray-300 text-base">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                  
+                  {/* Animated particles for highlighted feature */}
+                  {isHighlighted && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      {[...Array(6)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-1 bg-blue-400 rounded-full animate-ping"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animationDelay: `${i * 0.3}s`,
+                            animationDuration: '2s'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </Card>
+              );
+            })}
+          </div>
+          
+          {/* Live feature indicator */}
+          <div className="mt-12 text-center">
+            <div className="flex justify-center space-x-2 mb-4">
+              {features.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    currentFeature === index ? 'bg-blue-400 scale-150' : 'bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
+            <p className="text-gray-400 text-sm flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span>Live feature showcase</span>
+            </p>
           </div>
         </div>
       </section>
@@ -395,4 +483,5 @@ const Index = () => {
       </footer>
     </div>;
 };
+
 export default Index;
