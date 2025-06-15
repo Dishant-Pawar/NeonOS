@@ -18,6 +18,7 @@ import { MusicPlayerWindow } from './windows/MusicPlayerWindow';
 import { SnakeGameWindow } from './windows/SnakeGameWindow';
 import { MemoryGameWindow } from './windows/MemoryGameWindow';
 import { TetrisGameWindow } from './windows/TetrisGameWindow';
+import { VideoPlayerWindow } from './windows/VideoPlayerWindow';
 
 export const WindowManager = () => {
   const { 
@@ -211,6 +212,17 @@ export const WindowManager = () => {
           case 'system-settings':
             return (
               <SystemSettingsWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+                isMaximized={isMaximized}
+              />
+            );
+          case 'video-player':
+            return (
+              <VideoPlayerWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}

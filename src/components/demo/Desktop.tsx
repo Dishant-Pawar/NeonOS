@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music, Video } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
@@ -109,10 +109,20 @@ export const Desktop = () => {
       dateModified: new Date('2024-06-07')
     },
     {
+      id: 'video-player',
+      name: 'Video Player',
+      icon: Video,
+      position: { x: 200, y: 480 },
+      color: 'bg-gradient-to-br from-red-500 to-red-600',
+      size: 156,
+      type: 'Media',
+      dateModified: new Date('2024-06-15')
+    },
+    {
       id: 'music-player',
       name: 'Music Player',
       icon: Music,
-      position: { x: 200, y: 480 },
+      position: { x: 200, y: 600 },
       color: 'bg-gradient-to-br from-indigo-500 to-indigo-600',
       size: 45,
       type: 'Media',
@@ -122,7 +132,7 @@ export const Desktop = () => {
       id: 'snake-game',
       name: 'Snake Game',
       icon: Gamepad2,
-      position: { x: 200, y: 600 },
+      position: { x: 340, y: 120 },
       color: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
       size: 78,
       type: 'Games',
@@ -132,7 +142,7 @@ export const Desktop = () => {
       id: 'memory-game',
       name: 'Memory Match',
       icon: Puzzle,
-      position: { x: 340, y: 120 },
+      position: { x: 340, y: 240 },
       color: 'bg-gradient-to-br from-cyan-500 to-cyan-600',
       size: 92,
       type: 'Games',
@@ -142,7 +152,7 @@ export const Desktop = () => {
       id: 'tetris-game',
       name: 'Tetris',
       icon: Zap,
-      position: { x: 340, y: 240 },
+      position: { x: 340, y: 360 },
       color: 'bg-gradient-to-br from-yellow-500 to-yellow-600',
       size: 63,
       type: 'Games',
