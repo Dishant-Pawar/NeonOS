@@ -26,9 +26,26 @@ export const VideoPlayerWindow = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const sampleVideos = [
-    { name: 'Sample Video 1', url: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4' },
-    { name: 'Big Buck Bunny', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
-    { name: 'Elephant Dream', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4' }
+    { 
+      name: 'Big Buck Bunny', 
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      type: 'video/mp4'
+    },
+    { 
+      name: 'Elephant Dream', 
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+      type: 'video/mp4'
+    },
+    { 
+      name: 'Sintel Trailer', 
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      type: 'video/mp4'
+    },
+    { 
+      name: 'Tears of Steel', 
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+      type: 'video/mp4'
+    }
   ];
 
   const [selectedVideo, setSelectedVideo] = useState(sampleVideos[0]);
@@ -38,7 +55,13 @@ export const VideoPlayerWindow = ({
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play().catch(console.error);
+        videoRef.current.play().catch((error) => {
+          console.log('Video play error:', error);
+          // Try to reload the video if play fails
+          if (videoRef.current) {
+            videoRef.current.load();
+          }
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -60,6 +83,18 @@ export const VideoPlayerWindow = ({
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      console.log('Video loaded successfully:', selectedVideo.name);
+    }
+  };
+
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    console.log('Video error for', selectedVideo.name, ':', e);
+    // Try next video if current one fails
+    const currentIndex = sampleVideos.findIndex(v => v.name === selectedVideo.name);
+    const nextIndex = (currentIndex + 1) % sampleVideos.length;
+    if (nextIndex !== currentIndex) {
+      console.log('Trying next video:', sampleVideos[nextIndex].name);
+      setSelectedVideo(sampleVideos[nextIndex]);
     }
   };
 
@@ -99,12 +134,17 @@ export const VideoPlayerWindow = ({
   };
 
   const handleVideoChange = (video: typeof sampleVideos[0]) => {
+    console.log('Changing to video:', video.name);
     setSelectedVideo(video);
     setIsPlaying(false);
     setCurrentTime(0);
     if (videoRef.current) {
       videoRef.current.load();
     }
+  };
+
+  const handleCanPlay = () => {
+    console.log('Video can play:', selectedVideo.name);
   };
 
   return (
@@ -125,13 +165,18 @@ export const VideoPlayerWindow = ({
             <video
               ref={videoRef}
               className="w-full h-full object-contain"
-              src={selectedVideo.url}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
-              crossOrigin="anonymous"
-            />
+              onError={handleVideoError}
+              onCanPlay={handleCanPlay}
+              preload="metadata"
+              playsInline
+            >
+              <source src={selectedVideo.url} type={selectedVideo.type} />
+              Your browser does not support the video tag.
+            </video>
             
             {/* Video Overlay Controls */}
             <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
@@ -146,6 +191,16 @@ export const VideoPlayerWindow = ({
                 )}
               </button>
             </div>
+
+            {/* Loading indicator */}
+            {duration === 0 && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+                  <p className="text-white text-sm">Loading video...</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Controls Panel */}
@@ -221,7 +276,7 @@ export const VideoPlayerWindow = ({
 
             {/* Video Selection */}
             <div className="border-t border-gray-700 pt-4">
-              <h4 className="text-sm font-medium mb-2 text-gray-300">Available Videos:</h4>
+              <h4 className="text-sm font-medium mb-2 text-gray-300">Available Animated Videos:</h4>
               <div className="flex flex-wrap gap-2">
                 {sampleVideos.map((video) => (
                   <button
@@ -234,7 +289,7 @@ export const VideoPlayerWindow = ({
                     }`}
                   >
                     {video.name}
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
