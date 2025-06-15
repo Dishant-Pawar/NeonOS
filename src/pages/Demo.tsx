@@ -1,28 +1,48 @@
-
 import React, { useState, useEffect } from 'react';
 import { Desktop } from '../components/demo/Desktop';
 import { TopBar } from '../components/demo/TopBar';
 import { BootScreen } from '../components/demo/BootScreen';
+import { FeatureShowcase } from '../components/demo/FeatureShowcase';
 import { DemoProvider, useDemoContext } from '../components/demo/DemoContext';
 import { Moon } from 'lucide-react';
 
 const DemoContent = () => {
-  const { powerState, wakeFromSleep } = useDemoContext();
+  const { powerState, wakeFromSleep, openWindows, setOpenWindows } = useDemoContext();
   const [showTrialPrompt, setShowTrialPrompt] = useState(false);
+  const [showFeatureShowcase, setShowFeatureShowcase] = useState(false);
 
   useEffect(() => {
+    // Feature showcase after 10 seconds, then every 2 minutes
+    const showcaseTimer = setTimeout(() => {
+      setShowFeatureShowcase(true);
+    }, 10000);
+
+    const showcaseInterval = setInterval(() => {
+      if (!showTrialPrompt) {
+        setShowFeatureShowcase(true);
+      }
+    }, 120000); // Every 2 minutes
+
     // Trial prompt after 5 minutes
     const trialTimer = setTimeout(() => {
       setShowTrialPrompt(true);
     }, 300000); // 5 minutes
 
     return () => {
+      clearTimeout(showcaseTimer);
       clearTimeout(trialTimer);
+      clearInterval(showcaseInterval);
     };
-  }, []);
+  }, [showTrialPrompt]);
 
   const handleWakeUp = () => {
     wakeFromSleep();
+  };
+
+  const handleLaunchApp = (appId: string) => {
+    if (!openWindows.includes(appId)) {
+      setOpenWindows([...openWindows, appId]);
+    }
   };
 
   if (powerState.isSleeping) {
@@ -112,6 +132,14 @@ const DemoContent = () => {
       
       <TopBar />
       <Desktop />
+
+      {/* Feature Showcase Modal */}
+      {showFeatureShowcase && (
+        <FeatureShowcase
+          onClose={() => setShowFeatureShowcase(false)}
+          onLaunchApp={handleLaunchApp}
+        />
+      )}
 
       {/* Professional Trial Prompt Modal */}
       {showTrialPrompt && (
