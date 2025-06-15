@@ -1,17 +1,24 @@
+
 import React, { useState, useEffect } from 'react';
 import { Desktop } from '../components/demo/Desktop';
 import { TopBar } from '../components/demo/TopBar';
 import { BootScreen } from '../components/demo/BootScreen';
 import { FeatureShowcase } from '../components/demo/FeatureShowcase';
 import { DemoProvider, useDemoContext } from '../components/demo/DemoContext';
-import { Moon } from 'lucide-react';
+import { Moon, ShoppingCart, X } from 'lucide-react';
 
 const DemoContent = () => {
   const { powerState, wakeFromSleep, openWindows, setOpenWindows } = useDemoContext();
   const [showTrialPrompt, setShowTrialPrompt] = useState(false);
   const [showFeatureShowcase, setShowFeatureShowcase] = useState(false);
+  const [showBuyPopup, setShowBuyPopup] = useState(false);
 
   useEffect(() => {
+    // Buy popup after 1 minute
+    const buyTimer = setTimeout(() => {
+      setShowBuyPopup(true);
+    }, 60000); // 1 minute
+
     // Feature showcase after 10 seconds, then every 2 minutes
     const showcaseTimer = setTimeout(() => {
       setShowFeatureShowcase(true);
@@ -29,6 +36,7 @@ const DemoContent = () => {
     }, 300000); // 5 minutes
 
     return () => {
+      clearTimeout(buyTimer);
       clearTimeout(showcaseTimer);
       clearTimeout(trialTimer);
       clearInterval(showcaseInterval);
@@ -139,6 +147,64 @@ const DemoContent = () => {
           onClose={() => setShowFeatureShowcase(false)}
           onLaunchApp={handleLaunchApp}
         />
+      )}
+
+      {/* Buy D008 Popup */}
+      {showBuyPopup && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gradient-to-br from-slate-900 to-purple-900 rounded-xl p-8 max-w-lg mx-4 text-center shadow-2xl border border-purple-500/30 relative">
+            <button
+              onClick={() => setShowBuyPopup(false)}
+              className="absolute top-4 right-4 p-1 hover:bg-white/10 rounded transition-colors"
+            >
+              <X className="w-5 h-5 text-white" />
+            </button>
+            
+            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ShoppingCart className="w-10 h-10 text-white" />
+            </div>
+            
+            <h3 className="text-3xl font-bold mb-4 text-white">Ready to Own D008 OS?</h3>
+            <p className="text-gray-300 mb-8 leading-relaxed">
+              You've been exploring D008 OS for a minute now. Experience the full power with unlimited features, 
+              advanced customization, and premium support.
+            </p>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center justify-center space-x-2 text-green-400">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                <span className="text-sm">Unlimited desktop layouts</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2 text-green-400">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                <span className="text-sm">Full D008 Assist AI</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2 text-green-400">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                <span className="text-sm">Premium themes & customization</span>
+              </div>
+            </div>
+            
+            <div className="flex gap-4 justify-center">
+              <button 
+                onClick={() => window.location.href = '/'}
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg hover:scale-105"
+              >
+                Buy D008 OS Now
+              </button>
+              <button 
+                onClick={() => setShowBuyPopup(false)}
+                className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 font-medium transition-all duration-200"
+              >
+                Continue Demo
+              </button>
+            </div>
+            
+            <p className="text-xs text-gray-400 mt-4">
+              30-day money-back guarantee
+            </p>
+          </div>
+        </div>
       )}
 
       {/* Professional Trial Prompt Modal */}
