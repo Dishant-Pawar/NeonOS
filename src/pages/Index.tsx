@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -305,7 +304,7 @@ const Index = () => {
               Choose Your Edition
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              From individual users to enterprises, we have the perfect RAVAN OS edition for you
+              From individual users to enterprises, we have the perfect D008 OS edition for you
             </p>
           </div>
           
@@ -345,7 +344,7 @@ const Index = () => {
               Everything You Need, Built-in
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              RAVAN OS comes with a complete suite of applications for work, creativity, and entertainment
+              D008 OS comes with a complete suite of applications for work, creativity, and entertainment
             </p>
           </div>
           
