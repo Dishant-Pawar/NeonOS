@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music, FileText, Globe, Mail, Image, Video, Code, Calculator } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
@@ -30,7 +29,7 @@ export const Desktop = () => {
   const [sortBy, setSortBy] = useState<SortBy>('name');
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   
-  // All available applications in a grid layout
+  // All available applications in a vertical layout
   const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>(() => {
     const apps = [
       { id: 'file-manager', name: 'File Manager', icon: Folder, color: 'bg-blue-500', size: 245, type: 'System', dateModified: new Date('2024-06-10') },
@@ -54,21 +53,17 @@ export const Desktop = () => {
       { id: 'calculator-app', name: 'Calculator', icon: Calculator, color: 'bg-gray-600', size: 67, type: 'Utilities', dateModified: new Date('2024-06-09') },
     ];
 
-    // Arrange icons in a grid
-    const iconsPerRow = 6;
-    const iconSpacing = 120;
+    // Arrange icons vertically in a single column
     const startX = 50;
     const startY = 80; // Below top bar
+    const iconSpacing = 100; // Vertical spacing between icons
     
     return apps.map((app, index) => {
-      const row = Math.floor(index / iconsPerRow);
-      const col = index % iconsPerRow;
-      
       return {
         ...app,
         position: {
-          x: startX + (col * iconSpacing),
-          y: startY + (row * iconSpacing)
+          x: startX,
+          y: startY + (index * iconSpacing)
         },
         iconSize: 64
       };
@@ -170,12 +165,12 @@ export const Desktop = () => {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <div 
-          className="absolute inset-0 pt-8 pb-12"
+          className="absolute inset-0 pt-8 pb-12 overflow-y-auto"
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          {/* Desktop Icons in Grid */}
+          {/* Desktop Icons in Vertical Column */}
           {desktopIcons.map((icon) => {
             const iconSizes = getIconSize(icon);
             const isSelected = selectedIcon === icon.id;
