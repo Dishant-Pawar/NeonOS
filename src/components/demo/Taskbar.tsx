@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Grid3X3, Calendar, Clock, Folder, Terminal, Settings, Wifi, Volume2, Minus, X } from 'lucide-react';
+import { Search, Grid3X3, Folder, Terminal, Settings, Wifi, Volume2, Minus, X } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 
 export const Taskbar = () => {
@@ -134,24 +134,6 @@ export const Taskbar = () => {
           <Volume2 className="w-4 h-4 text-white" />
           <div className="text-white text-xs">
             {systemSettings.volume}%
-          </div>
-        </div>
-
-        {/* Date and Time */}
-        <div className="text-white text-sm text-right">
-          <div className="flex items-center space-x-1">
-            <Clock className="w-4 h-4" />
-            <span>{new Date().toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit' 
-            })}</span>
-          </div>
-          <div className="text-xs text-white/70 flex items-center space-x-1">
-            <Calendar className="w-3 h-3" />
-            <span>{new Date().toLocaleDateString('en-US', { 
-              month: 'short', 
-              day: 'numeric' 
-            })}</span>
           </div>
         </div>
 
