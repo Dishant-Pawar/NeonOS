@@ -9,8 +9,11 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Set up PDF.js worker - use local worker to avoid CDN issues
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
@@ -23,6 +26,7 @@ export const PDFViewer: React.FC = () => {
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
+    console.log('PDF loaded successfully with', numPages, 'pages');
     toast.success(`PDF loaded with ${numPages} pages`);
   }, []);
 
@@ -125,9 +129,11 @@ export const PDFViewer: React.FC = () => {
           onChange={async (e) => {
             const file = e.target.files?.[0];
             if (file) {
+              console.log('Loading PDF file:', file.name);
               try {
                 await loadPDF(file);
               } catch (error) {
+                console.error('Failed to load PDF:', error);
                 toast.error('Error loading PDF');
               }
             }
@@ -137,6 +143,8 @@ export const PDFViewer: React.FC = () => {
       </div>
     );
   }
+
+  console.log('Rendering PDF with file:', state.pdfFile?.name);
 
   return (
     <div ref={viewerRef} className="flex-1 flex flex-col bg-gray-100">
@@ -203,8 +211,9 @@ export const PDFViewer: React.FC = () => {
               error={
                 <div className="flex items-center justify-center p-12 min-h-[600px]">
                   <div className="text-center">
-                    <div className="text-red-500 mb-2">⚠️</div>
-                    <span className="text-red-600">Failed to load PDF</span>
+                    <div className="text-red-500 mb-2 text-2xl">⚠️</div>
+                    <span className="text-red-600 block mb-2">Failed to load PDF</span>
+                    <span className="text-sm text-gray-500">Try selecting a different PDF file</span>
                   </div>
                 </div>
               }
