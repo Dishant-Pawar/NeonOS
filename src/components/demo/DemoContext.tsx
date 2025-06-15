@@ -20,6 +20,12 @@ interface Notification {
   timestamp: number;
 }
 
+interface PowerState {
+  isShuttingDown: boolean;
+  isRestarting: boolean;
+  isSleeping: boolean;
+}
+
 interface DemoContextType {
   openWindows: string[];
   setOpenWindows: (windows: string[]) => void;
@@ -33,6 +39,11 @@ interface DemoContextType {
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void;
   removeNotification: (id: string) => void;
+  powerState: PowerState;
+  performRestart: () => void;
+  performShutdown: () => void;
+  performSleep: () => void;
+  wakeFromSleep: () => void;
 }
 
 const DemoContext = createContext<DemoContextType | undefined>(undefined);
@@ -42,6 +53,11 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
   const [minimizedWindows, setMinimizedWindows] = useState<string[]>([]);
   const [maximizedWindows, setMaximizedWindows] = useState<string[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [powerState, setPowerState] = useState<PowerState>({
+    isShuttingDown: false,
+    isRestarting: false,
+    isSleeping: false,
+  });
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
     wifi: true,
     bluetooth: false,
@@ -70,6 +86,57 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
     setNotifications(prev => prev.filter(notification => notification.id !== id));
   };
 
+  const performRestart = () => {
+    setPowerState(prev => ({ ...prev, isRestarting: true }));
+    addNotification({
+      title: 'System Restart',
+      message: 'RAVAN OS is restarting...',
+      type: 'info'
+    });
+    
+    setTimeout(() => {
+      // Simulate restart by reloading the page
+      window.location.reload();
+    }, 3000);
+  };
+
+  const performShutdown = () => {
+    setPowerState(prev => ({ ...prev, isShuttingDown: true }));
+    addNotification({
+      title: 'System Shutdown',
+      message: 'RAVAN OS is shutting down...',
+      type: 'info'
+    });
+    
+    setTimeout(() => {
+      // Close all windows and show shutdown screen
+      setOpenWindows([]);
+      setMinimizedWindows([]);
+      setPowerState(prev => ({ ...prev, isShuttingDown: false }));
+      // Navigate to a shutdown screen or hide all content
+      document.body.style.background = 'black';
+      document.body.innerHTML = '<div style="color: white; text-align: center; padding-top: 45vh; font-size: 24px;">RAVAN OS has been shut down</div>';
+    }, 3000);
+  };
+
+  const performSleep = () => {
+    setPowerState(prev => ({ ...prev, isSleeping: true }));
+    addNotification({
+      title: 'Sleep Mode',
+      message: 'RAVAN OS is entering sleep mode...',
+      type: 'info'
+    });
+  };
+
+  const wakeFromSleep = () => {
+    setPowerState(prev => ({ ...prev, isSleeping: false }));
+    addNotification({
+      title: 'Wake Up',
+      message: 'Welcome back to RAVAN OS!',
+      type: 'info'
+    });
+  };
+
   return (
     <DemoContext.Provider value={{
       openWindows,
@@ -84,6 +151,11 @@ export const DemoProvider = ({ children }: { children: ReactNode }) => {
       notifications,
       addNotification,
       removeNotification,
+      powerState,
+      performRestart,
+      performShutdown,
+      performSleep,
+      wakeFromSleep,
     }}>
       {children}
     </DemoContext.Provider>
