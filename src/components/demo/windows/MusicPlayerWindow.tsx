@@ -21,61 +21,133 @@ export const MusicPlayerWindow = ({
 }: MusicPlayerWindowProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(180); // 3 minutes demo duration
   const [volume, setVolume] = useState([75]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Demo music data - using a simple tone generator for demo purposes
-  const demoTrack = {
-    title: "RAVAN OS Demo Track",
-    artist: "System Audio",
-    album: "Demo Collection"
-  };
+  // Demo music tracks including the YouTube video
+  const demoTracks = [
+    {
+      title: "Demo Music",
+      artist: "YouTube Demo",
+      album: "Demo Collection",
+      url: "https://youtu.be/Wz6oMSign6Q?si=wQgjnCim6WI1IyCa",
+      duration: 180
+    },
+    {
+      title: "RAVAN OS System Audio",
+      artist: "System Audio",
+      album: "Demo Collection",
+      url: "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhCDuO1fPTfS4AZmfq7tOVzgEYW7rqz8ybTwsNSKXh6q5iGQY7k9n23YIkBS6A0PLXfSkGKH7J8+GsVhMBUqfp6qpfGggzjdn21YQqASSCzvPaeSoELILN8NyNPgYTXLfn65NdEQVJrObopVgTB0ul4+2yeyMKOpPX89qCJwUhfMfp3ZJACAe1+LuyXTUfH0uf5u2tZCgBKnvG6N6QRwhZsOPz34UvBy582eGqYTsQN17H9N++bCYKK3zH9N2MNgUXaLnn9JZcEQRAqeLks1olBjdz2fPZhioAKXvH6d2QRQlYteP0zlQVBjJk4PXlkyQFE2nC7eOhXhIGUnLG9N2MNAQHarnn9JdaEAQ/qOPjs1soBDJgzO7HexsAYjXi7bNiWBEGUnDF89uGKgAncs33Kk7QFQVJo+nP95FJEAVHmuDqs14kBjRgxOzEgSMDGGm96N6MNgQZZrHq6KFjFAw5m97xwmIhBjZjxOy7fScAJX3M8d6PQgkWY7fq5JtiGwg8k9jz4YUqAR5+zPP",
+      duration: 30
+    }
+  ];
+
+  const currentTrack = demoTracks[currentTrackIndex];
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
+    const updateDuration = () => setDuration(audio.duration || currentTrack.duration);
 
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
-    audio.addEventListener('ended', () => setIsPlaying(false));
+    audio.addEventListener('ended', handleTrackEnd);
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('ended', () => setIsPlaying(false));
+      audio.removeEventListener('ended', handleTrackEnd);
     };
-  }, []);
+  }, [currentTrackIndex]);
+
+  // Simulate playback for YouTube track
+  useEffect(() => {
+    if (isPlaying && currentTrackIndex === 0) {
+      // For YouTube demo track, simulate time progress
+      intervalRef.current = setInterval(() => {
+        setCurrentTime(prev => {
+          if (prev >= duration) {
+            handleTrackEnd();
+            return 0;
+          }
+          return prev + 1;
+        });
+      }, 1000);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isPlaying, currentTrackIndex, duration]);
+
+  const handleTrackEnd = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
 
   const togglePlay = () => {
     const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
+    
+    if (currentTrackIndex === 0) {
+      // YouTube demo track - simulate playback
+      setIsPlaying(!isPlaying);
+      console.log(`${isPlaying ? 'Pausing' : 'Playing'} YouTube demo track: ${currentTrack.title}`);
+    } else if (audio) {
+      // Regular audio track
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch(console.error);
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (value: number[]) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const newTime = (value[0] / 100) * duration;
     
-    audio.currentTime = (value[0] / 100) * duration;
-    setCurrentTime(audio.currentTime);
+    if (currentTrackIndex === 0) {
+      // YouTube demo track
+      setCurrentTime(newTime);
+    } else {
+      // Regular audio track
+      const audio = audioRef.current;
+      if (audio) {
+        audio.currentTime = newTime;
+        setCurrentTime(newTime);
+      }
+    }
   };
 
   const handleVolumeChange = (value: number[]) => {
     const audio = audioRef.current;
-    if (!audio) return;
-    
     setVolume(value);
-    audio.volume = value[0] / 100;
+    if (audio) {
+      audio.volume = value[0] / 100;
+    }
+  };
+
+  const skipTrack = (direction: 'prev' | 'next') => {
+    const newIndex = direction === 'next' 
+      ? (currentTrackIndex + 1) % demoTracks.length
+      : (currentTrackIndex - 1 + demoTracks.length) % demoTracks.length;
+    
+    setCurrentTrackIndex(newIndex);
+    setCurrentTime(0);
+    setIsPlaying(false);
+    setDuration(demoTracks[newIndex].duration);
   };
 
   const formatTime = (time: number) => {
@@ -93,17 +165,20 @@ export const MusicPlayerWindow = ({
       onMinimize={onMinimize}
       onMaximize={onMaximize}
       zIndex={zIndex}
-      initialSize={{ width: 400, height: 300 }}
+      initialSize={{ width: 400, height: 350 }}
       initialPosition={{ x: 300, y: 200 }}
       isMaximized={isMaximized}
     >
       <div className="p-6 h-full bg-gradient-to-br from-purple-50 to-blue-50">
-        {/* Demo audio element with a simple beep tone */}
-        <audio
-          ref={audioRef}
-          src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhCDuO1fPTfS4AZmfq7tOVzgEYW7rqz8ybTwsNSKXh6q5iGQY7k9n23YIkBS6A0PLXfSkGKH7J8+GsVhMBUqfp6qpfGggzjdn21YQqASSCzvPaeSoELILN8NyNPgYTXLfn65NdEQVJrObopVgTB0ul4+2yeyMKOpPX89qCJwUhfMfp3ZJACAe1+LuyXTUfH0uf5u2tZCgBKnvG6N6QRwhZsOPz34UvBy582eGqYTsQN17H9N++bCYKK3zH9N2MNgUXaLnn9JZcEQRAqeLks1olBjdz2fPZhioAKXvH6d2QRQlYteP0zlQVBjJk4PXlkyQFE2nC7eOhXhIGUnLG9N2MNAQHarnn9JdaEAQ/qOPjs1soBDJgzO7HexsAYjXi7bNiWBEGUnDF89uGKgAncs33Kk7QFQVJo+nP95FJEAVHmuDqs14kBjRgxOzEgSMDGGm96N6MNgQZZrHq6KFjFAw5m97xwmIhBjZjxOy7fScAJX3M8d6PQgkWY7fq5JtiGwg8k9jz4YUqAR5+zPP"
-          loop
-        />
+        {/* Audio element for non-YouTube tracks */}
+        {currentTrackIndex > 0 && (
+          <audio
+            ref={audioRef}
+            src={currentTrack.url}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+        )}
         
         {/* Album Art */}
         <div className="flex items-center mb-6">
@@ -111,9 +186,12 @@ export const MusicPlayerWindow = ({
             <Music className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800">{demoTrack.title}</h3>
-            <p className="text-sm text-gray-600">{demoTrack.artist}</p>
-            <p className="text-xs text-gray-500">{demoTrack.album}</p>
+            <h3 className="font-semibold text-gray-800">{currentTrack.title}</h3>
+            <p className="text-sm text-gray-600">{currentTrack.artist}</p>
+            <p className="text-xs text-gray-500">{currentTrack.album}</p>
+            {currentTrackIndex === 0 && (
+              <p className="text-xs text-blue-500 mt-1">YouTube Demo Track</p>
+            )}
           </div>
         </div>
 
@@ -134,7 +212,10 @@ export const MusicPlayerWindow = ({
 
         {/* Controls */}
         <div className="flex items-center justify-center space-x-4 mb-4">
-          <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+          <button 
+            onClick={() => skipTrack('prev')}
+            className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+          >
             <SkipBack className="w-5 h-5 text-gray-700" />
           </button>
           
@@ -149,9 +230,36 @@ export const MusicPlayerWindow = ({
             )}
           </button>
           
-          <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+          <button 
+            onClick={() => skipTrack('next')}
+            className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+          >
             <SkipForward className="w-5 h-5 text-gray-700" />
           </button>
+        </div>
+
+        {/* Track Selection */}
+        <div className="mb-4">
+          <div className="flex space-x-2">
+            {demoTracks.map((track, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentTrackIndex(index);
+                  setCurrentTime(0);
+                  setIsPlaying(false);
+                  setDuration(track.duration);
+                }}
+                className={`px-3 py-1 rounded-lg text-xs transition-colors ${
+                  currentTrackIndex === index
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                }`}
+              >
+                {index === 0 ? 'YouTube Demo' : 'System Audio'}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Volume Control */}
