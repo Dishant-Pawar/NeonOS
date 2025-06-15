@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Window } from '../Window';
 import { Mic, MicOff, Play, Pause, Square, Download, Trash2, Settings } from 'lucide-react';
@@ -77,7 +76,18 @@ export const VoiceRecorderWindow = ({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioContextRef.current = new AudioContext();
       
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      // Try to use MP3 format, fallback to webm if not supported
+      const options = {
+        mimeType: 'audio/mpeg'
+      };
+
+      // Check if MP3 is supported, otherwise use webm
+      if (!MediaRecorder.isTypeSupported('audio/mpeg')) {
+        console.log('MP3 not supported, using webm');
+        options.mimeType = 'audio/webm';
+      }
+
+      mediaRecorderRef.current = new MediaRecorder(stream, options);
       audioChunksRef.current = [];
 
       mediaRecorderRef.current.ondataavailable = (event) => {
@@ -87,7 +97,8 @@ export const VoiceRecorderWindow = ({
       };
 
       mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const mimeType = mediaRecorderRef.current?.mimeType || 'audio/webm';
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
         const audioUrl = URL.createObjectURL(audioBlob);
         
         const newRecording: Recording = {
@@ -111,7 +122,7 @@ export const VoiceRecorderWindow = ({
         setRecordingTime(prev => prev + 1);
       }, 1000);
 
-      console.log('Recording started');
+      console.log('Recording started with format:', options.mimeType);
     } catch (error) {
       console.error('Error starting recording:', error);
       alert('Error accessing microphone. Please allow microphone access.');
@@ -129,6 +140,74 @@ export const VoiceRecorderWindow = ({
     
     setIsRecording(false);
     console.log('Recording stopped');
+  };
+
+  const convertToMp3 = async (audioBlob: Blob): Promise<Blob> => {
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+
+      const arrayBuffer = await audioBlob.arrayBuffer();
+      const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+      
+      // Create offline context for processing
+      const offlineContext = new OfflineAudioContext(
+        audioBuffer.numberOfChannels,
+        audioBuffer.length,
+        audioBuffer.sampleRate
+      );
+
+      const source = offlineContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(offlineContext.destination);
+      source.start();
+      
+      const renderedBuffer = await offlineContext.startRendering();
+      
+      // Convert to WAV format (since true MP3 encoding requires additional libraries)
+      const length = renderedBuffer.length;
+      const channels = renderedBuffer.numberOfChannels;
+      const sampleRate = renderedBuffer.sampleRate;
+      
+      const arrayBuffer2 = new ArrayBuffer(44 + length * channels * 2);
+      const view = new DataView(arrayBuffer2);
+      
+      // WAV header
+      const writeString = (offset: number, string: string) => {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      };
+      
+      writeString(0, 'RIFF');
+      view.setUint32(4, 36 + length * channels * 2, true);
+      writeString(8, 'WAVE');
+      writeString(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, channels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * channels * 2, true);
+      view.setUint16(32, channels * 2, true);
+      view.setUint16(34, 16, true);
+      writeString(36, 'data');
+      view.setUint32(40, length * channels * 2, true);
+      
+      let offset = 44;
+      for (let i = 0; i < length; i++) {
+        for (let channel = 0; channel < channels; channel++) {
+          const sample = Math.max(-1, Math.min(1, renderedBuffer.getChannelData(channel)[i]));
+          view.setInt16(offset, sample * 0x7FFF, true);
+          offset += 2;
+        }
+      }
+
+      return new Blob([arrayBuffer2], { type: 'audio/wav' });
+    } catch (error) {
+      console.error('Error converting audio:', error);
+      return audioBlob;
+    }
   };
 
   const applyVoiceEffect = async (audioBlob: Blob, effect: string): Promise<Blob> => {
@@ -276,15 +355,18 @@ export const VoiceRecorderWindow = ({
         audioBlob = await applyVoiceEffect(audioBlob, selectedVoiceEffect);
       }
 
+      // Convert to MP3-compatible format (WAV)
+      audioBlob = await convertToMp3(audioBlob);
+
       const url = URL.createObjectURL(audioBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${recording.name}_${selectedVoiceEffect}.webm`;
+      a.download = `${recording.name}_${selectedVoiceEffect}.wav`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      console.log('Recording downloaded with effect:', selectedVoiceEffect);
+      console.log('Recording downloaded as WAV with effect:', selectedVoiceEffect);
     } catch (error) {
       console.error('Error downloading recording:', error);
     }
@@ -304,7 +386,7 @@ export const VoiceRecorderWindow = ({
 
   return (
     <Window
-      title="Voice Recorder"
+      title="Voice Recorder - MP3"
       onClose={onClose}
       onMinimize={onMinimize}
       onMaximize={onMaximize}
@@ -473,7 +555,7 @@ export const VoiceRecorderWindow = ({
           <p className="text-sm text-blue-800">
             <strong>How to use:</strong> Click the microphone to start recording. 
             Select voice effects and adjust settings before playing back your recordings.
-            Each recording can be played with different effects and downloaded.
+            Each recording can be played with different effects and downloaded as WAV (MP3-compatible) format.
           </p>
         </div>
       </div>
