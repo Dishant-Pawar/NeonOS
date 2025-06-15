@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -9,8 +9,11 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker - use jsdelivr CDN as it's more reliable
-pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.js';
+// Set up PDF.js worker - use local worker for better reliability
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
@@ -20,6 +23,13 @@ export const PDFViewer: React.FC = () => {
   const [rotation, setRotation] = useState(0);
   const viewerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Memoize the options to prevent unnecessary reloads
+  const documentOptions = useMemo(() => ({
+    cMapUrl: '/node_modules/pdfjs-dist/cmaps/',
+    cMapPacked: true,
+    standardFontDataUrl: '/node_modules/pdfjs-dist/standard_fonts/',
+  }), []);
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -197,11 +207,7 @@ export const PDFViewer: React.FC = () => {
               file={state.pdfFile}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
-              options={{
-                cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/cmaps/',
-                cMapPacked: true,
-                standardFontDataUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/standard_fonts/',
-              }}
+              options={documentOptions}
               loading={
                 <div className="flex items-center justify-center p-12 min-h-[600px]">
                   <div className="text-center">
