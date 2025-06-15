@@ -7,8 +7,7 @@ import {
   FileText, Save, Upload, Download, Scissors, Copy, Undo, Redo,
   ZoomIn, ZoomOut, RotateCw, Edit3, Image, Type, Highlighter, MessageSquare,
   Square, Circle, ArrowRight, Pen, Eraser, Lock, Shield, FileSignature,
-  Merge, Split, Settings, Eye, EyeOff, Grid3X3,
-  Search, Replace, Bookmark, Link, Tag, Menu, PanelLeft
+  Settings, Search, Replace, Bookmark, Link, Menu, PanelLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -51,11 +50,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   const handleZoomIn = () => {
     const newZoom = Math.min(state.zoom + 25, 300);
     setZoom(newZoom);
+    toast.success(`Zoom: ${newZoom}%`);
   };
 
   const handleZoomOut = () => {
     const newZoom = Math.max(state.zoom - 25, 25);
     setZoom(newZoom);
+    toast.success(`Zoom: ${newZoom}%`);
   };
 
   const handleUndo = () => {
@@ -74,6 +75,11 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       setRedoStack(redoStack.slice(0, -1));
       toast.info('Action redone');
     }
+  };
+
+  const handleToolSelect = (toolId: string) => {
+    setSelectedTool(toolId);
+    toast.success(`${tools.find(t => t.id === toolId)?.label} tool selected`);
   };
 
   return (
@@ -135,8 +141,9 @@ export const Toolbar: React.FC<ToolbarProps> = ({
               key={tool.id}
               variant={state.selectedTool === tool.id ? "default" : "ghost"}
               size="sm"
-              onClick={() => setSelectedTool(tool.id)}
+              onClick={() => handleToolSelect(tool.id)}
               title={tool.label}
+              className={state.selectedTool === tool.id ? "bg-blue-600 text-white" : ""}
             >
               <tool.icon className="w-4 h-4" />
             </Button>
@@ -195,6 +202,11 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           <span>
             Page {state.currentPage} of {state.totalPages}
           </span>
+          {state.selectedTool !== 'select' && (
+            <span className="ml-4 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+              {tools.find(t => t.id === state.selectedTool)?.label} Mode
+            </span>
+          )}
         </div>
 
         <div className="flex items-center space-x-1">
@@ -225,7 +237,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
 
         {state.isModified && (
           <div className="flex items-center space-x-2 text-sm text-orange-600">
-            <div className="w-2 h-2 bg-orange-500 rounded-full" />
+            <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
             <span>Modified</span>
           </div>
         )}
