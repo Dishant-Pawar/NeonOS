@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, Terminal, Shield, Wifi, Camera, Code, Gamepad2, Music, Settings } from 'lucide-react';
+import { X, Terminal, Shield, Wifi, Camera, Code, Gamepad2, Music, Settings, Monitor, Smartphone, Zap, Bot } from 'lucide-react';
 
 interface Feature {
   id: string;
@@ -23,51 +23,51 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
   const features: Feature[] = [
     {
       id: 'terminal',
-      name: 'Advanced Terminal',
-      description: 'Full-featured command line interface with syntax highlighting and autocomplete',
-      icon: Terminal,
-      color: 'from-green-600 to-green-800',
-      demo: '$ sudo apt-get install awesome'
-    },
-    {
-      id: 'antivirus',
-      name: 'RO360 Security Suite',
-      description: 'Real-time threat detection and system protection with AI-powered scanning',
-      icon: Shield,
-      color: 'from-red-600 to-red-800',
-      demo: 'SCANNING... 0 threats detected'
+      name: 'Multiple Desktop Layouts',
+      description: 'Switch between Windows, macOS, and Linux desktop environments seamlessly',
+      icon: Monitor,
+      color: 'from-cyan-400 to-blue-600',
+      demo: '$ desktop --switch linux --mode hacker'
     },
     {
       id: 'wifi-finder',
-      name: 'Network Scanner',
-      description: 'Advanced WiFi analysis and network penetration testing tools',
-      icon: Wifi,
-      color: 'from-blue-600 to-blue-800',
-      demo: 'Found 12 networks | WPA2 detected'
-    },
-    {
-      id: 'camera',
-      name: 'RAVAN Camera Pro',
-      description: 'Professional photography with filters, effects, and AI enhancement',
-      icon: Camera,
-      color: 'from-pink-600 to-pink-800',
-      demo: 'AI Mode: Portrait optimization'
-    },
-    {
-      id: 'code-editor',
-      name: 'Code Editor',
-      description: 'Full IDE with syntax highlighting, debugging, and Git integration',
-      icon: Code,
-      color: 'from-purple-600 to-purple-800',
-      demo: 'function hack() { return "success"; }'
+      name: 'D008 Connect',
+      description: 'Sync your Android phone with file transfer and notifications',
+      icon: Smartphone,
+      color: 'from-blue-400 to-purple-600',
+      demo: 'SYNC: android_device_01 | Files: 1,247'
     },
     {
       id: 'snake-game',
-      name: 'Retro Gaming',
-      description: 'Classic games collection with modern graphics and leaderboards',
+      name: 'Gaming Ready',
+      description: 'Steam, Proton, Lutris pre-installed with game mode optimization',
       icon: Gamepad2,
-      color: 'from-emerald-600 to-emerald-800',
-      demo: 'High Score: 2,840 points'
+      color: 'from-purple-400 to-pink-600',
+      demo: 'GPU: RTX Ready | FPS: 144Hz | Mode: ULTRA'
+    },
+    {
+      id: 'antivirus',
+      name: 'D008 Assist AI',
+      description: 'Voice assistant with local LLM for privacy-first productivity',
+      icon: Bot,
+      color: 'from-green-400 to-cyan-600',
+      demo: 'AI: "Task completed successfully" | Privacy: LOCAL'
+    },
+    {
+      id: 'camera',
+      name: 'Deep Customization',
+      description: 'Accent colors, themes, live wallpapers with motion blur and parallax',
+      icon: Settings,
+      color: 'from-pink-400 to-purple-600',
+      demo: 'THEME: cyber_purple | EFFECTS: motion_blur'
+    },
+    {
+      id: 'code-editor',
+      name: 'Performance Optimized',
+      description: 'Built on Ubuntu LTS with hardware-accelerated animations',
+      icon: Zap,
+      color: 'from-yellow-400 to-orange-600',
+      demo: 'CPU: 2.1% | RAM: 890MB | SSD: NVMe Ready'
     }
   ];
 
@@ -79,7 +79,7 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
 
     const autoClose = setTimeout(() => {
       onClose();
-    }, 30000); // Auto close after 30 seconds
+    }, 30000);
 
     return () => {
       clearInterval(interval);
@@ -95,112 +95,167 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
   const currentFeatureData = features[currentFeature];
 
   return (
-    <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="bg-gray-900 border border-green-500/50 rounded-xl p-8 max-w-2xl mx-4 shadow-2xl shadow-green-500/20 relative overflow-hidden">
-        {/* Animated Background Grid */}
-        <div className="absolute inset-0 opacity-10">
+    <div className={`fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="relative w-full max-w-6xl mx-4 px-8 py-12 overflow-hidden">
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
             backgroundImage: `
-              linear-gradient(rgba(34, 197, 94, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(34, 197, 94, 0.3) 1px, transparent 1px)
-            `,
-            backgroundSize: '20px 20px'
+              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
+            `
           }} />
+        </div>
+
+        {/* Floating Particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30 animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${3 + Math.random() * 4}s`
+              }}
+            />
+          ))}
         </div>
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-green-400 hover:text-green-300 transition-colors"
+          className="absolute top-8 right-8 text-white/80 hover:text-white transition-colors z-10"
         >
-          <X className="w-6 h-6" />
+          <X className="w-8 h-8" />
         </button>
 
         {/* Header */}
-        <div className="text-center mb-8 relative z-10">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center mr-4">
-              <span className="text-white font-bold text-xl">D008</span>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-green-400 mb-1">LIVE FEATURE SHOWCASE</h1>
-              <p className="text-green-300/70 text-sm">SYSTEM CAPABILITIES DEMONSTRATION</p>
-            </div>
-          </div>
-          
-          {/* Hacker-style status line */}
-          <div className="bg-black/50 rounded px-4 py-2 font-mono text-sm text-green-400 border border-green-500/30">
-            <span className="text-green-500">root@d008:~$</span> showcase --features --live
-          </div>
+        <div className="text-center mb-12 relative z-10">
+          <h1 className="text-5xl font-bold text-white mb-4">Revolutionary Features</h1>
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            Experience the future of computing with innovative features designed for modern workflows
+          </p>
         </div>
 
-        {/* Feature Display */}
-        <div className="relative z-10">
-          <div className="bg-black/40 rounded-lg p-6 border border-green-500/30 mb-6">
-            <div className="flex items-center mb-4">
-              <div className={`w-16 h-16 bg-gradient-to-br ${currentFeatureData.color} rounded-lg flex items-center justify-center mr-4 shadow-lg`}>
-                <currentFeatureData.icon className="w-8 h-8 text-white" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-green-400 mb-1">{currentFeatureData.name}</h3>
-                <p className="text-green-300/80 text-sm">{currentFeatureData.description}</p>
-              </div>
-            </div>
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+          {features.map((feature, index) => {
+            const isActive = index === currentFeature;
+            const IconComponent = feature.icon;
             
-            {/* Demo Terminal */}
-            <div className="bg-black rounded border border-green-500/50 p-3 font-mono text-sm">
-              <div className="flex items-center mb-2">
-                <div className="flex space-x-1 mr-3">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                </div>
-                <span className="text-green-400 text-xs">D008_DEMO_TERMINAL</span>
-              </div>
-              <div className="text-green-400">
-                <span className="text-green-500">system@d008:~$</span> {currentFeatureData.demo}
-                <span className="animate-pulse">|</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Progress Indicators */}
-          <div className="flex justify-center space-x-2 mb-6">
-            {features.map((_, index) => (
+            return (
               <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentFeature ? 'bg-green-400' : 'bg-green-800'
+                key={feature.id}
+                className={`relative group transition-all duration-500 transform ${
+                  isActive 
+                    ? 'scale-105 z-20' 
+                    : 'scale-100 hover:scale-102'
                 }`}
-              />
-            ))}
-          </div>
+              >
+                {/* Feature Card */}
+                <div className={`
+                  relative p-8 rounded-2xl backdrop-blur-md border transition-all duration-500
+                  ${isActive 
+                    ? 'bg-gradient-to-br from-purple-500/30 to-blue-600/30 border-purple-400/50 shadow-2xl shadow-purple-500/20' 
+                    : 'bg-white/10 border-white/20 hover:bg-white/15 hover:border-white/30'
+                  }
+                `}>
+                  {/* Active Feature Glow */}
+                  {isActive && (
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-400/20 to-blue-600/20 blur-xl"></div>
+                  )}
+                  
+                  {/* Icon */}
+                  <div className={`
+                    w-16 h-16 rounded-xl mb-6 flex items-center justify-center relative
+                    bg-gradient-to-br ${feature.color}
+                    ${isActive ? 'animate-pulse' : ''}
+                  `}>
+                    <IconComponent className="w-8 h-8 text-white" />
+                  </div>
+                  
+                  {/* Content */}
+                  <h3 className="text-xl font-bold text-white mb-3">{feature.name}</h3>
+                  <p className="text-white/70 text-sm leading-relaxed mb-4">{feature.description}</p>
+                  
+                  {/* Demo Terminal */}
+                  <div className="bg-black/40 rounded-lg p-3 font-mono text-xs border border-cyan-500/30">
+                    <div className="flex items-center mb-1">
+                      <div className="flex space-x-1 mr-2">
+                        <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+                        <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                        <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                      </div>
+                      <span className="text-cyan-400 text-xs">D008_TERMINAL</span>
+                    </div>
+                    <div className="text-cyan-400">
+                      <span className="text-cyan-300">root@d008:~$</span> {feature.demo}
+                      {isActive && <span className="animate-pulse">|</span>}
+                    </div>
+                  </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-4 justify-center">
-            <button
-              onClick={() => handleLaunch(currentFeatureData.id)}
-              className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 font-medium transition-all duration-200 shadow-lg border border-green-500/50"
-            >
-              LAUNCH {currentFeatureData.name.toUpperCase()}
-            </button>
-            <button
-              onClick={onClose}
-              className="px-6 py-3 bg-gray-700 text-green-400 rounded-lg hover:bg-gray-600 font-medium transition-all duration-200 border border-green-500/30"
-            >
-              SKIP DEMO
-            </button>
-          </div>
+                  {/* Launch Button */}
+                  <button
+                    onClick={() => handleLaunch(feature.id)}
+                    className={`
+                      mt-4 w-full py-2 px-4 rounded-lg font-medium transition-all duration-200
+                      ${isActive 
+                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-500 hover:to-blue-500' 
+                        : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
+                      }
+                    `}
+                  >
+                    {isActive ? 'LAUNCH NOW' : 'Launch'}
+                  </button>
+                </div>
+
+                {/* Active Feature Highlight */}
+                {isActive && (
+                  <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 blur-lg -z-10"></div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Animated Side Elements */}
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-green-500 to-transparent"></div>
-        <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-green-500 to-transparent"></div>
-        
-        {/* Glitch Effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-0 w-full h-px bg-green-500/50 animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-0 w-full h-px bg-green-500/30 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        {/* Progress Indicators */}
+        <div className="flex justify-center space-x-3 mt-12 relative z-10">
+          {features.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentFeature 
+                  ? 'bg-gradient-to-r from-purple-400 to-blue-400 scale-125' 
+                  : 'bg-white/30 hover:bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Bottom Actions */}
+        <div className="flex gap-6 justify-center mt-12 relative z-10">
+          <button
+            onClick={() => handleLaunch(currentFeatureData.id)}
+            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-500 hover:to-blue-500 font-semibold transition-all duration-200 shadow-lg shadow-purple-500/25 text-lg"
+          >
+            EXPERIENCE {currentFeatureData.name.toUpperCase()}
+          </button>
+          <button
+            onClick={onClose}
+            className="px-8 py-4 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition-all duration-200 border border-white/20 text-lg"
+          >
+            SKIP DEMO
+          </button>
+        </div>
+
+        {/* Scan Lines Effect */}
+        <div className="absolute inset-0 pointer-events-none opacity-10">
+          <div className="absolute top-1/4 left-0 w-full h-px bg-cyan-400 animate-pulse"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-purple-400 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-3/4 left-0 w-full h-px bg-blue-400 animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
       </div>
     </div>
