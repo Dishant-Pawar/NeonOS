@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { usePDF } from './PDFContext';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -9,8 +8,8 @@ import { ChevronLeft, ChevronRight, RotateCw, Maximize2, Minimize2 } from 'lucid
 import { AnnotationLayer } from './AnnotationLayer';
 import { toast } from 'sonner';
 
-// Set up PDF.js worker - use a more reliable approach
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Set up PDF.js worker - use unpkg for better reliability
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 export const PDFViewer: React.FC = () => {
   const { state, setCurrentPage, loadPDF } = usePDF();
@@ -29,7 +28,7 @@ export const PDFViewer: React.FC = () => {
 
   const onDocumentLoadError = useCallback((error: Error) => {
     console.error('Error loading PDF:', error);
-    toast.error('Error loading PDF document');
+    toast.error('Failed to load PDF. Please try a different file.');
   }, []);
 
   const handlePageChange = useCallback((newPage: number) => {
@@ -197,11 +196,6 @@ export const PDFViewer: React.FC = () => {
               file={state.pdfFile}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
-              options={{
-                cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-                cMapPacked: true,
-                standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
-              }}
               loading={
                 <div className="flex items-center justify-center p-12 min-h-[600px]">
                   <div className="text-center">
@@ -215,7 +209,7 @@ export const PDFViewer: React.FC = () => {
                   <div className="text-center">
                     <div className="text-red-500 mb-2 text-2xl">⚠️</div>
                     <span className="text-red-600 block mb-2">Failed to load PDF</span>
-                    <span className="text-sm text-gray-500">Try selecting a different PDF file</span>
+                    <span className="text-sm text-gray-500">Please try selecting a different PDF file</span>
                   </div>
                 </div>
               }
