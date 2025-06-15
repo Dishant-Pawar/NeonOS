@@ -73,9 +73,10 @@ export const Taskbar = () => {
       {/* Start Button */}
       <button 
         onClick={() => openApp('app-drawer')}
-        className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-200 mr-3"
+        className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-200 mr-3 group"
+        title="Start Menu"
       >
-        <Grid3X3 className="w-5 h-5 text-white" />
+        <Grid3X3 className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
       </button>
 
       {/* Search */}
@@ -94,10 +95,10 @@ export const Taskbar = () => {
           <button
             key={app.id}
             onClick={() => openApp(app.id)}
-            className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all duration-200"
+            className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all duration-200 group"
             title={app.name}
           >
-            <app.icon className="w-5 h-5 text-white" />
+            <app.icon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
           </button>
         ))}
       </div>
