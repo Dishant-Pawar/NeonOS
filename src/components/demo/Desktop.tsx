@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music, FileText, Globe, Mail, Image, Video, Code, Calculator } from 'lucide-react';
+import { Folder, Terminal, AppWindow, Wifi, Shield, Camera, Activity, Settings, Gamepad2, Zap, Puzzle, Music } from 'lucide-react';
 import { useDemoContext } from './DemoContext';
 import { WindowManager } from './WindowManager';
 import { Taskbar } from './Taskbar';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from '../ui/context-menu';
-import { RefreshCw, Clipboard, SortAsc, Eye, Plus, Minus } from 'lucide-react';
+import { RefreshCw, Clipboard, SortAsc, Eye } from 'lucide-react';
 
 interface DesktopIcon {
   id: string;
@@ -15,7 +15,6 @@ interface DesktopIcon {
   size?: number;
   type: string;
   dateModified: Date;
-  iconSize?: number;
 }
 
 type ViewMode = 'large-icons' | 'medium-icons' | 'small-icons' | 'list';
@@ -27,48 +26,165 @@ export const Desktop = () => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [viewMode, setViewMode] = useState<ViewMode>('large-icons');
   const [sortBy, setSortBy] = useState<SortBy>('name');
-  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   
-  // All available applications in a vertical layout
-  const [desktopIcons, setDesktopIcons] = useState<DesktopIcon[]>(() => {
-    const apps = [
-      { id: 'file-manager', name: 'File Manager', icon: Folder, color: 'bg-blue-500', size: 245, type: 'System', dateModified: new Date('2024-06-10') },
-      { id: 'terminal', name: 'Terminal', icon: Terminal, color: 'bg-gray-800', size: 180, type: 'System', dateModified: new Date('2024-06-12') },
-      { id: 'app-drawer', name: 'Applications', icon: AppWindow, color: 'bg-purple-500', size: 320, type: 'System', dateModified: new Date('2024-06-11') },
-      { id: 'wifi-finder', name: 'WiFi Scanner', icon: Wifi, color: 'bg-green-500', size: 156, type: 'Network', dateModified: new Date('2024-06-09') },
-      { id: 'antivirus', name: 'RO360 Antivirus', icon: Shield, color: 'bg-red-500', size: 512, type: 'Security', dateModified: new Date('2024-06-13') },
-      { id: 'camera', name: 'RAVAN Camera', icon: Camera, color: 'bg-pink-500', size: 89, type: 'Media', dateModified: new Date('2024-06-08') },
-      { id: 'task-manager', name: 'Task Manager', icon: Activity, color: 'bg-orange-500', size: 134, type: 'System', dateModified: new Date('2024-06-14') },
-      { id: 'system-settings', name: 'System Settings', icon: Settings, color: 'bg-slate-600', size: 267, type: 'System', dateModified: new Date('2024-06-07') },
-      { id: 'music-player', name: 'Music Player', icon: Music, color: 'bg-indigo-500', size: 45, type: 'Media', dateModified: new Date('2024-06-06') },
-      { id: 'snake-game', name: 'Snake Game', icon: Gamepad2, color: 'bg-emerald-500', size: 78, type: 'Games', dateModified: new Date('2024-06-05') },
-      { id: 'memory-game', name: 'Memory Match', icon: Puzzle, color: 'bg-cyan-500', size: 92, type: 'Games', dateModified: new Date('2024-06-04') },
-      { id: 'tetris-game', name: 'Tetris', icon: Zap, color: 'bg-yellow-500', size: 63, type: 'Games', dateModified: new Date('2024-06-03') },
-      { id: 'writer', name: 'LibreOffice Writer', icon: FileText, color: 'bg-blue-600', size: 125, type: 'Office', dateModified: new Date('2024-06-15') },
-      { id: 'browser', name: 'Firefox', icon: Globe, color: 'bg-orange-600', size: 98, type: 'Internet', dateModified: new Date('2024-06-14') },
-      { id: 'mail', name: 'Thunderbird', icon: Mail, color: 'bg-blue-700', size: 156, type: 'Internet', dateModified: new Date('2024-06-13') },
-      { id: 'image-editor', name: 'GIMP', icon: Image, color: 'bg-purple-600', size: 234, type: 'Graphics', dateModified: new Date('2024-06-12') },
-      { id: 'video-editor', name: 'Kdenlive', icon: Video, color: 'bg-green-600', size: 187, type: 'Multimedia', dateModified: new Date('2024-06-11') },
-      { id: 'code-editor', name: 'VS Code', icon: Code, color: 'bg-blue-800', size: 145, type: 'Development', dateModified: new Date('2024-06-10') },
-      { id: 'calculator-app', name: 'Calculator', icon: Calculator, color: 'bg-gray-600', size: 67, type: 'Utilities', dateModified: new Date('2024-06-09') },
-    ];
+  const [baseIcons] = useState<DesktopIcon[]>([
+    {
+      id: 'file-manager',
+      name: 'File Manager',
+      icon: Folder,
+      position: { x: 50, y: 100 },
+      color: 'bg-blue-500',
+      size: 245,
+      type: 'System',
+      dateModified: new Date('2024-06-10')
+    },
+    {
+      id: 'terminal',
+      name: 'Terminal',
+      icon: Terminal,
+      position: { x: 50, y: 200 },
+      color: 'bg-gray-800',
+      size: 180,
+      type: 'System',
+      dateModified: new Date('2024-06-12')
+    },
+    {
+      id: 'app-drawer',
+      name: 'Applications',
+      icon: AppWindow,
+      position: { x: 50, y: 300 },
+      color: 'bg-purple-500',
+      size: 320,
+      type: 'System',
+      dateModified: new Date('2024-06-11')
+    },
+    {
+      id: 'wifi-finder',
+      name: 'WiFi Scanner',
+      icon: Wifi,
+      position: { x: 50, y: 400 },
+      color: 'bg-green-500',
+      size: 156,
+      type: 'Network',
+      dateModified: new Date('2024-06-09')
+    },
+    {
+      id: 'antivirus',
+      name: 'RO360 Antivirus',
+      icon: Shield,
+      position: { x: 50, y: 500 },
+      color: 'bg-red-500',
+      size: 512,
+      type: 'Security',
+      dateModified: new Date('2024-06-13')
+    },
+    {
+      id: 'camera',
+      name: 'RAVAN Camera',
+      icon: Camera,
+      position: { x: 50, y: 600 },
+      color: 'bg-pink-500',
+      size: 89,
+      type: 'Media',
+      dateModified: new Date('2024-06-08')
+    },
+    {
+      id: 'task-manager',
+      name: 'Task Manager',
+      icon: Activity,
+      position: { x: 150, y: 100 },
+      color: 'bg-orange-500',
+      size: 134,
+      type: 'System',
+      dateModified: new Date('2024-06-14')
+    },
+    {
+      id: 'system-settings',
+      name: 'System Settings',
+      icon: Settings,
+      position: { x: 150, y: 200 },
+      color: 'bg-slate-600',
+      size: 267,
+      type: 'System',
+      dateModified: new Date('2024-06-07')
+    },
+    {
+      id: 'music-player',
+      name: 'Music Player',
+      icon: Music,
+      position: { x: 150, y: 300 },
+      color: 'bg-indigo-500',
+      size: 45,
+      type: 'Media',
+      dateModified: new Date('2024-06-06')
+    },
+    {
+      id: 'snake-game',
+      name: 'Snake Game',
+      icon: Gamepad2,
+      position: { x: 150, y: 400 },
+      color: 'bg-emerald-500',
+      size: 78,
+      type: 'Games',
+      dateModified: new Date('2024-06-05')
+    },
+    {
+      id: 'memory-game',
+      name: 'Memory Match',
+      icon: Puzzle,
+      position: { x: 150, y: 500 },
+      color: 'bg-cyan-500',
+      size: 92,
+      type: 'Games',
+      dateModified: new Date('2024-06-04')
+    },
+    {
+      id: 'tetris-game',
+      name: 'Tetris',
+      icon: Zap,
+      position: { x: 150, y: 600 },
+      color: 'bg-yellow-500',
+      size: 63,
+      type: 'Games',
+      dateModified: new Date('2024-06-03')
+    }
+  ]);
 
-    // Arrange icons vertically in a single column
-    const startX = 50;
-    const startY = 80; // Below top bar
-    const iconSpacing = 100; // Vertical spacing between icons
+  // Sort and arrange icons
+  const getSortedIcons = () => {
+    let sorted = [...baseIcons];
     
-    return apps.map((app, index) => {
-      return {
-        ...app,
-        position: {
-          x: startX,
-          y: startY + (index * iconSpacing)
-        },
-        iconSize: 64
-      };
-    });
-  });
+    switch (sortBy) {
+      case 'name':
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'size':
+        sorted.sort((a, b) => (b.size || 0) - (a.size || 0));
+        break;
+      case 'date':
+        sorted.sort((a, b) => b.dateModified.getTime() - a.dateModified.getTime());
+        break;
+      case 'type':
+        sorted.sort((a, b) => a.type.localeCompare(b.type));
+        break;
+    }
+
+    // Auto-arrange icons in grid based on view mode
+    const iconSpacing = viewMode === 'large-icons' ? 120 : viewMode === 'medium-icons' ? 100 : 80;
+    const iconsPerRow = Math.floor((window.innerWidth - 100) / iconSpacing);
+    
+    return sorted.map((icon, index) => ({
+      ...icon,
+      position: viewMode === 'list' 
+        ? { x: 50, y: 100 + index * 30 }
+        : {
+            x: 50 + (index % iconsPerRow) * iconSpacing,
+            y: 100 + Math.floor(index / iconsPerRow) * iconSpacing
+          }
+    }));
+  };
+
+  const desktopIcons = getSortedIcons();
 
   const handleIconDoubleClick = (iconId: string) => {
     if (!openWindows.includes(iconId)) {
@@ -77,12 +193,10 @@ export const Desktop = () => {
   };
 
   const handleIconClick = (iconId: string) => {
-    setSelectedIcon(iconId);
     console.log(`Selected ${iconId}`);
   };
 
   const handleMouseDown = (e: React.MouseEvent, iconId: string) => {
-    e.preventDefault();
     const icon = desktopIcons.find(i => i.id === iconId);
     if (icon) {
       setDraggedIcon(iconId);
@@ -96,13 +210,13 @@ export const Desktop = () => {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggedIcon) {
       const newPosition = {
-        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 120)),
-        y: Math.max(40, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
+        x: Math.max(0, Math.min(e.clientX - dragOffset.x, window.innerWidth - 80)),
+        y: Math.max(80, Math.min(e.clientY - dragOffset.y, window.innerHeight - 150))
       };
 
-      setDesktopIcons(prev => prev.map(icon => 
-        icon.id === draggedIcon ? { ...icon, position: newPosition } : icon
-      ));
+      // Note: In a real implementation, you'd update the icon positions
+      // For this demo, we'll just log the drag action
+      console.log(`Dragging ${draggedIcon} to`, newPosition);
     }
   };
 
@@ -113,6 +227,7 @@ export const Desktop = () => {
 
   const handleRefresh = () => {
     console.log('Desktop refreshed');
+    // Force re-render by updating sort
     setSortBy(current => current);
   };
 
@@ -130,29 +245,8 @@ export const Desktop = () => {
     console.log(`View changed to ${viewType}`);
   };
 
-  const handleResizeIcon = (iconId: string, increase: boolean) => {
-    setDesktopIcons(prev => prev.map(icon => {
-      if (icon.id === iconId) {
-        const currentSize = icon.iconSize || 64;
-        const newSize = increase 
-          ? Math.min(currentSize + 16, 128) 
-          : Math.max(currentSize - 16, 32);
-        return { ...icon, iconSize: newSize };
-      }
-      return icon;
-    }));
-  };
-
-  // Get icon size based on view mode or custom size
-  const getIconSize = (icon?: DesktopIcon) => {
-    if (icon && icon.iconSize) {
-      return {
-        container: `w-${Math.floor(icon.iconSize / 4)} h-${Math.floor(icon.iconSize / 4)}`,
-        icon: `w-${Math.floor(icon.iconSize / 8)} h-${Math.floor(icon.iconSize / 8)}`,
-        text: 'text-xs'
-      };
-    }
-    
+  // Get icon size based on view mode
+  const getIconSize = () => {
     switch (viewMode) {
       case 'large-icons': return { container: 'w-16 h-16', icon: 'w-8 h-8', text: 'text-xs' };
       case 'medium-icons': return { container: 'w-12 h-12', icon: 'w-6 h-6', text: 'text-xs' };
@@ -161,82 +255,40 @@ export const Desktop = () => {
     }
   };
 
+  const iconSizes = getIconSize();
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <div 
-          className="absolute inset-0 pt-8 pb-12 overflow-y-auto"
+          className="absolute inset-0 pt-8 pb-12"
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          {/* Desktop Icons in Vertical Column */}
-          {desktopIcons.map((icon) => {
-            const iconSizes = getIconSize(icon);
-            const isSelected = selectedIcon === icon.id;
-            return (
-              <div key={icon.id} className="absolute">
-                <div
-                  className={`${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none ${
-                    isSelected ? 'ring-2 ring-blue-400 rounded-lg' : ''
-                  }`}
-                  style={{ 
-                    left: icon.position.x, 
-                    top: icon.position.y,
-                    width: icon.iconSize ? `${icon.iconSize + 20}px` : 'auto'
-                  }}
-                  onClick={() => handleIconClick(icon.id)}
-                  onDoubleClick={() => handleIconDoubleClick(icon.id)}
-                  onMouseDown={(e) => handleMouseDown(e, icon.id)}
-                >
-                  <div 
-                    className={`${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}
-                    style={{
-                      width: icon.iconSize || 64,
-                      height: icon.iconSize || 64
-                    }}
-                  >
-                    <icon.icon 
-                      className="text-white" 
-                      size={icon.iconSize ? icon.iconSize / 2 : 32}
-                    />
-                  </div>
-                  <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm max-w-full text-center truncate`}>
-                    {icon.name}
-                  </span>
-                  {viewMode === 'list' && (
-                    <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
-                      {icon.size}KB
-                    </div>
-                  )}
-                </div>
-                
-                {/* Resize controls when icon is selected */}
-                {isSelected && (
-                  <div 
-                    className="absolute flex space-x-1 bg-black/50 rounded p-1"
-                    style={{ 
-                      left: icon.position.x + (icon.iconSize || 64) + 10, 
-                      top: icon.position.y 
-                    }}
-                  >
-                    <button
-                      onClick={() => handleResizeIcon(icon.id, false)}
-                      className="w-6 h-6 bg-red-500 hover:bg-red-600 rounded flex items-center justify-center"
-                    >
-                      <Minus className="w-3 h-3 text-white" />
-                    </button>
-                    <button
-                      onClick={() => handleResizeIcon(icon.id, true)}
-                      className="w-6 h-6 bg-green-500 hover:bg-green-600 rounded flex items-center justify-center"
-                    >
-                      <Plus className="w-3 h-3 text-white" />
-                    </button>
-                  </div>
-                )}
+          {/* Desktop Icons */}
+          {desktopIcons.map((icon) => (
+            <div
+              key={icon.id}
+              className={`absolute ${viewMode === 'list' ? 'flex flex-row items-center space-x-3 w-full max-w-xs' : 'flex flex-col items-center'} cursor-pointer group select-none`}
+              style={{ left: icon.position.x, top: icon.position.y }}
+              onClick={() => handleIconClick(icon.id)}
+              onDoubleClick={() => handleIconDoubleClick(icon.id)}
+              onMouseDown={(e) => handleMouseDown(e, icon.id)}
+            >
+              <div className={`${iconSizes.container} ${icon.color} rounded-lg flex items-center justify-center group-hover:scale-105 transition-all duration-200 shadow-lg`}>
+                <icon.icon className={`${iconSizes.icon} text-white`} />
               </div>
-            );
-          })}
+              <span className={`text-white ${iconSizes.text} ${viewMode === 'list' ? 'flex-1' : 'mt-2'} bg-black/30 px-2 py-1 rounded backdrop-blur-sm`}>
+                {icon.name}
+              </span>
+              {viewMode === 'list' && (
+                <div className="text-white text-xs bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+                  {icon.size}KB
+                </div>
+              )}
+            </div>
+          ))}
 
           {/* Window Manager */}
           <WindowManager />
