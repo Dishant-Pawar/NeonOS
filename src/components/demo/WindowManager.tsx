@@ -19,6 +19,7 @@ import { SnakeGameWindow } from './windows/SnakeGameWindow';
 import { MemoryGameWindow } from './windows/MemoryGameWindow';
 import { TetrisGameWindow } from './windows/TetrisGameWindow';
 import { VideoPlayerWindow } from './windows/VideoPlayerWindow';
+import { VoiceRecorderWindow } from './windows/VoiceRecorderWindow';
 
 export const WindowManager = () => {
   const { 
@@ -267,6 +268,17 @@ export const WindowManager = () => {
           case 'tetris-game':
             return (
               <TetrisGameWindow
+                key={windowId}
+                onClose={() => closeWindow(windowId)}
+                onMinimize={() => minimizeWindow(windowId)}
+                onMaximize={() => maximizeWindow(windowId)}
+                zIndex={zIndex}
+                isMaximized={isMaximized}
+              />
+            );
+          case 'voice-recorder':
+            return (
+              <VoiceRecorderWindow
                 key={windowId}
                 onClose={() => closeWindow(windowId)}
                 onMinimize={() => minimizeWindow(windowId)}
