@@ -31,7 +31,7 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
     },
     {
       id: 'wifi-finder',
-      name: 'D008 Connect',
+      name: 'NEON OS Connect',
       description: 'Sync your Android phone with file transfer and notifications',
       icon: Smartphone,
       color: 'from-blue-400 to-purple-600',
@@ -47,7 +47,7 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
     },
     {
       id: 'antivirus',
-      name: 'D008 Assist AI',
+      name: 'NEON OS Assist AI',
       description: 'Voice assistant with local LLM for privacy-first productivity',
       icon: Bot,
       color: 'from-green-400 to-cyan-600',
@@ -189,10 +189,10 @@ export const FeatureShowcase = ({ onClose, onLaunchApp }: FeatureShowcaseProps) 
                         <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                         <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
                       </div>
-                      <span className="text-cyan-400 text-xs">D008_TERMINAL</span>
+                      <span className="text-cyan-400 text-xs">NEON OS_TERMINAL</span>
                     </div>
                     <div className="text-cyan-400">
-                      <span className="text-cyan-300">root@d008:~$</span> {feature.demo}
+                      <span className="text-cyan-300">root@NEON OS:~$</span> {feature.demo}
                       {isActive && <span className="animate-pulse">|</span>}
                     </div>
                   </div>

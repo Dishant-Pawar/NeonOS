@@ -41,7 +41,7 @@ const Index = () => {
     color: "from-blue-500 to-cyan-500"
   }, {
     icon: <Smartphone className="w-8 h-8" />,
-    title: "D008 Connect",
+    title: "NEON OS Connect",
     description: "Sync your Android phone with file transfer and notifications",
     color: "from-green-500 to-emerald-500"
   }, {
@@ -51,7 +51,7 @@ const Index = () => {
     color: "from-purple-500 to-pink-500"
   }, {
     icon: <Shield className="w-8 h-8" />,
-    title: "D008 Assist AI",
+    title: "NEON OS Assist AI",
     description: "Voice assistant with local LLM for privacy-first productivity",
     color: "from-red-500 to-orange-500"
   }, {
@@ -67,25 +67,25 @@ const Index = () => {
   }];
 
   const editions = [{
-    name: "D008 Core",
+    name: "NEON OS Core",
     price: "Free",
     description: "Perfect for everyday users",
-    features: ["All core features", "Multiple desktop layouts", "D008 Connect", "Basic AI assistant", "Software center", "Gaming support", "Community support"],
+    features: ["All core features", "Multiple desktop layouts", "NEON OS Connect", "Basic AI assistant", "Software center", "Gaming support", "Community support"],
     highlighted: false
   }, {
-    name: "D008 Pro",
+    name: "NEON OS Pro",
     price: "$49",
     description: "For power users and professionals",
     features: ["Everything in Core", "Wine + PlayOnLinux", "Advanced productivity tools", "Priority support", "Extended customization", "Pro-grade development tools", "Enhanced security features"],
     highlighted: true
   }, {
-    name: "D008 Lite",
+    name: "NEON OS Lite",
     price: "Free",
     description: "Lightweight for older hardware",
     features: ["XFCE/LXQt base", "Essential apps only", "Optimized performance", "Low resource usage", "Basic customization", "Community support"],
     highlighted: false
   }, {
-    name: "D008 Edu",
+    name: "NEON OS Edu",
     price: "$19",
     description: "Educational institutions",
     features: ["Educational apps pre-installed", "Classroom management tools", "Student-friendly interface", "Bulk licensing available", "Educational support", "Parental controls"],
@@ -129,7 +129,7 @@ const Index = () => {
   const testimonials = [{
     name: "Sarah Chen",
     role: "Software Developer",
-    content: "D008 OS combines the best of all worlds. Finally, an OS that just works!",
+    content: "NEON OS OS combines the best of all worlds. Finally, an OS that just works!",
     rating: 5
   }, {
     name: "Marcus Rodriguez",
@@ -139,22 +139,22 @@ const Index = () => {
   }, {
     name: "Dr. Emily Watson",
     role: "University Professor",
-    content: "D008 Edu edition is perfect for our computer labs. Students love it!",
+    content: "NEON OS Edu edition is perfect for our computer labs. Students love it!",
     rating: 5
   }];
 
   const faqs = [{
-    question: "Is D008 OS compatible with my hardware?",
-    answer: "D008 OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
+    question: "Is NEON OS OS compatible with my hardware?",
+    answer: "NEON OS OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
   }, {
     question: "Can I run Windows applications?",
-    answer: "Yes! D008 Pro includes Wine and PlayOnLinux pre-configured for Windows app compatibility."
+    answer: "Yes! NEON OS Pro includes Wine and PlayOnLinux pre-configured for Windows app compatibility."
   }, {
-    question: "How does D008 Connect work?",
-    answer: "D008 Connect seamlessly integrates with Android phones for file transfer, notifications, and more through a secure wireless connection."
+    question: "How does NEON OS Connect work?",
+    answer: "NEON OS Connect seamlessly integrates with Android phones for file transfer, notifications, and more through a secure wireless connection."
   }, {
-    question: "Is my data secure with D008 Assist AI?",
-    answer: "Absolutely! D008 Assist prioritizes privacy with local LLM processing and offline fallbacks for all critical features."
+    question: "Is my data secure with NEON OS Assist AI?",
+    answer: "Absolutely! NEON OS Assist prioritizes privacy with local LLM processing and offline fallbacks for all critical features."
   }, {
     question: "Can I upgrade between editions?",
     answer: "Yes, you can upgrade from any edition to Pro at any time. Educational licenses have special upgrade paths."
@@ -169,7 +169,7 @@ const Index = () => {
             <div className="mb-8">
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tight">
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
-                  D008
+                  NEON OS
                 </span>
                 <span className="text-white"> OS</span>
               </h1>
@@ -304,7 +304,7 @@ const Index = () => {
               Choose Your Edition
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              From individual users to enterprises, we have the perfect D008 OS edition for you
+              From individual users to enterprises, we have the perfect NEON OS OS edition for you
             </p>
           </div>
           
@@ -344,7 +344,7 @@ const Index = () => {
               Everything You Need, Built-in
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              D008 OS comes with a complete suite of applications for work, creativity, and entertainment
+              NEON OS OS comes with a complete suite of applications for work, creativity, and entertainment
             </p>
           </div>
           
@@ -430,14 +430,14 @@ const Index = () => {
               Ready to Experience the Future?
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              Join thousands of users who have already made the switch to D008 OS. 
+              Join thousands of users who have already made the switch to NEON OS OS. 
               Download now and transform your computing experience.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105">
                 <Download className="w-5 h-5 mr-2" />
-                Download D008 OS
+                Download NEON OS OS
               </Button>
               <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-500">
                 View System Requirements
@@ -469,7 +469,7 @@ const Index = () => {
       <footer className="bg-black/40 py-12 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">D008 OS</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">NEON OS OS</h3>
             <p className="text-gray-400 mb-6">One System. Endless Possibilities.</p>
             <div className="flex justify-center space-x-8 text-gray-400 text-sm">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
@@ -478,7 +478,7 @@ const Index = () => {
               <a href="#" className="hover:text-white transition-colors">Blog</a>
             </div>
             <p className="text-gray-500 text-xs mt-6">
-              © 2024 D008 OS. All rights reserved.
+              © 2024 NEON OS OS. All rights reserved.
             </p>
           </div>
         </div>
