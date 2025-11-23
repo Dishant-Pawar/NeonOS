@@ -84,7 +84,7 @@ export const Taskbar = () => {
         <Search className="w-4 h-4 text-white/70 mr-2" />
         <input 
           type="text" 
-          placeholder="Search NEON OS OS..." 
+          placeholder="Search NEON OS..." 
           className="bg-transparent text-white text-sm placeholder-white/50 outline-none flex-1"
         />
       </div>

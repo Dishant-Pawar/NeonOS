@@ -129,7 +129,7 @@ const Index = () => {
   const testimonials = [{
     name: "Sarah Chen",
     role: "Software Developer",
-    content: "NEON OS OS combines the best of all worlds. Finally, an OS that just works!",
+    content: "NEON OS combines the best of all worlds. Finally, an OS that just works!",
     rating: 5
   }, {
     name: "Marcus Rodriguez",
@@ -144,8 +144,8 @@ const Index = () => {
   }];
 
   const faqs = [{
-    question: "Is NEON OS OS compatible with my hardware?",
-    answer: "NEON OS OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
+    question: "Is NEON OS compatible with my hardware?",
+    answer: "NEON OS includes automatic driver installation and supports most modern hardware. Check our compatibility list on the download page."
   }, {
     question: "Can I run Windows applications?",
     answer: "Yes! NEON OS Pro includes Wine and PlayOnLinux pre-configured for Windows app compatibility."
@@ -304,7 +304,7 @@ const Index = () => {
               Choose Your Edition
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              From individual users to enterprises, we have the perfect NEON OS OS edition for you
+              From individual users to enterprises, we have the perfect NEON OS edition for you
             </p>
           </div>
           
@@ -344,7 +344,7 @@ const Index = () => {
               Everything You Need, Built-in
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              NEON OS OS comes with a complete suite of applications for work, creativity, and entertainment
+              NEON OS comes with a complete suite of applications for work, creativity, and entertainment
             </p>
           </div>
           
@@ -430,14 +430,14 @@ const Index = () => {
               Ready to Experience the Future?
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              Join thousands of users who have already made the switch to NEON OS OS. 
+              Join thousands of users who have already made the switch to NEON OS. 
               Download now and transform your computing experience.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105">
                 <Download className="w-5 h-5 mr-2" />
-                Download NEON OS OS
+                Download NEON OS
               </Button>
               <Button variant="outline" size="lg" className="border-white/20 hover:bg-white/10 px-8 py-4 text-lg rounded-full text-rose-500">
                 View System Requirements
@@ -469,7 +469,7 @@ const Index = () => {
       <footer className="bg-black/40 py-12 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">NEON OS OS</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">NEON OS</h3>
             <p className="text-gray-400 mb-6">One System. Endless Possibilities.</p>
             <div className="flex justify-center space-x-8 text-gray-400 text-sm">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
@@ -478,7 +478,7 @@ const Index = () => {
               <a href="#" className="hover:text-white transition-colors">Blog</a>
             </div>
             <p className="text-gray-500 text-xs mt-6">
-              © 2024 NEON OS OS. All rights reserved.
+              © 2024 NEON OS. All rights reserved.
             </p>
           </div>
         </div>

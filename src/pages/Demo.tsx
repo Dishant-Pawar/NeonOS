@@ -61,7 +61,7 @@ const DemoContent = () => {
       >
         <div className="text-center text-white">
           <Moon className="w-16 h-16 mx-auto mb-4 text-blue-400 animate-pulse" />
-          <h2 className="text-2xl font-bold mb-2">NEON OS OS</h2>
+          <h2 className="text-2xl font-bold mb-2">NEON OS</h2>
           <p className="text-gray-400 mb-4">System is sleeping</p>
           <p className="text-sm text-gray-500">Click anywhere to wake up</p>
         </div>
@@ -74,7 +74,7 @@ const DemoContent = () => {
       <div className="h-screen w-full bg-black flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold mb-2">NEON OS OS</h2>
+          <h2 className="text-2xl font-bold mb-2">NEON OS</h2>
           <p className="text-gray-400">Restarting system...</p>
         </div>
       </div>
@@ -88,7 +88,7 @@ const DemoContent = () => {
           <div className="animate-pulse">
             <div className="w-12 h-12 bg-red-500 rounded-full mx-auto mb-4"></div>
           </div>
-          <h2 className="text-2xl font-bold mb-2">NEON OS OS</h2>
+          <h2 className="text-2xl font-bold mb-2">NEON OS</h2>
           <p className="text-gray-400">Shutting down...</p>
         </div>
       </div>
@@ -164,9 +164,9 @@ const DemoContent = () => {
               <ShoppingCart className="w-10 h-10 text-white" />
             </div>
             
-            <h3 className="text-3xl font-bold mb-4 text-white">Ready to Own NEON OS OS?</h3>
+            <h3 className="text-3xl font-bold mb-4 text-white">Ready to Own NEON OS?</h3>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              You've been exploring NEON OS OS for a minute now. Experience the full power with unlimited features, 
+              You've been exploring NEON OS for a minute now. Experience the full power with unlimited features, 
               advanced customization, and premium support.
             </p>
             
@@ -190,7 +190,7 @@ const DemoContent = () => {
                 onClick={() => window.location.href = '/'}
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-lg hover:scale-105"
               >
-                Buy NEON OS OS Now
+                Buy NEON OS Now
               </button>
               <button 
                 onClick={() => setShowBuyPopup(false)}
@@ -214,7 +214,7 @@ const DemoContent = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-white font-bold text-xl">NEON OS</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-gray-800">Enjoying NEON OS OS?</h3>
+            <h3 className="text-2xl font-bold mb-4 text-gray-800">Enjoying NEON OS?</h3>
             <p className="text-gray-600 mb-8 leading-relaxed">
               This is just a demo! Download the full version to experience all features and capabilities.
             </p>
