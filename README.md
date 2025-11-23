@@ -148,7 +148,3 @@ Push your branch
 Open a Pull Request
 
 Let's make NeonOS shine even brighter together. 🌟
-
-📄 License
-
-(Add your license here — MIT, Apache 2.0, GPL, etc. If you’d like, I can generate one for you.)
